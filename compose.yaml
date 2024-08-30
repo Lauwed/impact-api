@@ -43,7 +43,7 @@ services:
     environment:
       - POSTGRES_DB=${POSTGRES_DB:-app}
       # You should definitely change the password in production
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-!ChangeMe!}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-root}
       - POSTGRES_USER=${POSTGRES_USER:-app}
     volumes:
       - db_data:/var/lib/postgresql/data
