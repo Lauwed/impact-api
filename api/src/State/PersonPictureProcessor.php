@@ -20,7 +20,7 @@ class PersonPictureProcessor implements ProcessorInterface
         // If this is the main picture of the person
         if($data->isMain) {
             // Get all the pictures of the person
-            
+            // $personPictureRepository = $entityManager->getRepository('Product');
         }
 
         $this->persistProcessor->process($data, $operation, $uriVariables, $context);
