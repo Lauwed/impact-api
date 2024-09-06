@@ -60,6 +60,12 @@ class Person
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonCategory::class)]
     private Collection $personCategories;
 
+    /**
+     * @var Collection<int, PersonPicture>
+     */
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonPicture::class)]
+    private Collection $personPictures;
+
     public function __construct()
     {
         $this->personIdentityFields = new ArrayCollection();
@@ -68,6 +74,7 @@ class Person
         $this->personSocialStatuses = new ArrayCollection();
         $this->personSchools = new ArrayCollection();
         $this->personCategories = new ArrayCollection();
+        $this->personPictures = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -273,6 +280,36 @@ class Person
             // set the owning side to null (unless already changed)
             if ($personCategory->getPerson() === $this) {
                 $personCategory->setPerson(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PersonPicture>
+     */
+    public function getPersonPictures(): Collection
+    {
+        return $this->personPictures;
+    }
+
+    public function addPersonPictures(PersonPicture $personPictures): static
+    {
+        if (!$this->personPictures->contains($personPictures)) {
+            $this->personPictures->add($personPictures);
+            $personPictures->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removePersonPictures(PersonPicture $personPictures): static
+    {
+        if ($this->personPictures->removeElement($personPictures)) {
+            // set the owning side to null (unless already changed)
+            if ($personPictures->getPerson() === $this) {
+                $personPictures->setPerson(null);
             }
         }
 

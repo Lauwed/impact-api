@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SourceRepository::class)]
 #[ApiResource]
@@ -16,15 +17,19 @@ class Source
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get')]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[Groups('get')]
     private ?bool $is_digital = null;
 
     #[ORM\Column]
+    #[Groups('get')]
     private ?bool $is_verified = null;
 
     #[ORM\ManyToOne(inversedBy: 'sources')]
@@ -38,9 +43,11 @@ class Source
     private Collection $personIdentityFields;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get')]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups('get')]
     private ?\DateTimeInterface $checkedAt = null;
 
     /**

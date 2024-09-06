@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Metadata\ApiProperty;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\SourceMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -17,6 +18,11 @@ class SourceMedia
 
     #[ORM\Column(length: 255)]
     private ?string $content = null;
+
+    #[ORM\ManyToOne(targetEntity: MediaObject::class)]
+    #[ORM\JoinColumn(nullable: true)]
+    #[ApiProperty(types: ['https://schema.org/image'])]
+    public ?MediaObject $image = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]

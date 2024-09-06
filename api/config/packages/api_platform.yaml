@@ -5,6 +5,7 @@ api_platform:
     mercure:
         include_type: true
     formats:
+        multipart: ['multipart/form-data']
         jsonld: ['application/ld+json']
     docs_formats:
         jsonld: ['application/ld+json']

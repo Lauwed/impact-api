@@ -5,25 +5,30 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PersonIdentityFieldRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonIdentityFieldRepository::class)]
-#[ApiResource]
+#[ApiResource(normalizationContext: ['groups' => ['get']])]
 class PersonIdentityField
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups('get')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups('get')]
     private ?string $value = null;
 
     #[ORM\ManyToOne(inversedBy: 'personIdentityFields')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('get')]
     private ?TypeIdentityField $typeIdentityField = null;
 
     #[ORM\ManyToOne(inversedBy: 'personIdentityFields')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('get')]
     private ?Source $source = null;
 
     #[ORM\ManyToOne(inversedBy: 'personIdentityFields')]
