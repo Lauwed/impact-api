@@ -20,6 +20,6 @@ jobs:
       - name: Copy with rsync
         run: rsync -avz . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/webapp/impact-api/
       - name: Restart docker
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/webapp/impact-api/ && docker-compose down && docker compose -f compose.yaml -f compose.prod.yaml --env-file .env up --wait"
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/webapp/impact-api/ && docker compose -f compose.yaml -f compose.prod.yaml build --no-cache && docker-compose down && docker compose -f compose.yaml -f compose.prod.yaml --env-file .env up --wait"
       - name: Test if website is accessible
         run: curl -s -o /dev/null -w "%{http_code}" https://impact.lauradurieux.dev
