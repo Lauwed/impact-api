@@ -17,8 +17,11 @@ class PersonPictureProcessor implements ProcessorInterface
 
     public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        dump('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH');
-        dd($data);
+        // If this is the main picture of the person
+        if($data->isMain) {
+            // Get all the pictures of the person
+            
+        }
 
         $this->persistProcessor->process($data, $operation, $uriVariables, $context);
 
