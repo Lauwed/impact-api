@@ -15,10 +15,13 @@ class PersonPictureProcessor implements ProcessorInterface
         private ProcessorInterface $removeProcessor
     ) {}
 
-    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): void
+    public function process(mixed $data, Operation $operation, array $uriVariables = [], array $context = []): mixed
     {
-        dump($data);
+        dump('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAH');
+        dd($data);
 
         $this->persistProcessor->process($data, $operation, $uriVariables, $context);
+
+        return $data;
     }
 }

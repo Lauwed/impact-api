@@ -1,24 +1,22 @@
 import {
   CreateGuesser,
   HydraAdmin,
-  InputGuesser,
   ResourceGuesser,
 } from "@api-platform/admin";
 import Head from "next/head";
 import { ReactNode, useEffect, useState } from "react";
-import { FileInput, FileField } from "react-admin";
+import { FileField, FileInput } from "react-admin";
 
 const MediaObjectsCreate = (props: any) => {
   // console.log(props);
 
-  useEffect(() => console.log(props), [props])
+  useEffect(() => console.log(props), [props]);
 
   return (
     <CreateGuesser {...props}>
-      Kakou
-      {/* <FileInput source="file">
+      <FileInput source="file">
         <FileField source="src" title="title" />
-      </FileInput> */}
+      </FileInput>
     </CreateGuesser>
   );
 };
