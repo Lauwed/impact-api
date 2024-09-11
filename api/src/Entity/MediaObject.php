@@ -68,4 +68,17 @@ class MediaObject
     {
         return $this->id;
     }
+
+    
+    public function getFile(): ?File
+    {
+        return $this->file;
+    }
+
+    public function setFile(?File $file): static
+    {
+        $this->file = $file;
+
+        return $this;
+    }
 }

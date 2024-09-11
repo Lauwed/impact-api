@@ -6,9 +6,11 @@ import { IdentityFields } from "../../enums";
 const TypeIdentityFieldsSelector = ({
   value,
   onChange,
+  disabled = false
 }: {
   value: any;
   onChange: () => void;
+  disabled?: boolean;
 }) => {
   const [fields, setFields] = useState<TypeIdentityField[]>([]);
 
@@ -32,6 +34,7 @@ const TypeIdentityFieldsSelector = ({
       required
       value={value}
       onChange={onChange}
+      disabled={disabled}
     />
   );
 };

@@ -7,6 +7,7 @@ type SelectType = {
   required?: boolean;
   value?: any;
   onChange?: () => void;
+  disabled?: boolean;
 };
 
 const Select: FC<SelectType> = ({
@@ -16,6 +17,7 @@ const Select: FC<SelectType> = ({
   required = false,
   value,
   onChange,
+  disabled = false
 }) => {
   return (
     <select
@@ -25,6 +27,7 @@ const Select: FC<SelectType> = ({
       required={required}
       value={value}
       onChange={onChange}
+      disabled={disabled}
     >
       {data.map((option, index) => (
         <option key={index} value={option.value}>{option.label}</option>

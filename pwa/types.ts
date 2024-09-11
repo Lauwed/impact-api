@@ -60,11 +60,12 @@ export type TypeIdentityField = {
   name: IdentityField;
 };
 
-export type PersonTypeIdentifyField = {
+export type PersonIdentifyField = {
   id: number;
   value: string;
   typeIdentityField: TypeIdentityField;
   person?: Person;
+  source: Source;
 };
 
 export type Company = {};

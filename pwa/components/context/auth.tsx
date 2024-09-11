@@ -1,5 +1,11 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/router';
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { useRouter } from "next/router";
 
 // Définition des types pour l'utilisateur et le contexte d'authentification
 interface User {
@@ -23,7 +29,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Fonction pour vérifier si un utilisateur est connecté
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
     if (token) {
       fetchUser(token);
     }
@@ -32,18 +38,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Fonction pour récupérer les informations de l'utilisateur connecté via l'API
   const fetchUser = async (token: string) => {
     try {
-      const response = await fetch('/me', {
+      const response = await fetch("/me", {
         headers: {
-          'Authorization': `Bearer ${token}`,
+          Authorization: `Bearer ${token}`,
         },
       });
 
       if (!response.ok) {
-        throw new Error('Erreur lors de la récupération des informations utilisateur');
+        throw new Error(
+          "Erreur lors de la récupération des informations utilisateur"
+        );
       }
 
       const data: User = await response.json();
-      setUser(data);
+      setUser({ ...data, token });
     } catch (error) {
       console.error(error);
       setUser(null);
@@ -53,23 +61,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   // Fonction pour gérer la connexion de l'utilisateur
   const login = async (username: string, password: string) => {
     try {
-      const response = await fetch('/auth', {
-        method: 'POST',
+      const response = await fetch("/auth", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ username, password }),
       });
 
       if (!response.ok) {
         // Gestion des erreurs
-        let errorMessage = 'Login failed'; // Message d'erreur par défaut
+        let errorMessage = "Login failed"; // Message d'erreur par défaut
         try {
           const errorData = await response.json();
           errorMessage = errorData.message || errorMessage;
         } catch (jsonError) {
           // Si le corps de la réponse ne peut pas être converti en JSON
-          errorMessage = 'Login failed';
+          errorMessage = "Login failed";
         }
         throw new Error(errorMessage);
       }
@@ -77,24 +85,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const data = await response.json();
 
       // Stocker le token JWT dans le localStorage
-      localStorage.setItem('token', data.token);
+      localStorage.setItem("token", data.token);
 
       // Récupérer les informations utilisateur
       fetchUser(data.token);
 
       // Rediriger vers la page principale après la connexion
-      router.push('/');
+      router.push("/");
     } catch (error) {
-      console.error('Erreur lors de la connexion :', error);
+      console.error("Erreur lors de la connexion :", error);
       throw error; // Propager l'erreur pour le traitement éventuel
     }
   };
 
   // Fonction pour déconnecter l'utilisateur
   const logout = () => {
-    localStorage.removeItem('token');
+    localStorage.removeItem("token");
     setUser(null);
-    router.push('/login');
+    router.push("/login");
   };
 
   return (
@@ -108,7 +116,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export function useAuth(): AuthContextType {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 }

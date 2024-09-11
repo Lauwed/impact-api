@@ -33,7 +33,7 @@ const Welcome = ({ repo }: { repo: Response<Person> }) => {
       <Section>
         <Heading level="h2">Women</Heading>
 
-        <ul>
+        <ul className="flex flex-col gap-6">
           {repo["hydra:member"].map((woman: Person, i) => (
             <li key={`woman-${i}`}>
               <Card

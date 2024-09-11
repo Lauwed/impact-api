@@ -4,6 +4,7 @@ import Button from "../../components/Button";
 import Heading from "../../components/common/Heading";
 import Main from "../../components/common/Main";
 import FormControl from "../../components/form/FormControl";
+import { withAuth } from "../../components/hoc/withAuth";
 
 const CreatePerson = () => {
   const router = useRouter();
@@ -78,4 +79,4 @@ const CreatePerson = () => {
   );
 };
 
-export default CreatePerson;
+export default withAuth(CreatePerson);

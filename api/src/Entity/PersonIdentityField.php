@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\PersonIdentityFieldRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
@@ -15,7 +18,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
         new Get(security: "is_granted('PUBLIC_ACCESS')"),
-        new GetCollection(security: "is_granted('PUBLIC_ACCESS')")
+        new GetCollection(security: "is_granted('PUBLIC_ACCESS')"),
+        new Post(security: "is_granted('ROLE_USER')"),
+        new Put(security: "is_granted('ROLE_USER')"),
+        new Delete(security: "is_granted('ROLE_USER')")
     ]
 )]
 class PersonIdentityField
@@ -37,10 +43,12 @@ class PersonIdentityField
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('identityField:read')]
     private ?Source $source = null;
 
     #[ORM\ManyToOne(inversedBy: 'personIdentityFields')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups('identityField:read')]
     private ?Person $person = null;
 
     public function getId(): ?int

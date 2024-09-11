@@ -1,16 +1,16 @@
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
+import useSWR from "swr";
 import Button from "../../components/Button";
 import Heading from "../../components/common/Heading";
 import Main from "../../components/common/Main";
 import Section from "../../components/common/Section";
 import IdentityField from "../../components/IdentityField";
 import AddPersonIdentityFieldModal from "../../components/modals/AddPersonIdentityFieldModal";
-import { Person, ResponseSingle } from "../../types";
-import useSWR from "swr";
-import { fetcher } from "../../components/utils/fetcher";
-import FormControl from "../../components/form/FormControl";
 import EditMainPersonPicture from "../../components/modals/EditMainPersonPicture";
+import { fetcher } from "../../components/utils/fetcher";
+import { Person, ResponseSingle } from "../../types";
+import { useAuth } from "../../components/context/auth";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [identityFieldModalOpen, setIdentityFieldModalOpen] = useState(false);
@@ -19,19 +19,8 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
     woman.personIdentityFields
   );
 
-  const [formData, setFormData] = useState({
-    sourceMedia: [],
-  });
-
-  const handleChange = (e: any) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
-
   const { data, isLoading, mutate } = useSWR(`/people/${woman.id}`, fetcher);
+  const { user } = useAuth();
 
   useEffect(() => {
     if (data) setIdentityFields(data.personIdentityFields);
@@ -47,17 +36,23 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
         <section className="w-full">
           <Heading level="h2">Main Picture</Heading>
 
-          <Button onClick={() => setMainPictureModalOpen(true)}>
-            Edit main picture
-          </Button>
-          <EditMainPersonPicture
-            personId={woman.id}
-            modalOpen={mainPictureModalOpen}
-            setModalOpen={setMainPictureModalOpen as () => void}
-            onClose={() => {
-              mutate();
-            }}
-          />
+          {user ? (
+            <>
+              <Button onClick={() => setMainPictureModalOpen(true)}>
+                Edit main picture
+              </Button>
+              <EditMainPersonPicture
+                personId={woman.id}
+                modalOpen={mainPictureModalOpen}
+                setModalOpen={setMainPictureModalOpen as () => void}
+                onClose={() => {
+                  mutate();
+                }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
         </section>
 
         <Section customClass="border border-black p-4 rounded w-fit min-w-fit">
@@ -67,7 +62,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
             <ul className="mb-4">
               {identityField.map((identityField, index) => (
                 <li key={index}>
-                  <IdentityField uri={identityField} />
+                  <IdentityField actions uri={identityField} />
                 </li>
               ))}
             </ul>
@@ -75,17 +70,23 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
             <p className="mb-4">No identity information yet.</p>
           )}
 
-          <Button onClick={() => setIdentityFieldModalOpen(true)}>
-            Add an identity information
-          </Button>
-          <AddPersonIdentityFieldModal
-            personId={woman.id}
-            modalOpen={identityFieldModalOpen}
-            setModalOpen={setIdentityFieldModalOpen as () => void}
-            onClose={() => {
-              mutate();
-            }}
-          />
+          {user ? (
+            <>
+              <Button onClick={() => setIdentityFieldModalOpen(true)}>
+                Add an identity information
+              </Button>
+              <AddPersonIdentityFieldModal
+                personId={woman.id}
+                modalOpen={identityFieldModalOpen}
+                setModalOpen={setIdentityFieldModalOpen as () => void}
+                onClose={() => {
+                  mutate();
+                }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
         </Section>
       </div>
     </Main>

@@ -20,9 +20,13 @@ export default () => {
           <li>
             <Link href="/">Home</Link>
           </li>
-          <li>
-            <Link href="/people/create">Add a woman</Link>
-          </li>
+          {user ? (
+            <li>
+              <Link href="/people/create">Add a woman</Link>
+            </li>
+          ) : (
+            <></>
+          )}
         </ul>
       </nav>
 

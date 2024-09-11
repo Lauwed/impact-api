@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Heading from "../common/Heading";
 import FormControl from "../form/FormControl";
 import Label from "../form/Label";
@@ -7,14 +7,18 @@ import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector"
 import Button from "../Button";
 import SourcesSelector from "../selectors/SourcesSelector";
 import TypeSourcesSelector from "../selectors/TypeSourcesSelector";
+import { useAuth } from "../context/auth";
 
 const AddSourceModal = ({
   modalOpen,
   setModalOpen,
+  onClose,
 }: {
   modalOpen: boolean;
-  setModalOpen: () => void;
+  setModalOpen: (state: boolean) => void;
+  onClose?: () => void;
 }) => {
+  const { user } = useAuth();
   const [formData, setFormData] = useState<{
     name: string;
     typeSource: number;
@@ -29,9 +33,26 @@ const AddSourceModal = ({
     url: "",
     checkedAt: new Date(),
     sourceMedia: [],
-    digital: 'false',
-    verified: 'false',
+    digital: "false",
+    verified: "false",
   });
+
+  useEffect(() => {
+    if (!modalOpen && onClose) {
+      // Reset form data when modal is closed
+      setFormData({
+        name: "",
+        typeSource: -1,
+        url: "",
+        checkedAt: new Date(),
+        sourceMedia: [],
+        digital: "false",
+        verified: "false",
+      });
+
+      onClose();
+    }
+  }, [modalOpen]);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
@@ -48,6 +69,7 @@ const AddSourceModal = ({
         method: "POST",
         headers: {
           "Content-Type": "application/ld+json",
+          "Authorization": `Bearer ${user?.token}`
         },
         body: JSON.stringify({
           ...formData,
@@ -61,6 +83,7 @@ const AddSourceModal = ({
         const data = await response.json();
         // Gestion du succès, redirection ou autre
         console.log("Person added successfully", data);
+        setModalOpen(false)
       } else {
         console.error("Failed to add person");
       }

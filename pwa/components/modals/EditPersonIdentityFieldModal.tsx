@@ -1,47 +1,43 @@
 import { useEffect, useState } from "react";
+import { PersonIdentifyField } from "../../types";
+import Button from "../Button";
 import Heading from "../common/Heading";
+import { useAuth } from "../context/auth";
 import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
-import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
-import Button from "../Button";
 import SourcesSelector from "../selectors/SourcesSelector";
+import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
 import AddSourceModal from "./AddSourceModal";
-import { useAuth } from "../context/auth";
 
-const AddPersonIdentityFieldModal = ({
+const EditPersonIdentityFieldModal = ({
   modalOpen,
   setModalOpen,
-  personId,
   onClose,
+  field,
 }: {
   modalOpen: boolean;
   setModalOpen: (state: boolean) => void;
-  personId: number;
   onClose?: () => void;
+  field: PersonIdentifyField;
 }) => {
   const { user } = useAuth();
   const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);
   const [formData, setFormData] = useState({
-    typeIdentityField: 1,
-    value: "",
-    source: -1,
+    typeIdentityField: field.typeIdentityField.id,
+    value: field.value,
+    source: field.source.id,
   });
 
   useEffect(() => {
     if (!modalOpen && onClose) {
-      setFormData({
-        typeIdentityField: 1,
-        value: "",
-        source: -1,
-      });
-
       onClose();
     }
   }, [modalOpen]);
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
+    console.log(name, value)
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -51,17 +47,17 @@ const AddPersonIdentityFieldModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch("/person_identity_fields", {
-        method: "POST",
+      const response = await fetch(`/person_identity_fields/${field.id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/ld+json",
-          "Authorization": `Bearer ${user?.token}`
+          Authorization: `Bearer ${user?.token}`,
         },
         body: JSON.stringify({
           ...formData,
-          source: `/sources/${formData.source}`,
-          person: `/people/${personId}`,
           typeIdentityField: `/type_identity_fields/${formData.typeIdentityField}`,
+          source: `/sources/${formData.source}`,
+          person: field.person
         }),
       });
 
@@ -86,6 +82,7 @@ const AddPersonIdentityFieldModal = ({
           <TypeIdentityFieldsSelector
             value={formData.typeIdentityField}
             onChange={handleChange as () => void}
+            disabled
           />
         </div>
 
@@ -113,7 +110,7 @@ const AddPersonIdentityFieldModal = ({
           </div>
         </div>
 
-        <Button type="submit">Add identity field</Button>
+        <Button type="submit">Edit identity field</Button>
       </form>
 
       <AddSourceModal
@@ -124,4 +121,4 @@ const AddPersonIdentityFieldModal = ({
   );
 };
 
-export default AddPersonIdentityFieldModal;
+export default EditPersonIdentityFieldModal;

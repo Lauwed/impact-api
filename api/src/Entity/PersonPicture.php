@@ -8,9 +8,8 @@ use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Put;
+use App\Controller\PersonPictureController;
 use App\Repository\PersonPictureRepository;
-use App\State\PersonPictureProcessor;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -27,7 +26,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(security: "is_granted('PUBLIC_ACCESS')"),
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']],
-            denormalizationContext: ['groups' => ['picture:write']],            
+            denormalizationContext: ['groups' => ['picture:write']],
+            normalizationContext: ['groups' => ['picture:read']],
         ),
         new Delete()
     ] 
@@ -131,6 +131,17 @@ class PersonPicture
     public function setSource(?Source $source): static
     {
         $this->source = $source;
+
+        return $this;
+    }
+    public function getImage(): ?MediaObject
+    {
+        return $this->image;
+    }
+
+    public function setImage(?MediaObject $image): static
+    {
+        $this->image = $image;
 
         return $this;
     }

@@ -3,8 +3,11 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\SourceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -14,11 +17,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SourceRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['source:read']], 
+    normalizationContext: ['groups' => ['source:read', 'identityField:read']], 
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
         new Get(security: "is_granted('PUBLIC_ACCESS')"),
-        new GetCollection(security: "is_granted('PUBLIC_ACCESS')")
+        new GetCollection(security: "is_granted('PUBLIC_ACCESS')"),
+        new Post(security: "is_granted('ROLE_USER')"),
+        new Put(security: "is_granted('ROLE_USER')"),
+        new Delete(security: "is_granted('ROLE_USER')")
     ]
 )]
 class Source
@@ -26,32 +32,32 @@ class Source
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['source:read'])]
+    #[Groups(['source:read', 'identityField:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['source:read'])]
+    #[Groups(['source:read', 'identityField:read'])]
     private ?string $name = null;
 
     #[ORM\Column(name: 'is_digital')]
-    #[Groups(['source:read'])]
+    #[Groups(['source:read', 'identityField:read'])]
     private ?bool $digital = null;
 
     #[ORM\Column(name: 'is_verified')]
-    #[Groups(['source:read'])]
+    #[Groups(['source:read', 'identityField:read'])]
     private ?bool $verified = null;
 
     #[ORM\ManyToOne(inversedBy: 'sources')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['source:read'])]
+    #[Groups(['source:read', 'identityField:read'])]
     private ?TypeSource $typeSource = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['source:read'])]
+    #[Groups(['source:read', 'identityField:read'])]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['source:read'])]
+    #[Groups(['source:read', 'identityField:read'])]
     private ?\DateTimeInterface $checkedAt = null;
 
     /**
