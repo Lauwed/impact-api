@@ -13,7 +13,10 @@ class PersonPictureDenormalizer implements DenormalizerInterface, DenormalizerAw
 {
     use DenormalizerAwareTrait;
 
-    public function denormalize($data, $class, $format = null, array $context = [])
+    /**
+     * @return mixed
+     */
+    public function denormalize($data, $class, $format = null, array $context = []): mixed
     {
         // Check and convert the `main` field to boolean
         if (isset($data['main']) && $data['main'] == 'true') {
