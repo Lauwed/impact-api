@@ -3,67 +3,98 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['person:read']],
+    outputFormats: ['jsonld' => ['application/ld+json']],
+    // Définir les groupes et contraintes sur les opérations spécifiques
+    operations: [
+        new \ApiPlatform\Metadata\Post(
+            normalizationContext: ['groups' => ['person:read']],
+            denormalizationContext: ['groups' => ['person:create']]
+        ),
+        new \ApiPlatform\Metadata\Put(
+            normalizationContext: ['groups' => ['person:read']],
+            denormalizationContext: ['groups' => ['person:update']]
+        ),
+        new Get(),
+        new GetCollection(),
+        new Delete()
+    ]
+)]
 class Person
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['person:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['person:read', 'person:create', 'person:update'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['person:read', 'person:create', 'person:update'])]
     private ?string $romanizedName = null;
 
     /**
      * @var Collection<int, PersonIdentityField>
      */
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonIdentityField::class)]
+    #[Groups(['person:read'])]
     private Collection $personIdentityFields;
 
     /**
      * @var Collection<int, PersonJob>
      */
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonJob::class)]
+    #[Groups(['person:read'])]
     private Collection $personJobs;
 
     /**
      * @var Collection<int, PersonRelative>
      */
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonRelative::class)]
+    #[Groups(['person:read'])]
     private Collection $personRelatives;
 
     /**
      * @var Collection<int, PersonSocialStatus>
      */
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonSocialStatus::class)]
+    #[Groups(['person:read'])]
     private Collection $personSocialStatuses;
 
     /**
      * @var Collection<int, PersonSchool>
      */
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonSchool::class)]
+    #[Groups(['person:read'])]
     private Collection $personSchools;
 
     /**
      * @var Collection<int, PersonCategory>
      */
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonCategory::class)]
+    #[Groups(['person:read'])]
     private Collection $personCategories;
 
     /**
      * @var Collection<int, PersonPicture>
      */
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonPicture::class)]
+    #[Groups(['person:read'])]
     private Collection $personPictures;
 
     public function __construct()

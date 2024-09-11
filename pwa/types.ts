@@ -12,6 +12,35 @@ export type ResponseSingle<T> = T & {
   "@type": string;
 };
 
+export type SourceMedia = {
+  id: number;
+};
+
+export type TypeSourceName =
+  | "website"
+  | "book"
+  | "article"
+  | "interview"
+  | "letter"
+  | "scholarDocument"
+  | "audio";
+
+export type TypeSource = {
+  id: number;
+  name: TypeSourceName;
+};
+
+export type Source = {
+  id: number;
+  name: string;
+  typeSource: TypeSource;
+  url: string;
+  checkedAt: Date;
+  sourceMedia: SourceMedia;
+  isDigital: boolean;
+  isVerified: boolean;
+};
+
 export type Category = {
   id: number;
   name: string;

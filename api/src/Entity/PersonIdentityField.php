@@ -8,27 +8,29 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonIdentityFieldRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['get']])]
+#[ApiResource(
+    normalizationContext: ['groups' => ['identityField:read']],
+    outputFormats: ['jsonld' => ['application/ld+json']],
+)]
 class PersonIdentityField
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('get')]
+    #[Groups('identityField:read')]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('get')]
+    #[Groups('identityField:read')]
     private ?string $value = null;
 
-    #[ORM\ManyToOne(inversedBy: 'personIdentityFields')]
+    #[ORM\ManyToOne()]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups('get')]
+    #[Groups('identityField:read')]
     private ?TypeIdentityField $typeIdentityField = null;
 
-    #[ORM\ManyToOne(inversedBy: 'personIdentityFields')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups('get')]
     private ?Source $source = null;
 
     #[ORM\ManyToOne(inversedBy: 'personIdentityFields')]

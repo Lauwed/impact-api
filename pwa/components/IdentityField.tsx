@@ -16,9 +16,7 @@ const IdentityField: FC<IdentityFieldNodeType> = ({ uri }) => {
           accept: "application/ld+json",
         },
       });
-      const data = await req.json()
-      console.log(data)
-
+      const data = await req.json();
       setField(data);
     })();
   }, []);
@@ -26,7 +24,8 @@ const IdentityField: FC<IdentityFieldNodeType> = ({ uri }) => {
   if (field == null) return <></>;
   return (
     <p>
-      {IdentityFields[field.typeIdentityField.name]}: {field.value}
+      <strong>{IdentityFields[field.typeIdentityField.name]}</strong>:{" "}
+      {field.value}
     </p>
   );
 };

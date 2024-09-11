@@ -11,43 +11,41 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SourceRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['source:read']], 
+    outputFormats: ['jsonld' => ['application/ld+json']],
+)]
 class Source
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups('get')]
+    #[Groups(['source:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups('get')]
+    #[Groups(['source:read'])]
     private ?string $name = null;
 
-    #[ORM\Column]
-    #[Groups('get')]
-    private ?bool $is_digital = null;
+    #[ORM\Column(name: 'is_digital')]
+    #[Groups(['source:read'])]
+    private ?bool $digital = null;
 
-    #[ORM\Column]
-    #[Groups('get')]
-    private ?bool $is_verified = null;
+    #[ORM\Column(name: 'is_verified')]
+    #[Groups(['source:read'])]
+    private ?bool $verified = null;
 
     #[ORM\ManyToOne(inversedBy: 'sources')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['source:read'])]
     private ?TypeSource $typeSource = null;
 
-    /**
-     * @var Collection<int, PersonIdentityField>
-     */
-    #[ORM\OneToMany(mappedBy: 'source', targetEntity: PersonIdentityField::class)]
-    private Collection $personIdentityFields;
-
     #[ORM\Column(length: 255)]
-    #[Groups('get')]
+    #[Groups(['source:read'])]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups('get')]
+    #[Groups(['source:read'])]
     private ?\DateTimeInterface $checkedAt = null;
 
     /**
@@ -58,7 +56,6 @@ class Source
 
     public function __construct()
     {
-        $this->personIdentityFields = new ArrayCollection();
         $this->sourceMedia = new ArrayCollection();
     }
 
@@ -81,24 +78,24 @@ class Source
 
     public function isDigital(): ?bool
     {
-        return $this->is_digital;
+        return $this->digital;
     }
 
-    public function setDigital(bool $is_digital): static
+    public function setDigital(bool $digital): static
     {
-        $this->is_digital = $is_digital;
+        $this->digital = $digital;
 
         return $this;
     }
 
     public function isVerified(): ?bool
     {
-        return $this->is_verified;
+        return $this->verified;
     }
 
-    public function setVerified(bool $is_verified): static
+    public function setVerified(bool $verified): static
     {
-        $this->is_verified = $is_verified;
+        $this->verified = $verified;
 
         return $this;
     }

@@ -12,9 +12,12 @@ export default () => {
       </div>
 
       <nav>
-        <ul>
+        <ul className="flex gap-2">
           <li>
             <Link href="/">Home</Link>
+          </li>
+          <li>
+            <Link href="/people/create">Add a woman</Link>
           </li>
         </ul>
       </nav>

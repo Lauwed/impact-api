@@ -18,8 +18,8 @@ class PersonRelative
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column]
-    private ?bool $isBiological = null;
+    #[ORM\Column(name: "is_biological")]
+    private ?bool $biological = null;
 
     #[ORM\ManyToOne(inversedBy: 'personRelatives')]
     #[ORM\JoinColumn(nullable: false)]
@@ -52,12 +52,12 @@ class PersonRelative
 
     public function isBiological(): ?bool
     {
-        return $this->isBiological;
+        return $this->biological;
     }
 
-    public function setBiological(bool $isBiological): static
+    public function setBiological(bool $biological): static
     {
-        $this->isBiological = $isBiological;
+        $this->biological = $biological;
 
         return $this;
     }

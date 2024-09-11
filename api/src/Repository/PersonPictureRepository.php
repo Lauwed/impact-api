@@ -16,6 +16,10 @@ class PersonPictureRepository extends ServiceEntityRepository
         parent::__construct($registry, PersonPicture::class);
     }
 
+    public function checkUniqueMain(array $criteria) {
+        return $this->findOneBy(['main' => true, 'person' => $criteria['person']]);
+    }
+
     //    /**
     //     * @return PersonPicture[] Returns an array of PersonPicture objects
     //     */
