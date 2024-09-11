@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use App\Repository\TypeSourceRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +12,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TypeSourceRepository::class)]
-#[ApiResource(normalizationContext: ['groups' => ['source:read']], outputFormats: ['jsonld' => ['application/ld+json']],)]
+#[ApiResource(
+    normalizationContext: ['groups' => ['source:read']], 
+    outputFormats: ['jsonld' => ['application/ld+json']],
+    operations: [
+        new Get(security: "is_granted('PUBLIC_ACCESS')"),
+        new GetCollection(security: "is_granted('PUBLIC_ACCESS')")
+    ]
+)]
 class TypeSource
 {
     #[ORM\Id]

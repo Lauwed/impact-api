@@ -27,8 +27,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => ['person:read']],
             denormalizationContext: ['groups' => ['person:update']]
         ),
-        new Get(),
-        new GetCollection(),
+        new Get(security: "is_granted('PUBLIC_ACCESS')"),
+        new GetCollection(security: "is_granted('PUBLIC_ACCESS')"),
         new Delete()
     ]
 )]

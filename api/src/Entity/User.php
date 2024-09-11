@@ -12,6 +12,8 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\UserMeController;
+use App\Controller\UserRolesController;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\UserRepository;
 use App\State\UserPasswordHasher;
@@ -24,18 +26,38 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     operations: [
         new GetCollection(),
-        new Post(processor: UserPasswordHasher::class, validationContext: ['groups' => ['Default', 'user:create']]),
-        new Get(),
+        new Post(
+            processor: UserPasswordHasher::class, 
+            validationContext: ['groups' => ['Default', 'user:create']], 
+            security: "is_granted('PUBLIC_ACCESS')"
+        ),
+        new Get(
+            uriTemplate: '/me',
+            security: "is_granted('IS_AUTHENTICATED_FULLY')",
+            name: 'me',
+            controller: UserMeController::class,
+            normalizationContext: ['groups' => ['user:read']]
+        ),
+        new Get(security: "is_granted('IS_AUTHENTICATED_FULLY')",),
         new Put(processor: UserPasswordHasher::class),
+        new Put(
+            uriTemplate: '/users/{id}/roles',
+            controller: UserRolesController::class,
+            name: 'update_user_roles',
+            normalizationContext: ['groups' => ['user:read']],
+            denormalizationContext: ['groups' => ['user:roles:update']],
+            security: "is_granted('IS_AUTHENTICATED_FULLY')"
+        ),
         new Patch(processor: UserPasswordHasher::class),
         new Delete(),
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:create', 'user:update']],
+    outputFormats: ['jsonld' => ['application/ld+json']],
 )]
 #[ORM\Entity(repositoryClass: UserRepository::class)]
-#[ORM\Table(name: '`user`')]
-#[UniqueEntity('email')]
+#[ORM\Table(name: 'app_user')]
+#[UniqueEntity(['email', 'username'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[Groups(['user:read'])]
@@ -57,8 +79,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['user:create', 'user:update'])]
     private ?string $plainPassword = null;
 
-    #[ORM\Column(type: 'json')]
+    #[ORM\Column(type: 'json', options: ['default' => '["ROLE_USER"]'])]
+    #[Groups(['user:read', 'user:roles:update'])]
     private array $roles = [];
+
+    #[Assert\NotBlank]
+    #[ORM\Column(length: 255)]
+    #[Groups(['user:read', 'user:create', 'user:update'])]
+    private ?string $username = null;
 
     public function getId(): ?int
     {
@@ -139,5 +167,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function eraseCredentials(): void
     {
         $this->plainPassword = null;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
     }
 }

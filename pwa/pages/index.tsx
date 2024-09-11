@@ -5,9 +5,13 @@ import Main from "../components/common/Main";
 import Section from "../components/common/Section";
 import { Person, Response } from "../types";
 import IdentityField from "../components/IdentityField";
+import { useAuth } from "../components/context/auth";
 
 const Welcome = ({ repo }: { repo: Response<Person> }) => {
   console.log(repo);
+
+  const { user } = useAuth();
+  console.log(user)
 
   return (
     <Main>
@@ -30,8 +34,8 @@ const Welcome = ({ repo }: { repo: Response<Person> }) => {
         <Heading level="h2">Women</Heading>
 
         <ul>
-          {repo["hydra:member"].map((woman: Person) => (
-            <li>
+          {repo["hydra:member"].map((woman: Person, i) => (
+            <li key={`woman-${i}`}>
               <Card
                 titleLevel="h3"
                 title={woman.name}

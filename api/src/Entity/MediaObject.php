@@ -23,8 +23,8 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     types: ['https://schema.org/MediaObject'],
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
-        new Get(),
-        new GetCollection(),
+        new Get(security: "is_granted('PUBLIC_ACCESS')"),
+        new GetCollection(security: "is_granted('PUBLIC_ACCESS')"),
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']],
             openapi: new Model\Operation(

@@ -23,8 +23,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
     denormalizationContext: ['groups' => ['picture:write']],
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
-        new GetCollection(),
-        new Get(),
+        new GetCollection(security: "is_granted('PUBLIC_ACCESS')"),
+        new Get(security: "is_granted('PUBLIC_ACCESS')"),
         new Post(
             inputFormats: ['multipart' => ['multipart/form-data']],
             denormalizationContext: ['groups' => ['picture:write']],            

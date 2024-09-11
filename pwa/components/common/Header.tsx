@@ -1,6 +1,10 @@
 import Link from "next/link";
+import LogoutButton from "../auth/LogoutButton";
+import { useAuth } from "../context/auth";
 
 export default () => {
+  const { user } = useAuth();
+
   return (
     <header className="p-4 flex items-center gap-10">
       <div className="w-52">
@@ -21,6 +25,15 @@ export default () => {
           </li>
         </ul>
       </nav>
+
+      {user ? (
+        <>
+          <span>{user.username}</span>
+          <LogoutButton />
+        </>
+      ) : (
+        <Link href="/login">Login</Link>
+      )}
     </header>
   );
 };

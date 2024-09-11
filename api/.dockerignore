@@ -32,3 +32,4 @@ vendor/
 .env.local
 .env.local.php
 .env.test
+config/jwt/
