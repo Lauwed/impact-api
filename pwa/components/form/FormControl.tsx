@@ -46,7 +46,7 @@ const FormControl: FC<FormControlType> = ({
         )}
       </Label>
       {type == "date" ? (
-        <DatePicker date={value} setDate={onChange} />
+        <DatePicker date={value} setDate={onChange} name={name} id={id} />
       ) : (
         <Input
           type={type}
