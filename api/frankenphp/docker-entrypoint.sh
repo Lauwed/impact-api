@@ -32,7 +32,9 @@ if [ "$1" = 'frankenphp' ] || [ "$1" = 'php' ] || [ "$1" = 'bin/console' ]; then
 			php bin/console doctrine:migrations:migrate --no-interaction --all-or-nothing
 		fi
 
-		php bin/console doctrine:fixtures:load --append --no-interaction
+		if [ "$APP_ENV" == "dev" ]; then 
+			php bin/console doctrine:fixtures:load --append --no-interaction
+		fi
 	fi
 
 	setfacl -R -m u:www-data:rwX -m u:"$(whoami)":rwX var
