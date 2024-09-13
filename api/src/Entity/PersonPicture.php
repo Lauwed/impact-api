@@ -62,7 +62,7 @@ class PersonPicture
     #[ORM\Column(name: "is_main", options: ['default' => false])]
     #[Assert\NotNull]
     #[Groups(['picture:write', 'picture:read'])]
-    private ?bool $main = null;
+    private ?bool $main = false;
 
     #[ORM\ManyToOne(targetEntity: MediaObject::class)]
     #[ORM\JoinColumn(nullable: true)]
@@ -146,14 +146,18 @@ class PersonPicture
         return $this;
     }
 
-    public function isMain(): ?bool
+    public function isMain(): bool
     {
         return $this->main;
     }
 
     public function setMain(bool $main): static
     {
-        $this->main = $main;
+        if (is_bool($main)) {
+            $this->main = $main;
+        } else {
+            $this->main = $main === 'true';
+        }
 
         return $this;
     }

@@ -11,6 +11,7 @@ import EditMainPersonPicture from "../../components/modals/EditMainPersonPicture
 import { fetcher } from "../../components/utils/fetcher";
 import { Person, ResponseSingle } from "../../types";
 import { useAuth } from "../../components/context/auth";
+import SearchableCombobox from "@/components/SearchableDropdown";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [identityFieldModalOpen, setIdentityFieldModalOpen] = useState(false);
@@ -55,6 +56,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           )}
         </section>
 
+        {/* IDENTITY FIELDS */}
         <Section customClass="border border-black p-4 rounded w-fit min-w-fit">
           <Heading level="h2">Identity</Heading>
 

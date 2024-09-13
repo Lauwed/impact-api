@@ -82,7 +82,7 @@ const AddSourceModal = ({
       if (response.ok) {
         const data = await response.json();
         // Gestion du succès, redirection ou autre
-        console.log("Person added successfully", data);
+        console.info("Added successfully", data);
         setModalOpen(false)
       } else {
         console.error("Failed to add person");

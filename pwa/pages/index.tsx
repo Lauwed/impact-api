@@ -8,10 +8,7 @@ import IdentityField from "../components/IdentityField";
 import { useAuth } from "../components/context/auth";
 
 const Welcome = ({ repo }: { repo: Response<Person> }) => {
-  console.log(repo);
-
   const { user } = useAuth();
-  console.log(user)
 
   return (
     <Main>
