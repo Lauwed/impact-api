@@ -56,7 +56,7 @@ const EditPersonIdentityFieldModal = ({
           ...formData,
           typeIdentityField: `/type_identity_fields/${formData.typeIdentityField}`,
           source: `/sources/${formData.source}`,
-          person: field.person
+          person: field.person,
         }),
       });
 
@@ -102,7 +102,7 @@ const EditPersonIdentityFieldModal = ({
               setFormData((prevData) => ({
                 ...prevData,
                 source: value,
-              }))
+              }));
             }}
           />
 

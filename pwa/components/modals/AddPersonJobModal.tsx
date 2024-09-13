@@ -9,8 +9,10 @@ import SchoolsSelector from "../selectors/SchoolsSelector";
 import SourcesSelector from "../selectors/SourcesSelector";
 import AddSchoolModal from "./AddSchoolModal";
 import AddSourceModal from "./AddSourceModal";
+import CompaniesSelector from "../selectors/CompaniesSelector";
+import AddCompanyModal from "./AddCompanyModal";
 
-const AddPersonSchoolModal = ({
+const AddPersonJobModal = ({
   modalOpen,
   setModalOpen,
   personId,
@@ -23,29 +25,29 @@ const AddPersonSchoolModal = ({
 }) => {
   const { user } = useAuth();
   const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);
-  const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
+  const [isCompanyModalOpen, setIsCompanyModalOpen] = useState(false);
   const [formData, setFormData] = useState<{
-    degree: string;
+    job: string;
     startDate?: Date;
     endDate?: Date;
     source: number;
-    school: number;
+    company: number;
   }>({
-    degree: "",
+    job: "",
     startDate: undefined,
     endDate: undefined,
     source: -1,
-    school: -1,
+    company: -1,
   });
 
   useEffect(() => {
     if (!modalOpen && onClose) {
       setFormData({
-        degree: "",
+        job: "",
         startDate: undefined,
         endDate: undefined,
         source: -1,
-        school: -1,
+        company: -1,
       });
 
       onClose();
@@ -63,7 +65,7 @@ const AddPersonSchoolModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch("/person_schools", {
+      const response = await fetch("/person_jobs", {
         method: "POST",
         headers: {
           "Content-Type": "application/ld+json",
@@ -73,7 +75,7 @@ const AddPersonSchoolModal = ({
           ...formData,
           source: `/sources/${formData.source}`,
           person: `/people/${personId}`,
-          school: `/schools/${formData.school}`,
+          company: `/companies/${formData.company}`,
         }),
       });
 
@@ -91,13 +93,13 @@ const AddPersonSchoolModal = ({
 
   return (
     <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
-      <Heading level="h3">Add a school information</Heading>
+      <Heading level="h3">Add a job information</Heading>
       <form onSubmit={handleSubmit}>
         <FormControl
-          name="degree"
-          id="degree"
-          label="Degree"
-          value={formData.degree}
+          name="job"
+          id="job"
+          label="Job"
+          value={formData.job}
           onChange={handleChange}
           required
         />
@@ -131,22 +133,22 @@ const AddPersonSchoolModal = ({
         />
 
         <div className="mb-4">
-          <Label htmlFor="typeIdentityField">School</Label>
-          <SchoolsSelector
-            value={formData.school}
+          <Label htmlFor="company">Company</Label>
+          <CompaniesSelector
+            value={formData.company}
             onChange={(value: number) => {
               setFormData((prevData) => ({
                 ...prevData,
-                school: value,
+                company: value,
               }));
             }}
           />
         </div>
 
         <div className="flex gap-4 items-center mt-2">
-          <p>The school doesn't exists ?</p>
-          <Button type="button" onClick={() => setIsSchoolModalOpen(true)}>
-            Add a school
+          <p>The company doesn't exists ?</p>
+          <Button type="button" onClick={() => setIsCompanyModalOpen(true)}>
+            Add a company
           </Button>
         </div>
 
@@ -170,19 +172,19 @@ const AddPersonSchoolModal = ({
           </div>
         </div>
 
-        <Button type="submit">Add school information</Button>
+        <Button type="submit">Add job information</Button>
       </form>
 
       <AddSourceModal
         modalOpen={isSourceModalOpen}
         setModalOpen={setIsSourceModalOpen as () => void}
       />
-      <AddSchoolModal
-        modalOpen={isSchoolModalOpen}
-        setModalOpen={setIsSchoolModalOpen as () => void}
+      <AddCompanyModal
+        modalOpen={isCompanyModalOpen}
+        setModalOpen={setIsCompanyModalOpen as () => void}
       />
     </Modal>
   );
 };
 
-export default AddPersonSchoolModal;
+export default AddPersonJobModal;

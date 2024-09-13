@@ -1,11 +1,9 @@
-import { useEffect } from "react";
-import { IdentityFields } from "../../enums";
-import { PersonIdentifyField, PersonSchool, School } from "../../types";
+import { format } from "date-fns";
+import { PersonSchool } from "../../types";
 import Button from "../Button";
 import Heading from "../common/Heading";
-import Modal from "../Modal";
 import { useAuth } from "../context/auth";
-import { format } from "date-fns";
+import Modal from "../Modal";
 
 const DeletePersonSchoolModal = ({
   school,
@@ -49,7 +47,7 @@ const DeletePersonSchoolModal = ({
         Are you sure you want to delete this school inforation ?
       </p>
       <p className="mb-8 text-center text-sm">
-      {school.school.name} - {school.degree}{" "}
+        {school.school.name} - {school.degree}{" "}
         {school.startDate ? (
           <>
             ({format(new Date(school.startDate), "yyyy")}

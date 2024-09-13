@@ -10,7 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonSchoolRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['personSchool:read']], 
+    normalizationContext: ['groups' => ['personSchool:read']],
     outputFormats: ['jsonld' => ['application/ld+json']],
 )]
 class PersonSchool
@@ -35,6 +35,7 @@ class PersonSchool
 
     #[ORM\ManyToOne(inversedBy: 'personSchools')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['personSchool:read'])]
     private ?Person $person = null;
 
     #[ORM\ManyToOne]

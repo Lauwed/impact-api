@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
+import Button from "../Button";
 import Heading from "../common/Heading";
+import { useAuth } from "../context/auth";
 import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
-import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
-import Button from "../Button";
-import SourcesSelector from "../selectors/SourcesSelector";
 import TypeSourcesSelector from "../selectors/TypeSourcesSelector";
-import { useAuth } from "../context/auth";
 
 const AddSourceModal = ({
   modalOpen,
@@ -23,7 +21,7 @@ const AddSourceModal = ({
     name: string;
     typeSource: number;
     url: string;
-    checkedAt: Date;
+    checkedAt?: Date;
     sourceMedia: [];
     digital: string;
     verified: string;
@@ -36,6 +34,7 @@ const AddSourceModal = ({
     digital: "false",
     verified: "false",
   });
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     if (!modalOpen && onClose) {
@@ -64,12 +63,18 @@ const AddSourceModal = ({
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
+
+    if (!formData.checkedAt) {
+      setErrorMessage("The checked date is mandatory.");
+      return;
+    }
+
     try {
       const response = await fetch("/sources", {
         method: "POST",
         headers: {
           "Content-Type": "application/ld+json",
-          "Authorization": `Bearer ${user?.token}`
+          Authorization: `Bearer ${user?.token}`,
         },
         body: JSON.stringify({
           ...formData,
@@ -83,7 +88,7 @@ const AddSourceModal = ({
         const data = await response.json();
         // Gestion du succès, redirection ou autre
         console.info("Added successfully", data);
-        setModalOpen(false)
+        setModalOpen(false);
       } else {
         console.error("Request failed");
       }
@@ -140,7 +145,12 @@ const AddSourceModal = ({
           label="Checked at"
           type="date"
           value={formData.checkedAt}
-          onChange={handleChange}
+          onChange={(date: Date | undefined) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              checkedAt: date,
+            }));
+          }}
           required
         />
 
@@ -163,6 +173,12 @@ const AddSourceModal = ({
         />
 
         <Button type="submit">Add source</Button>
+
+        {errorMessage ? (
+          <p className="p-2 w-fit bg-red-200 mt-4">{errorMessage}</p>
+        ) : (
+          <></>
+        )}
       </form>
     </Modal>
   );

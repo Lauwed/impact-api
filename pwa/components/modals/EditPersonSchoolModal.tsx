@@ -1,27 +1,26 @@
+import { PersonSchool } from "@/types";
 import { useEffect, useState } from "react";
+import Button from "../Button";
 import Heading from "../common/Heading";
+import { useAuth } from "../context/auth";
 import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
-import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
-import Button from "../Button";
-import SourcesSelector from "../selectors/SourcesSelector";
-import AddSourceModal from "./AddSourceModal";
-import { useAuth } from "../context/auth";
 import SchoolsSelector from "../selectors/SchoolsSelector";
+import SourcesSelector from "../selectors/SourcesSelector";
 import AddSchoolModal from "./AddSchoolModal";
-import { PersonSchool } from "@/types";
+import AddSourceModal from "./AddSourceModal";
 
 const EditPersonSchoolModal = ({
   modalOpen,
   setModalOpen,
   onClose,
-  school
+  school,
 }: {
   modalOpen: boolean;
   setModalOpen: (state: boolean) => void;
   onClose?: () => void;
-  school: PersonSchool
+  school: PersonSchool;
 }) => {
   const { user } = useAuth();
   const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);
@@ -96,7 +95,12 @@ const EditPersonSchoolModal = ({
           id="startDate"
           label="Start date"
           value={formData.startDate}
-          onChange={handleChange}
+          onChange={(date: Date | undefined) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              startDate: date,
+            }));
+          }}
         />
 
         <FormControl
@@ -105,7 +109,12 @@ const EditPersonSchoolModal = ({
           id="endDate"
           label="End date"
           value={formData.endDate}
-          onChange={handleChange}
+          onChange={(date: Date | undefined) => {
+            setFormData((prevData) => ({
+              ...prevData,
+              endDate: date,
+            }));
+          }}
         />
 
         <div className="mb-4">

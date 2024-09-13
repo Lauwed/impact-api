@@ -6,35 +6,45 @@ use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PersonJobRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonJobRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    outputFormats: ['jsonld' => ['application/ld+json']],
+    normalizationContext: ['groups' => ['personJob:read']]
+)]
 class PersonJob
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['personJob:read'])]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Job $job = null;
+    #[ORM\Column(length: 255)]
+    #[Groups(['personJob:read'])]
+    private ?string $job = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['personJob:read'])]
     private ?Company $company = null;
 
     #[ORM\ManyToOne(inversedBy: 'personJobs')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['personJob:read'])]
     private ?Person $person = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['personJob:read'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?Source $source = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['personJob:read'])]
     private ?\DateTimeInterface $startDate = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['personJob:read'])]
     private ?\DateTimeInterface $endDate = null;
 
     public function getId(): ?int
@@ -42,12 +52,12 @@ class PersonJob
         return $this->id;
     }
 
-    public function getJob(): ?Job
+    public function getJob(): ?string
     {
         return $this->job;
     }
 
-    public function setJob(?Job $job): static
+    public function setJob(?string $job): static
     {
         $this->job = $job;
 

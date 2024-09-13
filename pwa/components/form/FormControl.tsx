@@ -1,6 +1,7 @@
 import { FC } from "react";
 import Input from "./Input";
 import Label from "./Label";
+import { DatePicker } from "../DatePicker";
 
 type FormControlType = {
   type?: string;
@@ -44,14 +45,18 @@ const FormControl: FC<FormControlType> = ({
           labelText
         )}
       </Label>
-      <Input
-        type={type}
-        id={id}
-        name={name}
-        value={value}
-        onChange={onChange}
-        required={required}
-      />
+      {type == "date" ? (
+        <DatePicker date={value} setDate={onChange} />
+      ) : (
+        <Input
+          type={type}
+          id={id}
+          name={name}
+          value={value}
+          onChange={onChange}
+          required={required}
+        />
+      )}
     </div>
   );
 };

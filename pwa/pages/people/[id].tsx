@@ -1,3 +1,7 @@
+import JobField from "@/components/JobField";
+import AddPersonJobModal from "@/components/modals/AddPersonJobModal";
+import AddPersonSchoolModal from "@/components/modals/AddPersonSchoolModal";
+import SchoolField from "@/components/SchoolField";
 import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -5,23 +9,23 @@ import Button from "../../components/Button";
 import Heading from "../../components/common/Heading";
 import Main from "../../components/common/Main";
 import Section from "../../components/common/Section";
+import { useAuth } from "../../components/context/auth";
 import IdentityField from "../../components/IdentityField";
 import AddPersonIdentityFieldModal from "../../components/modals/AddPersonIdentityFieldModal";
 import EditMainPersonPicture from "../../components/modals/EditMainPersonPicture";
 import { fetcher } from "../../components/utils/fetcher";
 import { Person, ResponseSingle } from "../../types";
-import { useAuth } from "../../components/context/auth";
-import SearchableCombobox from "@/components/SearchableDropdown";
-import AddPersonSchoolModal from "@/components/modals/AddPersonSchoolModal";
-import SchoolField from "@/components/SchoolField";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [identityFieldModalOpen, setIdentityFieldModalOpen] = useState(false);
+  const [schoolModalOpen, setSchoolModalOpen] = useState(false);
+  const [jobModalOpen, setJobModalOpen] = useState(false);
   const [mainPictureModalOpen, setMainPictureModalOpen] = useState(false);
   const [identityField, setIdentityFields] = useState<string[]>(
     woman.personIdentityFields
   );
   const [schools, setSchools] = useState<string[]>(woman.personSchools);
+  const [jobs, setJobs] = useState<string[]>(woman.personJobs);
 
   const { data, isLoading, mutate } = useSWR(`/people/${woman.id}`, fetcher);
   const { user } = useAuth();
@@ -29,7 +33,8 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   useEffect(() => {
     if (data) {
       setIdentityFields(data.personIdentityFields);
-      setSchools(data.personSchools)
+      setSchools(data.personSchools);
+      setJobs(data.personJobs);
     }
   }, [data]);
 
@@ -117,13 +122,13 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
 
           {user ? (
             <>
-              <Button onClick={() => setIdentityFieldModalOpen(true)}>
+              <Button onClick={() => setSchoolModalOpen(true)}>
                 Add a school information
               </Button>
               <AddPersonSchoolModal
                 personId={woman.id}
-                modalOpen={identityFieldModalOpen}
-                setModalOpen={setIdentityFieldModalOpen as () => void}
+                modalOpen={schoolModalOpen}
+                setModalOpen={setSchoolModalOpen as () => void}
                 onClose={() => {
                   mutate();
                 }}
@@ -137,6 +142,36 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
         {/* JOBS */}
         <Section customClass="border border-black p-4 rounded w-1/2 m-w-1/2">
           <Heading level="h2">Jobs</Heading>
+
+          {jobs.length > 0 ? (
+            <ul className="mb-4">
+              {jobs.map((job, index) => (
+                <li key={index}>
+                  <JobField actions uri={job} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mb-4">No job information yet.</p>
+          )}
+
+          {user ? (
+            <>
+              <Button onClick={() => setJobModalOpen(true)}>
+                Add a job information
+              </Button>
+              <AddPersonJobModal
+                personId={woman.id}
+                modalOpen={jobModalOpen}
+                setModalOpen={setJobModalOpen as () => void}
+                onClose={() => {
+                  mutate();
+                }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
         </Section>
       </div>
     </Main>

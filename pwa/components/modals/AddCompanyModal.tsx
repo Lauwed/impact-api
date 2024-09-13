@@ -5,7 +5,7 @@ import { useAuth } from "../context/auth";
 import FormControl from "../form/FormControl";
 import Modal from "../Modal";
 
-const AddSchoolModal = ({
+const AddCompanyModal = ({
   modalOpen,
   setModalOpen,
   onClose,
@@ -58,7 +58,7 @@ const AddSchoolModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch("/schools", {
+      const response = await fetch("/companies", {
         method: "POST",
         headers: {
           "Content-Type": "application/ld+json",
@@ -85,7 +85,7 @@ const AddSchoolModal = ({
   return (
     <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
       <Heading level="h4" levelStyle="h3">
-        Add a school
+        Add a company
       </Heading>
 
       <form onSubmit={handleSubmit}>
@@ -138,10 +138,10 @@ const AddSchoolModal = ({
           onChange={handleChange}
         />
 
-        <Button type="submit">Add school</Button>
+        <Button type="submit">Add company</Button>
       </form>
     </Modal>
   );
 };
 
-export default AddSchoolModal;
+export default AddCompanyModal;

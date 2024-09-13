@@ -24,7 +24,6 @@ const SchoolField: FC<SchoolType> = ({ uri, actions = false }) => {
   const { user } = useAuth();
 
   const { data, isLoading, mutate } = useSWR<PersonSchool>(uri, fetcher);
-  console.log(data);
 
   if (isLoading || !data || isDeleted) return <></>;
   return (

@@ -68,13 +68,24 @@ export type PersonIdentifyField = {
   source: Source;
 };
 
-export type Company = {};
-
-export type Job = {};
+export type Company = {
+  id: number;
+  name: string;
+  country?: string;
+  city?: string;
+  postalCode?: string;
+  street?: string;
+  url?: string;
+};
 
 export type PersonJob = {
-  job: Job;
+  id: number;
+  job: string;
+  startDate?: Date;
+  endDate?: Date;
+  company: Company;
   person?: Person;
+  source: Source;
 };
 
 export type TypeRelative = {
@@ -103,7 +114,7 @@ export type School = {
 export type PersonSchool = {
   id: number;
   degree: string;
-  startDate: Date;
+  startDate?: Date;
   endDate?: Date;
   school: School;
   person?: Person;

@@ -77,7 +77,7 @@ const EditMainPersonPicture = ({
       bodyData.append("alt", formData.alt);
       bodyData.append("source", `/sources/${formData.source}`);
       bodyData.append("person", `/people/${personId}`);
-      bodyData.append("main", 'true');
+      bodyData.append("main", "true");
 
       // Append the file to the FormData
       if (formData.sourceMedia) {

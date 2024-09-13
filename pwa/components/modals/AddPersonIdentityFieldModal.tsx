@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
+import Button from "../Button";
 import Heading from "../common/Heading";
+import { useAuth } from "../context/auth";
 import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
-import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
-import Button from "../Button";
 import SourcesSelector from "../selectors/SourcesSelector";
+import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
 import AddSourceModal from "./AddSourceModal";
-import { useAuth } from "../context/auth";
 
 const AddPersonIdentityFieldModal = ({
   modalOpen,
@@ -55,7 +55,7 @@ const AddPersonIdentityFieldModal = ({
         method: "POST",
         headers: {
           "Content-Type": "application/ld+json",
-          "Authorization": `Bearer ${user?.token}`
+          Authorization: `Bearer ${user?.token}`,
         },
         body: JSON.stringify({
           ...formData,
@@ -106,7 +106,7 @@ const AddPersonIdentityFieldModal = ({
               setFormData((prevData) => ({
                 ...prevData,
                 source: value,
-              }))
+              }));
             }}
           />
 
