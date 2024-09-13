@@ -17,7 +17,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: SourceRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['source:read', 'identityField:read']], 
+    normalizationContext: ['groups' => ['source:read', 'identityField:read', 'personSchool:read']], 
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
         new Get(security: "is_granted('PUBLIC_ACCESS')"),
@@ -32,32 +32,32 @@ class Source
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['source:read', 'identityField:read'])]
+    #[Groups(['source:read', 'identityField:read', 'personSchool:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['source:read', 'identityField:read'])]
+    #[Groups(['source:read', 'identityField:read', 'personSchool:read'])]
     private ?string $name = null;
 
     #[ORM\Column(name: 'is_digital')]
-    #[Groups(['source:read', 'identityField:read'])]
+    #[Groups(['source:read', 'identityField:read', 'personSchool:read'])]
     private ?bool $digital = null;
 
     #[ORM\Column(name: 'is_verified')]
-    #[Groups(['source:read', 'identityField:read'])]
+    #[Groups(['source:read', 'identityField:read', 'personSchool:read'])]
     private ?bool $verified = null;
 
     #[ORM\ManyToOne(inversedBy: 'sources')]
     #[ORM\JoinColumn(nullable: false)]
-    #[Groups(['source:read', 'identityField:read'])]
+    #[Groups(['source:read', 'identityField:read', 'personSchool:read'])]
     private ?TypeSource $typeSource = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['source:read', 'identityField:read'])]
+    #[Groups(['source:read', 'identityField:read', 'personSchool:read'])]
     private ?string $url = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[Groups(['source:read', 'identityField:read'])]
+    #[Groups(['source:read', 'identityField:read', 'personSchool:read'])]
     private ?\DateTimeInterface $checkedAt = null;
 
     /**

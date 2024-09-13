@@ -41,7 +41,7 @@ const CreatePerson = () => {
         console.info("Added successfully");
         router.push(`/people/${data.id}`, undefined, { shallow: true });
       } else {
-        console.error("Failed to add person");
+        console.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);

@@ -8,8 +8,6 @@ import { ReactNode, useEffect, useState } from "react";
 import { FileField, FileInput } from "react-admin";
 
 const MediaObjectsCreate = (props: any) => {
-  useEffect(() => console.log(props), [props]);
-
   return (
     <CreateGuesser {...props}>
       <FileInput source="file">

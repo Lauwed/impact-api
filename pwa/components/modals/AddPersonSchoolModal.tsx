@@ -8,8 +8,10 @@ import Button from "../Button";
 import SourcesSelector from "../selectors/SourcesSelector";
 import AddSourceModal from "./AddSourceModal";
 import { useAuth } from "../context/auth";
+import SchoolsSelector from "../selectors/SchoolsSelector";
+import AddSchoolModal from "./AddSchoolModal";
 
-const AddPersonIdentityFieldModal = ({
+const AddPersonSchoolModal = ({
   modalOpen,
   setModalOpen,
   personId,
@@ -22,18 +24,29 @@ const AddPersonIdentityFieldModal = ({
 }) => {
   const { user } = useAuth();
   const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);
-  const [formData, setFormData] = useState({
-    typeIdentityField: 1,
-    value: "",
+  const [isSchoolModalOpen, setIsSchoolModalOpen] = useState(false);
+  const [formData, setFormData] = useState<{
+    degree: string;
+    startDate: Date | null;
+    endDate: Date | null;
+    source: number;
+    school: number;
+  }>({
+    degree: "",
+    startDate: null,
+    endDate: null,
     source: -1,
+    school: -1,
   });
 
   useEffect(() => {
     if (!modalOpen && onClose) {
       setFormData({
-        typeIdentityField: 1,
-        value: "",
+        degree: "",
+        startDate: null,
+        endDate: null,
         source: -1,
+        school: -1,
       });
 
       onClose();
@@ -51,17 +64,17 @@ const AddPersonIdentityFieldModal = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      const response = await fetch("/person_identity_fields", {
+      const response = await fetch("/person_schools", {
         method: "POST",
         headers: {
           "Content-Type": "application/ld+json",
-          "Authorization": `Bearer ${user?.token}`
+          Authorization: `Bearer ${user?.token}`,
         },
         body: JSON.stringify({
           ...formData,
           source: `/sources/${formData.source}`,
           person: `/people/${personId}`,
-          typeIdentityField: `/type_identity_fields/${formData.typeIdentityField}`,
+          school: `/schools/${formData.school}`,
         }),
       });
 
@@ -79,24 +92,54 @@ const AddPersonIdentityFieldModal = ({
 
   return (
     <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
-      <Heading level="h3">Add an identity information</Heading>
+      <Heading level="h3">Add a school information</Heading>
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <Label htmlFor="typeIdentityField">Type identity field</Label>
-          <TypeIdentityFieldsSelector
-            value={formData.typeIdentityField}
-            onChange={handleChange as () => void}
-          />
-        </div>
-
         <FormControl
-          name="value"
-          id="value"
-          label="Value"
-          value={formData.value}
+          name="degree"
+          id="degree"
+          label="Degree"
+          value={formData.degree}
           onChange={handleChange}
           required
         />
+
+        <FormControl
+          type="date"
+          name="startDate"
+          id="startDate"
+          label="Start date"
+          value={formData.startDate}
+          onChange={handleChange}
+        />
+
+        <FormControl
+          type="date"
+          name="endDate"
+          id="endDate"
+          label="End date"
+          value={formData.endDate}
+          onChange={handleChange}
+        />
+
+        <div className="mb-4">
+          <Label htmlFor="typeIdentityField">School</Label>
+          <SchoolsSelector
+            value={formData.school}
+            onChange={(value: number) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                school: value,
+              }));
+            }}
+          />
+        </div>
+
+        <div className="flex gap-4 items-center mt-2">
+          <p>The school doesn't exists ?</p>
+          <Button type="button" onClick={() => setIsSchoolModalOpen(true)}>
+            Add a school
+          </Button>
+        </div>
 
         <div className="mb-4">
           <Label htmlFor="source">Source</Label>
@@ -106,7 +149,7 @@ const AddPersonIdentityFieldModal = ({
               setFormData((prevData) => ({
                 ...prevData,
                 source: value,
-              }))
+              }));
             }}
           />
 
@@ -118,15 +161,19 @@ const AddPersonIdentityFieldModal = ({
           </div>
         </div>
 
-        <Button type="submit">Add identity field</Button>
+        <Button type="submit">Add school information</Button>
       </form>
 
       <AddSourceModal
         modalOpen={isSourceModalOpen}
         setModalOpen={setIsSourceModalOpen as () => void}
       />
+      <AddSchoolModal
+        modalOpen={isSchoolModalOpen}
+        setModalOpen={setIsSchoolModalOpen as () => void}
+      />
     </Modal>
   );
 };
 
-export default AddPersonIdentityFieldModal;
+export default AddPersonSchoolModal;

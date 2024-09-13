@@ -65,7 +65,7 @@ const EditPersonIdentityFieldModal = ({
         console.info("Added successfully", data);
         setModalOpen(false);
       } else {
-        console.error("Failed to add person");
+        console.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -74,7 +74,7 @@ const EditPersonIdentityFieldModal = ({
 
   return (
     <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
-      <Heading level="h3">Add an identity information</Heading>
+      <Heading level="h3">Edit an identity information</Heading>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <Label htmlFor="typeIdentityField">Type identity field</Label>

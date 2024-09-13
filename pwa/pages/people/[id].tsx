@@ -12,6 +12,8 @@ import { fetcher } from "../../components/utils/fetcher";
 import { Person, ResponseSingle } from "../../types";
 import { useAuth } from "../../components/context/auth";
 import SearchableCombobox from "@/components/SearchableDropdown";
+import AddPersonSchoolModal from "@/components/modals/AddPersonSchoolModal";
+import SchoolField from "@/components/SchoolField";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [identityFieldModalOpen, setIdentityFieldModalOpen] = useState(false);
@@ -19,12 +21,16 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [identityField, setIdentityFields] = useState<string[]>(
     woman.personIdentityFields
   );
+  const [schools, setSchools] = useState<string[]>(woman.personSchools);
 
   const { data, isLoading, mutate } = useSWR(`/people/${woman.id}`, fetcher);
   const { user } = useAuth();
 
   useEffect(() => {
-    if (data) setIdentityFields(data.personIdentityFields);
+    if (data) {
+      setIdentityFields(data.personIdentityFields);
+      setSchools(data.personSchools)
+    }
   }, [data]);
 
   return (
@@ -33,8 +39,8 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
         <Heading>{woman.name}</Heading>
       </Section>
 
-      <div className="flex gap-10">
-        <section className="w-full">
+      <div className="flex gap-10 mb-10">
+        <section className="w-1/2 m-w-1/2">
           <Heading level="h2">Main Picture</Heading>
 
           {user ? (
@@ -57,7 +63,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
         </section>
 
         {/* IDENTITY FIELDS */}
-        <Section customClass="border border-black p-4 rounded w-fit min-w-fit">
+        <Section customClass="border border-black p-4 rounded w-1/2 m-w-1/2">
           <Heading level="h2">Identity</Heading>
 
           {identityField.length > 0 ? (
@@ -89,6 +95,48 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           ) : (
             <></>
           )}
+        </Section>
+      </div>
+
+      <div className="flex gap-10">
+        {/* SCHOOLS */}
+        <Section customClass="border border-black p-4 rounded w-1/2 m-w-1/2">
+          <Heading level="h2">Schools</Heading>
+
+          {schools.length > 0 ? (
+            <ul className="mb-4">
+              {schools.map((school, index) => (
+                <li key={index}>
+                  <SchoolField actions uri={school} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mb-4">No school information yet.</p>
+          )}
+
+          {user ? (
+            <>
+              <Button onClick={() => setIdentityFieldModalOpen(true)}>
+                Add a school information
+              </Button>
+              <AddPersonSchoolModal
+                personId={woman.id}
+                modalOpen={identityFieldModalOpen}
+                setModalOpen={setIdentityFieldModalOpen as () => void}
+                onClose={() => {
+                  mutate();
+                }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+        </Section>
+
+        {/* JOBS */}
+        <Section customClass="border border-black p-4 rounded w-1/2 m-w-1/2">
+          <Heading level="h2">Jobs</Heading>
         </Section>
       </div>
     </Main>

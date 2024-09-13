@@ -90,12 +90,24 @@ export type PersonRelative = {
   person?: Person;
 };
 
-export type School = {};
+export type School = {
+  id: number;
+  name: string;
+  country?: string;
+  city?: string;
+  postalCode?: string;
+  street?: string;
+  url?: string;
+};
 
 export type PersonSchool = {
   id: number;
+  degree: string;
+  startDate: Date;
+  endDate?: Date;
   school: School;
   person?: Person;
+  source: Source;
 };
 
 export type TypeSocialStatus = {
