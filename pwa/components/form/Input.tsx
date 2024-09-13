@@ -3,8 +3,8 @@ const Input = (props: {
   id: string;
   name: string;
   value?: any;
-  onChange: (e: any) => void;
-  required: boolean;
+  onChange?: (e: any) => void;
+  required?: boolean;
   className?: string;
 }) => {
   return (
