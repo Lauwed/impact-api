@@ -37,7 +37,6 @@ const EditPersonIdentityFieldModal = ({
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    console.log(name, value)
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,
@@ -63,7 +62,7 @@ const EditPersonIdentityFieldModal = ({
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Person added successfully", data);
+        console.info("Added successfully", data);
         setModalOpen(false);
       } else {
         console.error("Failed to add person");
@@ -99,7 +98,12 @@ const EditPersonIdentityFieldModal = ({
           <Label htmlFor="source">Source</Label>
           <SourcesSelector
             value={formData.source}
-            onChange={handleChange as () => void}
+            onChange={(value: number) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                source: value,
+              }))
+            }}
           />
 
           <div className="flex gap-4 items-center mt-2">

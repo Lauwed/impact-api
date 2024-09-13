@@ -8,8 +8,6 @@ import { ReactNode, useEffect, useState } from "react";
 import { FileField, FileInput } from "react-admin";
 
 const MediaObjectsCreate = (props: any) => {
-  // console.log(props);
-
   useEffect(() => console.log(props), [props]);
 
   return (

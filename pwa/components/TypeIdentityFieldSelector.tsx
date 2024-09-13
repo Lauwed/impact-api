@@ -36,12 +36,12 @@ export function TypeIdentityFieldSelector({
     "/type_identity_fields",
     fetcher
   );
-  console.log(data)
 
   useEffect(() => {
     if (data && value !== null) {
       const selected = data["hydra:member"].find((item) => item.id === value);
       if (selected) {
+        // @ts-ignore
         setSelectedName(`${IdentityFields[item.name]}`);
       }
     }

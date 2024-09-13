@@ -38,7 +38,7 @@ const CreatePerson = () => {
       if (response.ok) {
         const data = await response.json();
         // Gestion du succès, redirection ou autre
-        console.log("Person added successfully");
+        console.info("Added successfully");
         router.push(`/people/${data.id}`, undefined, { shallow: true });
       } else {
         console.error("Failed to add person");
