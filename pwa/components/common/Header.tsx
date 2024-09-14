@@ -81,11 +81,11 @@ export default () => {
             />
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
+            <Link href="/people">People</Link>
             {user ? <Link href="/people/create">Add a person</Link> : <></>}
-            {/* <Link href="/profiles">People</Link>
-            <Link href="/categories">Categories</Link>
-            <Link href="/about">About</Link>
-            <Link href="/contribute">Contribute</Link> */}
+            {/* <Link href="/categories">Categories</Link> */}
+            {/* <Link href="/about">About</Link> */}
+            {/* <Link href="/contribute">Contribute</Link> */}
           </nav>
 
           {user && user.roles.includes("ROLE_ADMIN") ? (

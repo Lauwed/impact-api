@@ -26,7 +26,7 @@ const Welcome = ({
       </Head>
       <Section>
         <Heading>Welcome to IMPACT</Heading>
-        <div className="flex gap-20">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-20">
           <Image
             className="object-contain"
             src="/logo.png"
@@ -121,7 +121,6 @@ export const getServerSideProps = (async () => {
     },
   });
   let count: { total: number } = await countRes.json();
-  console.log(count);
 
   // Pass data to the page via props
   return { props: { repo, count: count.total } };

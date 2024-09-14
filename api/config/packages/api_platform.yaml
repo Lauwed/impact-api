@@ -5,8 +5,8 @@ api_platform:
     mercure:
         include_type: true
     formats:
-        multipart: ['multipart/form-data']
         jsonld: ['application/ld+json']
+        multipart: ['multipart/form-data']
     docs_formats:
         jsonld: ['application/ld+json']
         jsonopenapi: ['application/vnd.openapi+json']
@@ -19,6 +19,9 @@ api_platform:
         extra_properties:
             standard_put: true
             rfc_7807_compliant_errors: true
+        pagination_items_per_page: 20
+        pagination_client_enabled: true
+        pagination_client_items_per_page: true
     # change this to true if you use controllers
     use_symfony_listeners: false
     keep_legacy_inflector: false
