@@ -42,6 +42,8 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editedName, setEditedName] = useState<string>(woman.name);
 
+  const [womanData, setWomanData] = useState<Person>(woman);
+
   const { data, isLoading, mutate } = useSWR(`/people/${woman.id}`, fetcher);
   const { user } = useAuth();
 
@@ -51,13 +53,15 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       setSchools(data.personSchools);
       setJobs(data.personJobs);
       setCategories(data.personCategories);
+
+      setWomanData(data);
     }
   }, [data]);
 
   // Function to handle deletion of the person
   const handleDelete = async () => {
     try {
-      await fetch(`/people/${woman.id}`, {
+      await fetch(`/people/${womanData.id}`, {
         method: "DELETE",
       });
       setIsDeleteModalOpen(false);
@@ -70,7 +74,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
 
   const handleEditName = async () => {
     try {
-      await fetch(`/people/${woman.id}`, {
+      await fetch(`/people/${womanData.id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/ld+json",
@@ -89,8 +93,8 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       <Section>
         <div className="flex items-start gap-8">
           <div>
-            <Heading>{data.name}</Heading>
-            {data.romanizedName ? <p>{data.romanizedName}</p> : <></>}
+            <Heading>{womanData.name}</Heading>
+            {womanData.romanizedName ? <p>{womanData.romanizedName}</p> : <></>}
           </div>
 
           {/* Delete Button */}
@@ -114,7 +118,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                 isOpen={isEditModalOpen}
                 setIsOpen={() => setIsEditModalOpen(false)}
               >
-                <h2>Edit {woman.name}'s Name</h2>
+                <h2>Edit {womanData.name}'s Name</h2>
                 <input
                   type="text"
                   value={editedName}
@@ -142,7 +146,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                 isOpen={isDeleteModalOpen}
                 setIsOpen={() => setIsDeleteModalOpen(false)}
               >
-                <p>Are you sure you want to delete {woman.name}?</p>
+                <p>Are you sure you want to delete {womanData.name}?</p>
                 <div className="flex justify-end gap-4 mt-4">
                   <Button
                     customStyle="bg-gray-300"
@@ -181,7 +185,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
         </div>
 
         <AddPersonCategoryModal
-          personId={woman.id}
+          personId={womanData.id}
           modalOpen={isAddCategoryModalOpen}
           setModalOpen={setIsAddCategoryModalOpen as () => void}
           onClose={() => {
@@ -200,7 +204,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                 Edit main picture
               </Button>
               <EditMainPersonPicture
-                personId={woman.id}
+                personId={womanData.id}
                 modalOpen={mainPictureModalOpen}
                 setModalOpen={setMainPictureModalOpen as () => void}
                 onClose={() => {
@@ -235,7 +239,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                 Add an identity information
               </Button>
               <AddPersonIdentityFieldModal
-                personId={woman.id}
+                personId={womanData.id}
                 modalOpen={identityFieldModalOpen}
                 setModalOpen={setIdentityFieldModalOpen as () => void}
                 onClose={() => {
@@ -272,7 +276,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                 Add a school information
               </Button>
               <AddPersonSchoolModal
-                personId={woman.id}
+                personId={womanData.id}
                 modalOpen={schoolModalOpen}
                 setModalOpen={setSchoolModalOpen as () => void}
                 onClose={() => {
@@ -307,7 +311,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                 Add a job information
               </Button>
               <AddPersonJobModal
-                personId={woman.id}
+                personId={womanData.id}
                 modalOpen={jobModalOpen}
                 setModalOpen={setJobModalOpen as () => void}
                 onClose={() => {

@@ -65,8 +65,9 @@ export default function PeoplePage() {
       {/* Category filters */}
       {categories && !categoriesError ? (
         <ul className="flex flex-wrap gap-2 mb-8">
-          {categories["hydra:member"].map((category) => (
+          {categories["hydra:member"].map((category, index) => (
             <Tag
+              key={`filter-${index}`}
               label={category.name}
               onClick={() => handleCategoryClick(category.name)}
               color={
