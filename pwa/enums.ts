@@ -23,3 +23,20 @@ export enum TypeSources {
   scholarDocument = "Scholar document",
   audio = "Audio"
 }
+
+export enum Categories {
+  mathematician = "Mathematician",
+  "computer-science" = "Computer sciences",
+  inventor = "Inventor",
+  actress = "Actress",
+  network = "Network",
+  writer = "Writer",
+  hacker = "Hacker",
+  software = "Software",
+  hardware = "Hardware",
+  microprocessor = "Microprocessor",
+  physicist = "Physicist",
+  chemist = "Chemist",
+  astronomer = "Astronomer",
+  computer = "Computer"
+}

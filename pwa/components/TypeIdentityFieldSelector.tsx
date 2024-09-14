@@ -73,7 +73,7 @@ export function TypeIdentityFieldSelector({
                 key={item.id}
                 onSelect={() => {
                   onChange(item.id);
-                  setSelectedName(IdentityFields[item.name]);
+                  setSelectedName(IdentityFields[item.name as keyof typeof IdentityFields]);
                   setOpen(false);
                 }}
               >
@@ -83,7 +83,7 @@ export function TypeIdentityFieldSelector({
                     value === item.id ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {IdentityFields[item.name]}
+                {IdentityFields[item.name as keyof typeof IdentityFields]}
               </CommandItem>
             ))}
           </CommandGroup>

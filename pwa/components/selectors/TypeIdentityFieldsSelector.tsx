@@ -29,7 +29,7 @@ const TypeIdentityFieldsSelector = ({
       data={fields
         .map((field) => ({
           value: field.id,
-          label: IdentityFields[field.name],
+          label: IdentityFields[field.name as keyof typeof IdentityFields],
         }))}
       required
       value={value}

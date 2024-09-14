@@ -1,3 +1,5 @@
+import { IdentityFields } from "./enums";
+
 export type Response<T> = {
   "@context": string;
   "@id": string;
@@ -53,11 +55,9 @@ export type PersonCategory = {
   name: string;
 };
 
-export type IdentityField = "alias";
-
 export type TypeIdentityField = {
   id: number;
-  name: IdentityField;
+  name: keyof IdentityFields;
 };
 
 export type PersonIdentifyField = {

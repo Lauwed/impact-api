@@ -7,6 +7,7 @@ import useSWR from "swr";
 import { fetcher } from "./utils/fetcher";
 import { useAuth } from "./context/auth";
 import Tag from "./Tag";
+import { Categories } from "@/enums";
 // import DeletePersonCategoryModal from "./modals/DeletePersonCategoryModal";
 
 type CategoryFieldType = {
@@ -23,7 +24,7 @@ const CategoryField: FC<CategoryFieldType> = ({ uri, actions = false }) => {
   if (isLoading || !data || isDeleted) return <></>;
   return (
     <Tag
-      label={data.category.name}
+      label={Categories[data.category.name as keyof typeof Categories]}
       color={data.category.color}
       deleteAction={actions && user ? true : false}
       deleteURI={uri}
