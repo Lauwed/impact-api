@@ -6,7 +6,7 @@ type SelectType = {
   data: { value: number; label: string | ReactNode }[];
   required?: boolean;
   value?: any;
-  onChange?: () => void;
+  onChange?: (value: number) => void;
   disabled?: boolean;
 };
 
@@ -26,6 +26,7 @@ const Select: FC<SelectType> = ({
       id={id}
       required={required}
       value={value}
+      // @ts-ignore
       onChange={onChange}
       disabled={disabled}
     >

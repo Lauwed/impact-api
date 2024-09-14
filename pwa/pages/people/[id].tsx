@@ -15,6 +15,9 @@ import AddPersonIdentityFieldModal from "../../components/modals/AddPersonIdenti
 import EditMainPersonPicture from "../../components/modals/EditMainPersonPicture";
 import { fetcher } from "../../components/utils/fetcher";
 import { Person, ResponseSingle } from "../../types";
+import Tag from "@/components/Tag";
+import AddPersonCategoryModal from "@/components/modals/AddPersonCategoryModal";
+import CategoryField from "@/components/CategoryField";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [identityFieldModalOpen, setIdentityFieldModalOpen] = useState(false);
@@ -27,6 +30,11 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [schools, setSchools] = useState<string[]>(woman.personSchools);
   const [jobs, setJobs] = useState<string[]>(woman.personJobs);
 
+  const [categories, setCategories] = useState<string[]>(
+    woman.personCategories
+  );
+  const [isAddCategoryModalOpen, setIsAddCategoryModalOpen] = useState(false);
+
   const { data, isLoading, mutate } = useSWR(`/people/${woman.id}`, fetcher);
   const { user } = useAuth();
 
@@ -35,6 +43,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       setIdentityFields(data.personIdentityFields);
       setSchools(data.personSchools);
       setJobs(data.personJobs);
+      setCategories(data.personCategories);
     }
   }, [data]);
 
@@ -42,6 +51,34 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
     <Main>
       <Section>
         <Heading>{woman.name}</Heading>
+        {woman.romanizedName ? <p>{woman.romanizedName}</p> : <></>}
+
+        {/* Categories Section */}
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          {categories.length > 0 ? (
+            categories.map((category, index) => (
+              <CategoryField key={index} uri={category} actions />
+            ))
+          ) : (
+            <p className="text-slate-700 text-sm">
+              No categories assigned yet.
+            </p>
+          )}
+
+          {/* Add Category Button */}
+          {user && (
+            <Button onClick={() => setIsAddCategoryModalOpen(true)}>+</Button>
+          )}
+        </div>
+
+        <AddPersonCategoryModal
+          personId={woman.id}
+          modalOpen={isAddCategoryModalOpen}
+          setModalOpen={setIsAddCategoryModalOpen as () => void}
+          onClose={() => {
+            mutate();
+          }}
+        />
       </Section>
 
       <div className="flex gap-10 mb-10">

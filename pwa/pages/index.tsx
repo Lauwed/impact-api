@@ -10,6 +10,7 @@ import { Person, Response } from "../types";
 import Image from "next/image";
 import Kbd from "@/components/common/Kbd";
 import { BookType, Github } from "lucide-react";
+import PersonItem from "@/components/PersonItem";
 
 const Welcome = ({
   repo,
@@ -84,19 +85,7 @@ const Welcome = ({
         <ul className="flex flex-col gap-6">
           {repo["hydra:member"].map((woman: Person, i) => (
             <li key={`woman-${i}`}>
-              <Card
-                titleLevel="h3"
-                title={woman.name}
-                url={`/people/${woman.id}`}
-              >
-                <ul>
-                  {woman.personIdentityFields.map((identityField, index) => (
-                    <li key={index}>
-                      <IdentityField uri={identityField} />
-                    </li>
-                  ))}
-                </ul>
-              </Card>
+              <PersonItem woman={woman} />
             </li>
           ))}
         </ul>

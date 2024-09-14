@@ -4,6 +4,7 @@ import Heading from "@/components/common/Heading";
 import Main from "@/components/common/Main";
 import IdentityField from "@/components/IdentityField";
 import Loading from "@/components/Loading";
+import PersonItem from "@/components/PersonItem";
 import { fetcher } from "@/components/utils/fetcher";
 import { Person } from "@/types";
 import { useRouter } from "next/router";
@@ -39,19 +40,7 @@ export default function PeoplePage() {
       <ul className="space-y-2">
         {people.map((person) => (
           <li key={person.id}>
-            <Card
-              titleLevel="h3"
-              title={person.name}
-              url={`/people/${person.id}`}
-            >
-              <ul>
-                {person.personIdentityFields.map((identityField, index) => (
-                  <li key={index}>
-                    <IdentityField uri={identityField} />
-                  </li>
-                ))}
-              </ul>
-            </Card>
+            <PersonItem woman={person} />
           </li>
         ))}
       </ul>
