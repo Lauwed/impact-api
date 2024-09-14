@@ -45,6 +45,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (!response.ok) {
+        logout();
         throw new Error(
           "Erreur lors de la récupération des informations utilisateur"
         );

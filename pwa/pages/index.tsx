@@ -1,30 +1,80 @@
+import CounterAnimation from "@/components/CounterAnimation";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import Card from "../components/Card";
+import IdentityField from "../components/IdentityField";
 import Heading from "../components/common/Heading";
 import Main from "../components/common/Main";
 import Section from "../components/common/Section";
 import { Person, Response } from "../types";
-import IdentityField from "../components/IdentityField";
-import { useAuth } from "../components/context/auth";
+import Image from "next/image";
+import Kbd from "@/components/common/Kbd";
 
-const Welcome = ({ repo }: { repo: Response<Person> }) => {
-  const { user } = useAuth();
-
+const Welcome = ({
+  repo,
+  count,
+}: {
+  repo: Response<Person>;
+  count: number;
+}) => {
   return (
     <Main>
+      <Head>
+        <title>IMPACT project</title>
+        <meta property="og:title" content="IMPACT project" key="title" />
+      </Head>
       <Section>
         <Heading>Welcome to IMPACT</Heading>
-        <p>
-          IMPACT, stands for{" "}
-          <span className="uppercase text-sm">
-            Initiative for Minoritized Pioneers and Achievements in Computer
-            Technology
-          </span>
-          , is an open-source project that can be described as Wiki-like,
-          focused on women. The goal is to gather as much information as
-          possible about women who have influenced computing in order to create
-          biographies and other content
+        <div className="flex gap-20">
+          <Image
+            className="object-contain"
+            src="/logo.png"
+            width={200}
+            height={200}
+            alt="Logo of IMPACT"
+          />
+          <p>
+            IMPACT, stands for{" "}
+            <Kbd>Initiative for Minoritized Pioneers and Achievements in Computer
+            Technology</Kbd>
+            , is an open-source project that can be described as Wiki-like,
+            focused on women. The goal is to gather as much information as
+            possible about women who have influenced computing in order to
+            create biographies and other content
+          </p>
+        </div>
+      </Section>
+
+      <Section customClass="flex flex-col items-center">
+        <Heading level="h2" customStyle="mb-0">
+          Number of women
+        </Heading>
+        <p>Encoded at the moment</p>
+        <CounterAnimation target={count} />
+      </Section>
+
+      <Section customClass="flex flex-col items-center gap-2">
+        <Heading level="h2" customStyle="mb-0">
+          Want to contribute ?
+        </Heading>
+        <p className="text-center max-w-[500px]">
+          You can contribute to the project either by submitting PRs to the
+          Github repository, or by helping me completing the women&nbsp;profiles
         </p>
+        <div className="flex gap-4">
+          <a
+            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all"
+            href="https://github.com/Lauwed/impact-api"
+          >
+            Github
+          </a>
+          <a
+            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all"
+            href="https://629j4eszqzj.typeform.com/to/OpFG5fgZ"
+          >
+            Register to the alpha
+          </a>
+        </div>
       </Section>
 
       <Section>
@@ -64,6 +114,14 @@ export const getServerSideProps = (async () => {
   });
   let repo: Response<Person> = await res.json();
 
+  const countRes = await fetch("http://php/count", {
+    headers: {
+      accept: "application/ld+json",
+    },
+  });
+  let count: { total: number } = await countRes.json();
+  console.log(count);
+
   // Pass data to the page via props
-  return { props: { repo } };
-}) satisfies GetServerSideProps<{ repo: Response<Person> }>;
+  return { props: { repo, count: count.total } };
+}) satisfies GetServerSideProps<{ repo: Response<Person>; count: number }>;

@@ -9,6 +9,9 @@ import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
 import { Person, Response as ResponseMany } from "@/types";
 
+// import logo from "../public/logo.png";
+import Image from "next/image";
+
 export default () => {
   const { user } = useAuth();
 
@@ -69,8 +72,7 @@ export default () => {
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Users className="h-6 w-6" />
-            <span className="hidden font-bold sm:inline-block">IMPACT</span>
+            <Image className="w-40 h-8 object-contain" src="/logo.png" width={200} height={200} alt="Logo of IMPACT" />
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
             {user ? <Link href="/people/create">Add a person</Link> : <></>}
@@ -79,6 +81,8 @@ export default () => {
             <Link href="/about">About</Link>
             <Link href="/contribute">Contribute</Link> */}
           </nav>
+
+          <Link className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all" href="/admin">Admin</Link>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end mr-4">
           <div className="w-full flex-1 md:w-auto md:flex-none">
@@ -125,7 +129,7 @@ export default () => {
             <LogoutButton />
           </div>
         ) : (
-          <Link className="text-sm font-medium" href="/login">Login</Link>
+          <Link className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all" href="/login">Login</Link>
         )}
       </div>
     </header>

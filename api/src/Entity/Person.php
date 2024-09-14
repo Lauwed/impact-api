@@ -2,17 +2,16 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\PersonCountController;
 use App\Filter\PersonSearchFilter;
 use App\Repository\PersonRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -20,6 +19,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     normalizationContext: ['groups' => ['person:read']],
     outputFormats: ['jsonld' => ['application/ld+json']],
+    mercure: true,
     // Définir les groupes et contraintes sur les opérations spécifiques
     operations: [
         new \ApiPlatform\Metadata\Post(
@@ -31,6 +31,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
             denormalizationContext: ['groups' => ['person:update']]
         ),
         new Get(security: "is_granted('PUBLIC_ACCESS')"),
+        new GetCollection(
+            uriTemplate: '/count',
+            name: 'count',
+            controller: PersonCountController::class,
+            security: "is_granted('PUBLIC_ACCESS')"
+        ),
         new GetCollection(security: "is_granted('PUBLIC_ACCESS')"),
         new Delete()
     ]
