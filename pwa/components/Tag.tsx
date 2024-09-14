@@ -7,7 +7,8 @@ interface TagProps {
   color?: string;
   deleteAction?: boolean;
   deleteURI?: string;
-  onDelete: () => void;
+  onDelete?: () => void;
+  onClick?: () => void;
 }
 
 const Tag: React.FC<TagProps> = ({
@@ -16,12 +17,13 @@ const Tag: React.FC<TagProps> = ({
   onDelete,
   label,
   color = "#e2e8f0",
+  onClick,
 }) => {
-  return (
-    <div
-      style={{ backgroundColor: color }}
-      className="flex gap-2 items-center px-2 py-1 text-sm font-semibold text-gray-800 rounded"
-    >
+  const style = { backgroundColor: color };
+  const classes =
+    "flex gap-2 items-center px-2 py-1 text-sm font-semibold text-gray-800 rounded min-w-fit max-w-fit w-fit";
+  const content = (
+    <>
       {label}
 
       {deleteAction && deleteURI ? (
@@ -33,7 +35,7 @@ const Tag: React.FC<TagProps> = ({
             });
 
             if (response.ok) {
-              onDelete();
+              if (onDelete) onDelete();
             } else {
               console.error("Erreur lors de la suppression de l'élément");
             }
@@ -44,6 +46,18 @@ const Tag: React.FC<TagProps> = ({
       ) : (
         <></>
       )}
+    </>
+  );
+
+  if (onClick)
+    return (
+      <button style={style} className={`${classes} cursor-pointer`} onClick={onClick}>
+        {content}
+      </button>
+    );
+  return (
+    <div style={style} className={classes}>
+      {content}
     </div>
   );
 };

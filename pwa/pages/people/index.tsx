@@ -5,10 +5,12 @@ import Main from "@/components/common/Main";
 import IdentityField from "@/components/IdentityField";
 import Loading from "@/components/Loading";
 import PersonItem from "@/components/PersonItem";
+import Tag from "@/components/Tag";
 import { fetcher } from "@/components/utils/fetcher";
-import { Person } from "@/types";
+import { Categories } from "@/enums";
+import { Category, Person, Response } from "@/types";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 export default function PeoplePage() {
@@ -17,13 +19,25 @@ export default function PeoplePage() {
   const [activePage, setActivePage] = useState<number>(
     router.query.page ? parseInt(router.query.page as string) : 1
   );
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
+    new Set()
+  );
 
-  const { data, error } = useSWR(`/people?page=${activePage}`, fetcher);
+  const { data, error, mutate } = useSWR<Response<Person>>(
+    `/people?page=${activePage}${
+      selectedCategories.size > 0
+        ? `&personCategories=${Array.from(selectedCategories).join(",")}`
+        : ""
+    }`,
+    fetcher
+  );
+  const { data: categories, error: categoriesError } = useSWR<
+    Response<Category>
+  >(`/categories`, fetcher);
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <Loading />;
 
-  const people: Person[] = data["hydra:member"]; // API Platform's default response format
   const totalPages = Math.ceil(data["hydra:totalItems"] / 20);
 
   // Handle page change by updating the URL
@@ -32,13 +46,42 @@ export default function PeoplePage() {
     router.push(`/people?page=${newPage}`, undefined, { shallow: true });
   };
 
+  const handleCategoryClick = (name: string) => {
+    setSelectedCategories((prevSelectedCategories) => {
+      const newSelectedCategories = new Set(prevSelectedCategories);
+      if (newSelectedCategories.has(name)) {
+        newSelectedCategories.delete(name);
+      } else {
+        newSelectedCategories.add(name);
+      }
+      return newSelectedCategories;
+    });
+  };
+
   return (
     <Main>
       <Heading>List of People</Heading>
 
+      {/* Category filters */}
+      {categories && !categoriesError ? (
+        <ul className="flex flex-wrap gap-2 mb-8">
+          {categories["hydra:member"].map((category) => (
+            <Tag
+              label={Categories[category.name as keyof typeof Categories]}
+              onClick={() => handleCategoryClick(category.name)}
+              color={
+                selectedCategories.has(category.name) ? category.color : "#E2E8F0"
+              }
+            />
+          ))}
+        </ul>
+      ) : (
+        <></>
+      )}
+
       {/* List of People */}
       <ul className="space-y-2">
-        {people.map((person) => (
+        {data["hydra:member"].map((person) => (
           <li key={person.id}>
             <PersonItem woman={person} />
           </li>

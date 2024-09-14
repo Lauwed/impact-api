@@ -5,6 +5,7 @@ import { Source } from "../../types";
 import Select from "../form/Select";
 import { fetcher } from "../utils/fetcher";
 import SearchableCombobox from "../SearchableDropdown";
+import Tag from "../Tag";
 
 const SourcesSelector = ({
   value,
@@ -31,7 +32,36 @@ const SourcesSelector = ({
     <SearchableCombobox
       items={fields.map((field) => ({
         value: field.id,
-        label: `${field.name} - ${TypeSources[field.typeSource.name]}`,
+        label: field.name,
+        renderedLabel: (
+          <div>
+            <div className="flex gap-2 items-center">
+              <p>{field.name}</p>
+              <Tag label={TypeSources[field.typeSource.name]} />
+            </div>
+            {field.isDigital || field.isVerified ? (
+              <ul>
+                {field.isDigital ? (
+                  <li>
+                    <Tag label="Digital" />
+                  </li>
+                ) : (
+                  <></>
+                )}
+                {field.isVerified ? (
+                  <li>
+                    <Tag label="Verified" />
+                  </li>
+                ) : (
+                  <></>
+                )}
+              </ul>
+            ) : (
+              <></>
+            )}
+            {field.url ? <p className="text-xs">{field.url}</p> : <></>}
+          </div>
+        ),
       }))}
       // name="source"
       // id="source"

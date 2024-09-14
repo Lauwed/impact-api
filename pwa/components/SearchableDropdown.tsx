@@ -13,14 +13,14 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 
 const SearchableCombobox = ({
   items,
   value,
   onChange,
 }: {
-  items: { value: string | number; label: string }[];
+  items: { value: string | number; label: string; renderedLabel?: ReactNode }[];
   value: number;
   onChange: (value: number) => void;
 }) => {
@@ -36,7 +36,7 @@ const SearchableCombobox = ({
   };
 
   useEffect(() => {
-    setFilteredItems(items)
+    setFilteredItems(items);
   }, [items]);
 
   return (
@@ -54,7 +54,7 @@ const SearchableCombobox = ({
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0">
+      <PopoverContent className="p-0 w-full">
         <Command>
           <CommandInput
             placeholder="Search item..."
@@ -79,7 +79,7 @@ const SearchableCombobox = ({
                     value === item.value ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {item.label}
+                {item.renderedLabel ? item.renderedLabel : item.label}
               </CommandItem>
             ))}
           </CommandGroup>
