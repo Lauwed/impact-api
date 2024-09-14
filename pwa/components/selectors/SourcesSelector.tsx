@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { TypeSources } from "../../enums";
 import { Source } from "../../types";
-import Select from "../form/Select";
-import { fetcher } from "../utils/fetcher";
 import SearchableCombobox from "../SearchableDropdown";
 import Tag from "../Tag";
+import { fetcher } from "../utils/fetcher";
 
 const SourcesSelector = ({
   value,
@@ -37,7 +35,7 @@ const SourcesSelector = ({
           <div>
             <div className="flex gap-2 items-center">
               <p>{field.name}</p>
-              <Tag label={TypeSources[field.typeSource.name]} />
+              <Tag label={field.typeSource.name} />
             </div>
             {field.isDigital || field.isVerified ? (
               <ul>

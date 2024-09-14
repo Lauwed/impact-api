@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { TypeSource } from "../../types";
 import Select from "../form/Select";
-import { TypeSources } from "../../enums";
 
 const TypeSourcesSelector = ({
   value,
@@ -28,7 +27,7 @@ const TypeSourcesSelector = ({
         { value: -1, label: "" },
         ...fields.map((field) => ({
           value: field.id,
-          label: TypeSources[field.name],
+          label: field.name,
         })),
       ]}
       required

@@ -28,7 +28,7 @@ export default function PeoplePage() {
       selectedCategories.size > 0
         ? `&personCategories=${Array.from(selectedCategories).join(",")}`
         : ""
-    }`,
+    }&order[name]=asc`,
     fetcher
   );
   const { data: categories, error: categoriesError } = useSWR<

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Odm\Filter\OrderFilter;
 use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
@@ -41,6 +42,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Delete()
     ]
 )]
+#[ApiFilter(OrderFilter::class, properties: ['name'], arguments: ['orderParameterName' => 'order'])]
 #[ApiFilter(PersonSearchFilter::class)]
 class Person
 {
