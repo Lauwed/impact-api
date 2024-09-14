@@ -137,7 +137,12 @@ const EditMainPersonPicture = ({
           <Label htmlFor="source">Source</Label>
           <SourcesSelector
             value={formData.source}
-            onChange={handleChange as () => void}
+            onChange={(value: number) => {
+              setFormData((prevData) => ({
+                ...prevData,
+                source: value,
+              }));
+            }}
           />
 
           <div className="flex gap-4 items-center mt-2">

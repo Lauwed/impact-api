@@ -87,7 +87,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
 
           {user ? (
             <>
-              <Button onClick={() => setMainPictureModalOpen(true)}>
+              {/* <Button onClick={() => setMainPictureModalOpen(true)}>
                 Edit main picture
               </Button>
               <EditMainPersonPicture
@@ -97,7 +97,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                 onClose={() => {
                   mutate();
                 }}
-              />
+              /> */}
             </>
           ) : (
             <></>
