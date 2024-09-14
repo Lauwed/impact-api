@@ -18,7 +18,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonPictureRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['picture:read']], 
+    normalizationContext: ['groups' => ['picture:read']],
     denormalizationContext: ['groups' => ['picture:write']],
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
@@ -28,9 +28,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
             inputFormats: ['multipart' => ['multipart/form-data']],
             denormalizationContext: ['groups' => ['picture:write']],
             normalizationContext: ['groups' => ['picture:read']],
+            serialize: 'App\Serializer\PersonPictureSerializer'
         ),
         new Delete()
-    ] 
+    ]
 )]
 #[UniqueEntity(fields: ['person'], repositoryMethod: 'checkUniqueMain')]
 class PersonPicture
@@ -79,7 +80,7 @@ class PersonPicture
     #[Groups(['picture:write'])]
     public ?File $file = null;
 
-    #[ORM\Column(nullable: true)] 
+    #[ORM\Column(nullable: true)]
     public ?string $filePath = null;
 
     public function getId(): ?int
@@ -153,11 +154,7 @@ class PersonPicture
 
     public function setMain(bool $main): static
     {
-        if (is_bool($main)) {
-            $this->main = $main;
-        } else {
-            $this->main = $main === 'true';
-        }
+        $this->main = $main;
 
         return $this;
     }
