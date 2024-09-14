@@ -1,15 +1,18 @@
-import { useAuth } from '../context/auth';
-import { useRouter } from 'next/router';
-import { useEffect, ComponentType } from 'react';
+import { useAuth } from "../context/auth";
+import { useRouter } from "next/router";
+import { useEffect, ComponentType } from "react";
 
-export function withAuth<T>(Component: ComponentType<T>) {
+export function withAuth<T>(
+  Component: ComponentType<T>,
+  role: "ROLE_USER" | "ROLE_ADMIN" = "ROLE_USER"
+) {
   return function AuthComponent(props: T) {
     const { user } = useAuth();
     const router = useRouter();
 
     useEffect(() => {
       if (!user) {
-        router.push('/login');
+        router.push("/login");
       }
     }, [user, router]);
 

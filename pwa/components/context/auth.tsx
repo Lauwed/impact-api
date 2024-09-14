@@ -6,6 +6,7 @@ import {
   ReactNode,
 } from "react";
 import { useRouter } from "next/router";
+import Cookies from 'js-cookie'; // Utilisation de js-cookie pour le client
 
 // Définition des types pour l'utilisateur et le contexte d'authentification
 interface User {
@@ -15,7 +16,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null;
-  login: (email: string, password: string) => Promise<void>;
+  login: (username: string, password: string) => Promise<void>;
   logout: () => void;
 }
 
@@ -29,7 +30,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Fonction pour vérifier si un utilisateur est connecté
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = Cookies.get("token");
     if (token) {
       fetchUser(token);
     }
@@ -85,8 +86,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       const data = await response.json();
 
-      // Stocker le token JWT dans le localStorage
-      localStorage.setItem("token", data.token);
+      // Stocker le token JWT dans les cookies
+      Cookies.set("token", data.token, { expires: 7 }); // Cookie expirant dans 7 jours
 
       // Récupérer les informations utilisateur
       fetchUser(data.token);
@@ -101,7 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   // Fonction pour déconnecter l'utilisateur
   const logout = () => {
-    localStorage.removeItem("token");
+    Cookies.remove("token");
     setUser(null);
     router.push("/login");
   };

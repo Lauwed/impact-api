@@ -1,13 +1,13 @@
-import { Search, Users } from "lucide-react";
+import { Person, Response as ResponseMany } from "@/types";
+import { Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
+import useSWR from "swr";
 import LogoutButton from "../auth/LogoutButton";
 import { useAuth } from "../context/auth";
 import { Input } from "../ui/input";
-import useSWR from "swr";
 import { fetcher } from "../utils/fetcher";
-import { Person, Response as ResponseMany } from "@/types";
 
 // import logo from "../public/logo.png";
 import Image from "next/image";
@@ -72,7 +72,13 @@ export default () => {
       <div className="container flex h-14 items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Image className="w-40 h-8 object-contain" src="/logo.png" width={200} height={200} alt="Logo of IMPACT" />
+            <Image
+              className="w-40 h-8 object-contain"
+              src="/logo.png"
+              width={200}
+              height={200}
+              alt="Logo of IMPACT"
+            />
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
             {user ? <Link href="/people/create">Add a person</Link> : <></>}
@@ -82,11 +88,20 @@ export default () => {
             <Link href="/contribute">Contribute</Link> */}
           </nav>
 
-          <Link className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all" href="/admin">Admin</Link>
+          {user && user.roles.includes("ROLE_ADMIN") ? (
+            <Link
+              className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all ml-4"
+              href="/admin"
+            >
+              Admin
+            </Link>
+          ) : (
+            <></>
+          )}
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end mr-4">
           <div className="w-full flex-1 md:w-auto md:flex-none">
-          <div className="relative" ref={dropdownRef}>
+            <div className="relative" ref={dropdownRef}>
               <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 ref={searchInputRef}
@@ -129,10 +144,14 @@ export default () => {
             <LogoutButton />
           </div>
         ) : (
-          <Link className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all" href="/login">Login</Link>
+          <Link
+            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all"
+            href="/login"
+          >
+            Login
+          </Link>
         )}
       </div>
     </header>
   );
 };
-
