@@ -58,7 +58,7 @@ export type PersonCategory = {
 
 export type TypeIdentityField = {
   id: number;
-  name: keyof IdentityFields;
+  name: string;
 };
 
 export type PersonIdentifyField = {

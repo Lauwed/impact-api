@@ -42,7 +42,7 @@ export function TypeIdentityFieldSelector({
       const selected = data["hydra:member"].find((item) => item.id === value);
       if (selected) {
         // @ts-ignore
-        setSelectedName(`${IdentityFields[item.name]}`);
+        setSelectedName(`${item.name}`);
       }
     }
   }, [data, value]);
@@ -73,7 +73,7 @@ export function TypeIdentityFieldSelector({
                 key={item.id}
                 onSelect={() => {
                   onChange(item.id);
-                  setSelectedName(IdentityFields[item.name as keyof typeof IdentityFields]);
+                  setSelectedName(item.name);
                   setOpen(false);
                 }}
               >
@@ -83,7 +83,7 @@ export function TypeIdentityFieldSelector({
                     value === item.id ? "opacity-100" : "opacity-0"
                   )}
                 />
-                {IdentityFields[item.name as keyof typeof IdentityFields]}
+                {item.name}
               </CommandItem>
             ))}
           </CommandGroup>

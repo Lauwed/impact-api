@@ -67,7 +67,7 @@ export default function PeoplePage() {
         <ul className="flex flex-wrap gap-2 mb-8">
           {categories["hydra:member"].map((category) => (
             <Tag
-              label={Categories[category.name as keyof typeof Categories]}
+              label={category.name}
               onClick={() => handleCategoryClick(category.name)}
               color={
                 selectedCategories.has(category.name) ? category.color : "#E2E8F0"

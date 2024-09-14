@@ -28,7 +28,7 @@ const IdentityField: FC<IdentityFieldNodeType> = ({ uri, actions = false }) => {
     <div className="flex gap-2 justify-between items-center">
       <p>
         <strong>
-          {IdentityFields[data.typeIdentityField.name as keyof typeof IdentityFields]}
+          {data.typeIdentityField.name}
         </strong>
         : {data.value}
       </p>

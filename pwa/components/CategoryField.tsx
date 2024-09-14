@@ -24,7 +24,7 @@ const CategoryField: FC<CategoryFieldType> = ({ uri, actions = false }) => {
   if (isLoading || !data || isDeleted) return <></>;
   return (
     <Tag
-      label={Categories[data.category.name as keyof typeof Categories]}
+      label={data.category.name}
       color={data.category.color}
       deleteAction={actions && user ? true : false}
       deleteURI={uri}

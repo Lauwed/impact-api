@@ -47,7 +47,7 @@ const DeletePersonIdentityFieldModal = ({
         Are you sure you want to delete this identity field ?
       </p>
       <p className="mb-8 text-center text-sm">
-        <strong>{IdentityFields[field.typeIdentityField.name as keyof typeof IdentityFields]}:</strong>{" "}
+        <strong>{field.typeIdentityField.name}:</strong>{" "}
         {field.value} - {field.source.name}
       </p>
 

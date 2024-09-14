@@ -12,6 +12,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     outputFormats: ['jsonld' => ['application/ld+json']],
     normalizationContext: ['groups' => ['personCategory:read']],
+    paginationEnabled: false
 )]
 class Category
 {
