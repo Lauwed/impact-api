@@ -5,9 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\TypeMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TypeMediaRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    outputFormats: ['jsonld' => ['application/ld+json']],
+)]
 class TypeMedia
 {
     #[ORM\Id]

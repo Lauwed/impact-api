@@ -5,9 +5,12 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\TypeSocialStatusRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TypeSocialStatusRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    outputFormats: ['jsonld' => ['application/ld+json']],
+)]
 class TypeSocialStatus
 {
     #[ORM\Id]

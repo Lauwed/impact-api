@@ -9,6 +9,7 @@ import Section from "../components/common/Section";
 import { Person, Response } from "../types";
 import Image from "next/image";
 import Kbd from "@/components/common/Kbd";
+import { BookType, Github } from "lucide-react";
 
 const Welcome = ({
   repo,
@@ -63,16 +64,16 @@ const Welcome = ({
         </p>
         <div className="flex gap-4">
           <a
-            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all"
+            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all flex gap-2 items-center"
             href="https://github.com/Lauwed/impact-api"
           >
-            Github
+            <Github /> Github
           </a>
           <a
-            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all"
+            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all flex gap-2 items-center"
             href="https://629j4eszqzj.typeform.com/to/OpFG5fgZ"
           >
-            Register to the alpha
+            <BookType /> Register to the alpha
           </a>
         </div>
       </Section>

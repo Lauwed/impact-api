@@ -3,21 +3,28 @@
 namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Repository\TypeIdentityFieldRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TypeIdentityFieldRepository::class)]
 #[ApiResource(
-    normalizationContext: ['groups' => ['identityField:read']], 
+    normalizationContext: ['groups' => ['identityField:read']],
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
         new Get(security: "is_granted('PUBLIC_ACCESS')"),
-        new GetCollection(security: "is_granted('PUBLIC_ACCESS')")
+        new GetCollection(security: "is_granted('PUBLIC_ACCESS')"),
+        new Post(),
+        new Put(),
+        new Delete(),
     ]
 )]
 class TypeIdentityField

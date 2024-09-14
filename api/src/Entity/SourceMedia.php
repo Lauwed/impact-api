@@ -8,7 +8,9 @@ use App\Repository\SourceMediaRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SourceMediaRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    outputFormats: ['jsonld' => ['application/ld+json']],
+)]
 class SourceMedia
 {
     #[ORM\Id]

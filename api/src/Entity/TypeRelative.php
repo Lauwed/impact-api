@@ -7,9 +7,12 @@ use App\Repository\TypeRelativeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: TypeRelativeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    outputFormats: ['jsonld' => ['application/ld+json']],
+)]
 class TypeRelative
 {
     #[ORM\Id]

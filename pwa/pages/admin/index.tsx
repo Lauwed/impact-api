@@ -11,6 +11,7 @@ import Heading from "@/components/common/Heading";
 import Main from "@/components/common/Main";
 import Section from "@/components/common/Section";
 import { useAuth } from "@/components/context/auth";
+import ItemsList from "@/components/ItemList";
 import Loading from "@/components/Loading";
 import { withAuthServerSideProps } from "@/components/utils/authUtils";
 import { GetServerSideProps } from "next";
@@ -94,8 +95,72 @@ const Admin = () => {
 
       <Heading>Admin</Heading>
 
-      <Section>
-        <Heading level="h2">Categories</Heading>
+      <Section customClass="grid grid-cols-2 gap-10">
+        <Heading level="h2" customStyle="col-span-2">
+          Descriptive data
+        </Heading>
+
+        <div>
+          <Heading level="h3">Categories</Heading>
+          <ItemsList url="/categories" />
+        </div>
+
+        <div>
+          <Heading level="h3">Type social status</Heading>
+          <ItemsList url="/type_social_statuses" />
+        </div>
+
+        <div>
+          <Heading level="h3">Type identity fields</Heading>
+          <ItemsList url="/type_identity_fields" />
+        </div>
+
+        <div>
+          <Heading level="h3">Type medias</Heading>
+          {/* <ItemsList url="/type_medias" /> */}
+        </div>
+      </Section>
+
+      <Section customClass="grid grid-cols-2 gap-10">
+        <Heading level="h2" customStyle="col-span-2">
+          Sources
+        </Heading>
+
+        <div>
+          <Heading level="h3">Sources</Heading>
+          <ItemsList url="/sources" />
+        </div>
+
+        <div>
+          <Heading level="h3">Source medias</Heading>
+          {/* <ItemsList url="/source_medias" /> */}
+        </div>
+
+        <div>
+          <Heading level="h3">Type sources</Heading>
+          <ItemsList url="/type_sources" />
+        </div>
+      </Section>
+
+      <Section customClass="grid grid-cols-2 gap-10">
+        <Heading level="h2" customStyle="col-span-2">
+          Other
+        </Heading>
+
+        <div>
+          <Heading level="h3">Companies</Heading>
+          <ItemsList url="/companies" />
+        </div>
+
+        <div>
+          <Heading level="h3">Schools</Heading>
+          <ItemsList url="/schools" />
+        </div>
+
+        <div>
+          <Heading level="h3">Type relatives</Heading>
+          <ItemsList url="/type_relatives" />
+        </div>
       </Section>
     </Main>
   );
