@@ -25,11 +25,11 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 #[ApiResource(
     operations: [
-        new GetCollection(),
+        new GetCollection(security: "is_granted('ROLE_ADMIN')", ),
         new Post(
-            processor: UserPasswordHasher::class, 
-            validationContext: ['groups' => ['Default', 'user:create']], 
-            security: "is_granted('PUBLIC_ACCESS')"
+            processor: UserPasswordHasher::class,
+            validationContext: ['groups' => ['Default', 'user:create']],
+            security: "is_granted('ROLE_ADMIN')"
         ),
         new Get(
             uriTemplate: '/me',
@@ -38,18 +38,18 @@ use Symfony\Component\Validator\Constraints as Assert;
             controller: UserMeController::class,
             normalizationContext: ['groups' => ['user:read']]
         ),
-        new Get(security: "is_granted('IS_AUTHENTICATED_FULLY')",),
-        new Put(processor: UserPasswordHasher::class),
+        new Get(security: "is_granted('IS_AUTHENTICATED_FULLY')", ),
+        new Put(processor: UserPasswordHasher::class, security: "is_granted('ROLE_ADMIN')"),
         new Put(
             uriTemplate: '/users/{id}/roles',
             controller: UserRolesController::class,
             name: 'update_user_roles',
             normalizationContext: ['groups' => ['user:read']],
             denormalizationContext: ['groups' => ['user:roles:update']],
-            security: "is_granted('IS_AUTHENTICATED_FULLY')"
+            security: "is_granted('ROLE_ADMIN')"
         ),
-        new Patch(processor: UserPasswordHasher::class),
-        new Delete(),
+        new Patch(processor: UserPasswordHasher::class, security: "is_granted('ROLE_ADMIN')"),
+        new Delete(security: "is_granted('ROLE_ADMIN')"),
     ],
     normalizationContext: ['groups' => ['user:read']],
     denormalizationContext: ['groups' => ['user:create', 'user:update']],

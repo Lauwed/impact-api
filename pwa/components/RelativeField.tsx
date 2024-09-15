@@ -6,6 +6,8 @@ import useSWR from "swr";
 import { useAuth } from "./context/auth";
 import { fetcher } from "./utils/fetcher";
 import Tag from "./Tag";
+import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
+import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
 // import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
 
 type RelativeFieldType = {
@@ -34,26 +36,26 @@ const RelativeField: FC<RelativeFieldType> = ({ uri, actions = false }) => {
       {user && actions ? (
         <div className="">
           <Button onClick={() => setRelativeModalOpen(true)}>Edit</Button>
-          {/* <EditPersonRelativeModal
-            field={data}
+          <EditPersonRelativeModal
+            relative={data}
             modalOpen={identityFieldModalOpen}
             setModalOpen={setRelativeModalOpen as () => void}
             onClose={() => {
               mutate();
             }}
-          /> */}
+          />
 
           <Button onClick={() => setRelativeModalDeleteOpen(true)}>
             Delete
           </Button>
-          {/* <DeletePersonRelativeModal
-            field={data}
+          <DeletePersonRelativeModal
+            relative={data}
             modalOpen={identityFieldModalDeleteOpen}
             setModalOpen={setRelativeModalDeleteOpen as () => void}
             onClose={() => {
               setIsDeleted(true);
             }}
-          /> */}
+          />
         </div>
       ) : (
         <></>
