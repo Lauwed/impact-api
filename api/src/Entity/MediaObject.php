@@ -74,8 +74,8 @@ class MediaObject
     {
         return $this->file;
     }
-    
-    public function getFilePath(): ?File
+
+    public function getFilePath(): ?string
     {
         return $this->filePath;
     }
