@@ -1,15 +1,12 @@
-import { FC, useEffect, useState } from "react";
-import { IdentityFields } from "../enums";
-import { PersonIdentifyField, PersonSchool } from "../types";
-import Button from "./Button";
-import EditPersonIdentityFieldModal from "./modals/EditPersonIdentityFieldModal";
-import useSWR from "swr";
-import { fetcher } from "./utils/fetcher";
-import { useAuth } from "./context/auth";
-import DeletePersonIdentityFieldModal from "./modals/DeletePersonIdentityFieldModal";
 import { format } from "date-fns";
+import { FC, useState } from "react";
+import useSWR from "swr";
+import { PersonSchool } from "../types";
+import Button from "./Button";
+import { useAuth } from "./context/auth";
 import DeletePersonSchoolModal from "./modals/DeletePersonSchoolModal";
 import EditPersonSchoolModal from "./modals/EditPersonSchoolModal";
+import { fetcher } from "./utils/fetcher";
 
 type SchoolType = {
   uri: string;

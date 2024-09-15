@@ -1,8 +1,8 @@
+import { PersonIdentifyField, Response } from "@/types";
 import useSWR from "swr";
 import { EditableSection } from "./EditableSection";
-import { fetcher } from "./utils/fetcher";
-import { PersonIdentifyField, Response } from "@/types";
 import { TypeIdentityFieldSelector } from "./TypeIdentityFieldSelector";
+import { fetcher } from "./utils/fetcher";
 
 const EditableIdentityFields = ({
   URIs,
@@ -24,7 +24,7 @@ const EditableIdentityFields = ({
   return (
     <EditableSection
       title="Identity"
-      items={data['hydra:member']}
+      items={data["hydra:member"]}
       onUpdate={onUpdate}
       keyComponent={TypeIdentityFieldSelector}
     />

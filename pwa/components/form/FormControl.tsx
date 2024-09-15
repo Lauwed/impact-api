@@ -1,8 +1,8 @@
 import { FC } from "react";
-import Input from "./Input";
-import Label from "./Label";
 import { DatePicker } from "../DatePicker";
 import { Switch } from "../ui/switch";
+import Input from "./Input";
+import Label from "./Label";
 
 type FormControlType = {
   type?: string;
@@ -24,7 +24,7 @@ const FormControl: FC<FormControlType> = ({
   onChange,
   label,
   required = false,
-  customContainerStyle = '',
+  customContainerStyle = "",
   hint,
 }) => {
   const labelText = required ? (

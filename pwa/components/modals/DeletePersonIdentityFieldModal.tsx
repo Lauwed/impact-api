@@ -1,4 +1,3 @@
-import { IdentityFields } from "../../enums";
 import { PersonIdentifyField } from "../../types";
 import Button from "../Button";
 import Heading from "../common/Heading";
@@ -47,8 +46,8 @@ const DeletePersonIdentityFieldModal = ({
         Are you sure you want to delete this identity field ?
       </p>
       <p className="mb-8 text-center text-sm">
-        <strong>{field.typeIdentityField.name}:</strong>{" "}
-        {field.value} - {field.source.name}
+        <strong>{field.typeIdentityField.name}:</strong> {field.value} -{" "}
+        {field.source.name}
       </p>
 
       <div className="flex gap-4 justify-center">

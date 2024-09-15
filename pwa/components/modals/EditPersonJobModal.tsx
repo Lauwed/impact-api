@@ -1,3 +1,4 @@
+import { PersonJob } from "@/types";
 import { useEffect, useState } from "react";
 import Button from "../Button";
 import Heading from "../common/Heading";
@@ -5,24 +6,21 @@ import { useAuth } from "../context/auth";
 import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
-import SchoolsSelector from "../selectors/SchoolsSelector";
-import SourcesSelector from "../selectors/SourcesSelector";
-import AddSchoolModal from "./AddSchoolModal";
-import AddSourceModal from "./AddSourceModal";
 import CompaniesSelector from "../selectors/CompaniesSelector";
+import SourcesSelector from "../selectors/SourcesSelector";
 import AddCompanyModal from "./AddCompanyModal";
-import { PersonJob } from "@/types";
+import AddSourceModal from "./AddSourceModal";
 
 const EditPersonJobModal = ({
   modalOpen,
   setModalOpen,
   onClose,
-  job
+  job,
 }: {
   modalOpen: boolean;
   setModalOpen: (state: boolean) => void;
   onClose?: () => void;
-  job: PersonJob
+  job: PersonJob;
 }) => {
   const { user } = useAuth();
   const [isSourceModalOpen, setIsSourceModalOpen] = useState(false);

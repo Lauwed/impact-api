@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
-import { HexColorPicker } from "react-colorful";
 import { Label } from "@/components/ui/label";
+import React, { useEffect, useRef, useState } from "react";
+import { HexColorPicker } from "react-colorful";
 import Input from "./form/Input";
 
 interface ColorPickerProps {

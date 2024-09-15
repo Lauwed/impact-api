@@ -1,8 +1,8 @@
-import "../styles/globals.css";
-import Layout from "../components/common/Layout";
 import type { AppProps } from "next/app";
 import type { DehydratedState } from "react-query";
+import Layout from "../components/common/Layout";
 import { AuthProvider } from "../components/context/auth";
+import "../styles/globals.css";
 
 function MyApp({
   Component,

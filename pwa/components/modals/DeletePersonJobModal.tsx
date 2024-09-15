@@ -1,5 +1,5 @@
 import { format } from "date-fns";
-import { PersonJob, PersonSchool } from "../../types";
+import { PersonJob } from "../../types";
 import Button from "../Button";
 import Heading from "../common/Heading";
 import { useAuth } from "../context/auth";

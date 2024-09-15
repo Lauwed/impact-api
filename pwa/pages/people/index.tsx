@@ -1,16 +1,13 @@
 // pages/people.tsx
-import Card from "@/components/Card";
 import Heading from "@/components/common/Heading";
 import Main from "@/components/common/Main";
-import IdentityField from "@/components/IdentityField";
 import Loading from "@/components/Loading";
 import PersonItem from "@/components/PersonItem";
 import Tag from "@/components/Tag";
 import { fetcher } from "@/components/utils/fetcher";
-import { Categories } from "@/enums";
 import { Category, Person, Response } from "@/types";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import useSWR from "swr";
 
 export default function PeoplePage() {
@@ -71,7 +68,9 @@ export default function PeoplePage() {
               label={category.name}
               onClick={() => handleCategoryClick(category.name)}
               color={
-                selectedCategories.has(category.name) ? category.color : "#E2E8F0"
+                selectedCategories.has(category.name)
+                  ? category.color
+                  : "#E2E8F0"
               }
             />
           ))}

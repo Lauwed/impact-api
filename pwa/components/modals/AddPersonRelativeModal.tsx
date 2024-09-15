@@ -6,9 +6,8 @@ import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
 import SourcesSelector from "../selectors/SourcesSelector";
-import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
-import AddSourceModal from "./AddSourceModal";
 import TypeRelativesSelector from "../selectors/TypeRelativesSelector";
+import AddSourceModal from "./AddSourceModal";
 
 const AddPersonRelativeModal = ({
   modalOpen,

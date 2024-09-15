@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Achievement, PersonIdentifyField } from "../../types";
+import { Achievement } from "../../types";
 import Button from "../Button";
 import Heading from "../common/Heading";
 import { useAuth } from "../context/auth";
@@ -7,7 +7,6 @@ import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
 import SourcesSelector from "../selectors/SourcesSelector";
-import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
 import AddSourceModal from "./AddSourceModal";
 
 const EditAchievementModal = ({

@@ -28,7 +28,9 @@ export function DatePicker({
   const [month, setMonth] = useState(date ? date : new Date());
 
   // Hold the selected date in state
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(date ? date : undefined);
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(
+    date ? date : undefined
+  );
 
   // Hold the input value in state
   const [inputValue, setInputValue] = useState(

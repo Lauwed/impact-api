@@ -14,7 +14,7 @@ const Heading: React.FC<HeadingType> = ({
   level = "h1",
   children,
   levelStyle,
-  customStyle = ''
+  customStyle = "",
 }) => {
   const styles = {
     h1: "text-5xl font-black mb-4",
@@ -25,7 +25,10 @@ const Heading: React.FC<HeadingType> = ({
   };
 
   return (
-    <Tag tagName={level} className={`${styles[levelStyle || level]} ${customStyle}`}>
+    <Tag
+      tagName={level}
+      className={`${styles[levelStyle || level]} ${customStyle}`}
+    >
       {children}
     </Tag>
   );

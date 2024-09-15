@@ -1,12 +1,12 @@
+import Cookies from 'js-cookie'; // Utilisation de js-cookie pour le client
+import { useRouter } from "next/router";
 import {
   createContext,
-  useContext,
-  useState,
-  useEffect,
   ReactNode,
+  useContext,
+  useEffect,
+  useState,
 } from "react";
-import { useRouter } from "next/router";
-import Cookies from 'js-cookie'; // Utilisation de js-cookie pour le client
 
 // Définition des types pour l'utilisateur et le contexte d'authentification
 interface User {

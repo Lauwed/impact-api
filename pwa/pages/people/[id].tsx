@@ -1,8 +1,21 @@
+import AchievementField from "@/components/AchievementField";
+import CategoryField from "@/components/CategoryField";
+import AddAchievementForm from "@/components/form/AddAchievementForm";
+import FormControl from "@/components/form/FormControl";
 import JobField from "@/components/JobField";
+import Modal from "@/components/Modal";
+import AddPersonCategoryModal from "@/components/modals/AddPersonCategoryModal";
 import AddPersonJobModal from "@/components/modals/AddPersonJobModal";
+import AddPersonRelativeModal from "@/components/modals/AddPersonRelativeModal";
 import AddPersonSchoolModal from "@/components/modals/AddPersonSchoolModal";
+import AddPersonSocialStatusModal from "@/components/modals/AddPersonSocialStatusModal";
+import RelativeField from "@/components/RelativeField";
 import SchoolField from "@/components/SchoolField";
+import SocialStatusField from "@/components/SocialStatusField";
+import { format } from "date-fns";
+import { Edit3, Trash } from "lucide-react";
 import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import Button from "../../components/Button";
@@ -12,24 +25,8 @@ import Section from "../../components/common/Section";
 import { useAuth } from "../../components/context/auth";
 import IdentityField from "../../components/IdentityField";
 import AddPersonIdentityFieldModal from "../../components/modals/AddPersonIdentityFieldModal";
-import EditMainPersonPicture from "../../components/modals/EditMainPersonPicture";
 import { fetcher } from "../../components/utils/fetcher";
 import { Person, ResponseSingle } from "../../types";
-import Tag from "@/components/Tag";
-import AddPersonCategoryModal from "@/components/modals/AddPersonCategoryModal";
-import CategoryField from "@/components/CategoryField";
-import Modal from "@/components/Modal";
-import { useRouter } from "next/router";
-import { Edit3, Trash } from "lucide-react";
-import FormControl from "@/components/form/FormControl";
-import { IdentityFields } from "@/enums";
-import SocialStatusField from "@/components/SocialStatusField";
-import { format } from "date-fns";
-import AddPersonSocialStatusModal from "@/components/modals/AddPersonSocialStatusModal";
-import RelativeField from "@/components/RelativeField";
-import AddPersonRelativeModal from "@/components/modals/AddPersonRelativeModal";
-import AchievementField from "@/components/AchievementField";
-import AddAchievementForm from "@/components/form/AddAchievementForm";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const router = useRouter();
@@ -69,7 +66,6 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const { user } = useAuth();
 
   useEffect(() => {
-    console.log(data)
     if (data) {
       setIdentityFields(data.personIdentityFields);
       setSchools(data.personSchools);

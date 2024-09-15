@@ -5,12 +5,10 @@ import { useAuth } from "../context/auth";
 import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
-import SchoolsSelector from "../selectors/SchoolsSelector";
-import SourcesSelector from "../selectors/SourcesSelector";
-import AddSchoolModal from "./AddSchoolModal";
-import AddSourceModal from "./AddSourceModal";
 import CompaniesSelector from "../selectors/CompaniesSelector";
+import SourcesSelector from "../selectors/SourcesSelector";
 import AddCompanyModal from "./AddCompanyModal";
+import AddSourceModal from "./AddSourceModal";
 
 const AddPersonJobModal = ({
   modalOpen,

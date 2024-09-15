@@ -17,7 +17,7 @@ const Select: FC<SelectType> = ({
   required = false,
   value,
   onChange,
-  disabled = false
+  disabled = false,
 }) => {
   return (
     <select
@@ -31,7 +31,9 @@ const Select: FC<SelectType> = ({
       disabled={disabled}
     >
       {data.map((option, index) => (
-        <option key={index} value={option.value}>{option.label}</option>
+        <option key={index} value={option.value}>
+          {option.label}
+        </option>
       ))}
     </select>
   );

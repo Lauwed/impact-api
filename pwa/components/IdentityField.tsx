@@ -1,12 +1,11 @@
-import { FC, useEffect, useState } from "react";
-import { IdentityFields } from "../enums";
+import { FC, useState } from "react";
+import useSWR from "swr";
 import { PersonIdentifyField } from "../types";
 import Button from "./Button";
-import EditPersonIdentityFieldModal from "./modals/EditPersonIdentityFieldModal";
-import useSWR from "swr";
-import { fetcher } from "./utils/fetcher";
 import { useAuth } from "./context/auth";
 import DeletePersonIdentityFieldModal from "./modals/DeletePersonIdentityFieldModal";
+import EditPersonIdentityFieldModal from "./modals/EditPersonIdentityFieldModal";
+import { fetcher } from "./utils/fetcher";
 
 type IdentityFieldNodeType = {
   uri: string;
@@ -27,10 +26,7 @@ const IdentityField: FC<IdentityFieldNodeType> = ({ uri, actions = false }) => {
   return (
     <div className="flex gap-2 justify-between items-center">
       <p>
-        <strong>
-          {data.typeIdentityField.name}
-        </strong>
-        : {data.value}
+        <strong>{data.typeIdentityField.name}</strong>: {data.value}
       </p>
 
       {user && actions ? (

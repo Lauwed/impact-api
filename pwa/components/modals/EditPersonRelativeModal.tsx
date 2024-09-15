@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PersonIdentifyField, PersonRelative } from "../../types";
+import { PersonRelative } from "../../types";
 import Button from "../Button";
 import Heading from "../common/Heading";
 import { useAuth } from "../context/auth";
@@ -7,9 +7,8 @@ import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
 import SourcesSelector from "../selectors/SourcesSelector";
-import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
-import AddSourceModal from "./AddSourceModal";
 import TypeRelativesSelector from "../selectors/TypeRelativesSelector";
+import AddSourceModal from "./AddSourceModal";
 
 const EditPersonRelativeModal = ({
   modalOpen,

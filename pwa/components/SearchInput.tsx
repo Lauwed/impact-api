@@ -4,11 +4,11 @@ import Input from "./form/Input";
 const SearchInput = () => {
   return (
     <form className="flex items-center ml-auto">
-      <label htmlFor="search" className="mr-4">Research</label>
+      <label htmlFor="search" className="mr-4">
+        Research
+      </label>
       <Input type="search" id="search" name="search" />
-      <Button>
-        Submit
-      </Button>
+      <Button>Submit</Button>
     </form>
   );
 };

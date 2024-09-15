@@ -11,22 +11,22 @@ const customStyles = {
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
     padding: "50px",
-    width: "50%"
+    width: "50%",
   },
 };
 
-ReactModal.setAppElement('#__next');
+ReactModal.setAppElement("#__next");
 
 const Modal = ({
   isOpen = false,
   setIsOpen,
   afterOpenModal,
-  children
+  children,
 }: {
   isOpen: boolean;
   setIsOpen: any;
   afterOpenModal?: any;
-  children: ReactNode
+  children: ReactNode;
 }) => {
   function closeModal() {
     setIsOpen(false);
@@ -40,7 +40,9 @@ const Modal = ({
       style={customStyles}
       contentLabel="Example Modal"
     >
-      <Button customStyle="block w-fit ml-auto mb-4" onClick={closeModal}>close</Button>
+      <Button customStyle="block w-fit ml-auto mb-4" onClick={closeModal}>
+        close
+      </Button>
 
       {children}
     </ReactModal>

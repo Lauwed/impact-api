@@ -51,7 +51,11 @@ const Tag: React.FC<TagProps> = ({
 
   if (onClick)
     return (
-      <button style={style} className={`${classes} cursor-pointer`} onClick={onClick}>
+      <button
+        style={style}
+        className={`${classes} cursor-pointer`}
+        onClick={onClick}
+      >
         {content}
       </button>
     );

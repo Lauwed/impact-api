@@ -1,16 +1,14 @@
 import CounterAnimation from "@/components/CounterAnimation";
+import PersonItem from "@/components/PersonItem";
+import Kbd from "@/components/common/Kbd";
+import { BookType, Github } from "lucide-react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import Card from "../components/Card";
-import IdentityField from "../components/IdentityField";
+import Image from "next/image";
 import Heading from "../components/common/Heading";
 import Main from "../components/common/Main";
 import Section from "../components/common/Section";
 import { Person, Response } from "../types";
-import Image from "next/image";
-import Kbd from "@/components/common/Kbd";
-import { BookType, Github } from "lucide-react";
-import PersonItem from "@/components/PersonItem";
 
 const Welcome = ({
   repo,
@@ -37,8 +35,10 @@ const Welcome = ({
           />
           <p>
             IMPACT, stands for{" "}
-            <Kbd>Initiative for Minoritized Pioneers and Achievements in Computer
-            Technology</Kbd>
+            <Kbd>
+              Initiative for Minoritized Pioneers and Achievements in Computer
+              Technology
+            </Kbd>
             , is an open-source project that can be described as Wiki-like,
             focused on women. The goal is to gather as much information as
             possible about women who have influenced computing in order to

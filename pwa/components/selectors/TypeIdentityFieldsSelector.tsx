@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import Select from "../form/Select";
 import { TypeIdentityField } from "../../types";
-import { IdentityFields } from "../../enums";
+import Select from "../form/Select";
 
 const TypeIdentityFieldsSelector = ({
   value,
   onChange,
-  disabled = false
+  disabled = false,
 }: {
   value: any;
   onChange: () => void;
@@ -26,11 +25,10 @@ const TypeIdentityFieldsSelector = ({
     <Select
       name="typeIdentityField"
       id="typeIdentityField"
-      data={fields
-        .map((field) => ({
-          value: field.id,
-          label: field.name,
-        }))}
+      data={fields.map((field) => ({
+        value: field.id,
+        label: field.name,
+      }))}
       required
       value={value}
       onChange={onChange}

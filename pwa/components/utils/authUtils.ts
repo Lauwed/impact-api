@@ -1,6 +1,6 @@
 // utils/authUtils.ts
-import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import Cookies from "cookies";
+import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 
 export async function withAuthServerSideProps(
   context: GetServerSidePropsContext,

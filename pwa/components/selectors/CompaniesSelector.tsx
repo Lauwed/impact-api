@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { Company, School } from "../../types";
+import { Company } from "../../types";
 import SearchableCombobox from "../SearchableDropdown";
 import { fetcher } from "../utils/fetcher";
 

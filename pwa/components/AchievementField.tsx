@@ -1,11 +1,11 @@
 import { Achievement } from "@/types";
 import { FC, useState } from "react";
 import useSWR from "swr";
-import { useAuth } from "./context/auth";
-import { fetcher } from "./utils/fetcher";
 import Button from "./Button";
-import EditAchievementModal from "./modals/EditAchievementModal";
+import { useAuth } from "./context/auth";
 import DeleteAchievementModal from "./modals/DeleteAchievementModal";
+import EditAchievementModal from "./modals/EditAchievementModal";
+import { fetcher } from "./utils/fetcher";
 
 type AchievementType = {
   uri: string;

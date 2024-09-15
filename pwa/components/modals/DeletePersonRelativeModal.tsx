@@ -1,5 +1,4 @@
-import { IdentityFields } from "../../enums";
-import { PersonIdentifyField, PersonRelative } from "../../types";
+import { PersonRelative } from "../../types";
 import Button from "../Button";
 import Heading from "../common/Heading";
 import { useAuth } from "../context/auth";
@@ -44,12 +43,18 @@ const DeletePersonRelativeModal = ({
     <Modal isOpen={modalOpen} setIsOpen={setModalOpen}>
       <Heading level="h3">Delete a relative</Heading>
 
-      <p className="mb-4">
-        Are you sure you want to delete this relative ?
-      </p>
+      <p className="mb-4">Are you sure you want to delete this relative ?</p>
       <p className="mb-8 text-center text-sm flex items-center gap-2">
-        <strong>{relative.typeRelative.name}:</strong>{" "}
-        {relative.name}{relative.biological ? <> - <Tag label="Biological relative" /></> : <></>} - {relative.source.name}
+        <strong>{relative.typeRelative.name}:</strong> {relative.name}
+        {relative.biological ? (
+          <>
+            {" "}
+            - <Tag label="Biological relative" />
+          </>
+        ) : (
+          <></>
+        )}{" "}
+        - {relative.source.name}
       </p>
 
       <div className="flex gap-4 justify-center">

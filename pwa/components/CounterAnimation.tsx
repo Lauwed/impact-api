@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // Fonction d'easing qui ralentit vers la fin
 const easeOutQuad = (t: number): number => t * (2 - t);

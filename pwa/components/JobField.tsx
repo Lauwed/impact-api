@@ -1,12 +1,12 @@
+import { PersonJob } from "@/types";
 import { format } from "date-fns";
 import { FC, useState } from "react";
 import useSWR from "swr";
 import Button from "./Button";
 import { useAuth } from "./context/auth";
-import { fetcher } from "./utils/fetcher";
-import { PersonJob } from "@/types";
-import EditPersonJobModal from "./modals/EditPersonJobModal";
 import DeletePersonJobModal from "./modals/DeletePersonJobModal";
+import EditPersonJobModal from "./modals/EditPersonJobModal";
+import { fetcher } from "./utils/fetcher";
 
 type JobType = {
   uri: string;
@@ -15,8 +15,7 @@ type JobType = {
 
 const JobField: FC<JobType> = ({ uri, actions = false }) => {
   const [jobModalOpen, setJobModalOpen] = useState<boolean>(false);
-  const [jobModalDeleteOpen, setJobModalDeleteOpen] =
-    useState<boolean>(false);
+  const [jobModalDeleteOpen, setJobModalDeleteOpen] = useState<boolean>(false);
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const { user } = useAuth();
 

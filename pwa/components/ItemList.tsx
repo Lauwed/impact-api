@@ -1,11 +1,11 @@
+import { CirclePlus, Edit, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import useSWR, { mutate } from "swr";
-import Loading from "./Loading";
 import Button from "./Button";
-import Input from "./form/Input";
-import { CirclePlus, Edit, Trash2 } from "lucide-react";
 import ColorPicker from "./ColorPicker";
 import { useAuth } from "./context/auth";
+import Input from "./form/Input";
+import Loading from "./Loading";
 
 // Définition du type pour les éléments
 interface Item {
@@ -160,7 +160,7 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
               onClick={() => {
                 setEditItemId(item.id);
                 setEditItemName(item.name);
-                if(url === "/categories") setEditItemColor(item.color || '');
+                if (url === "/categories") setEditItemColor(item.color || "");
               }}
               customStyle="ml-2"
             >

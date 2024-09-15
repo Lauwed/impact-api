@@ -3,9 +3,9 @@ import useSWR from "swr";
 import { PersonSocialStatus } from "../types";
 import Button from "./Button";
 import { useAuth } from "./context/auth";
-import { fetcher } from "./utils/fetcher";
-import EditPersonSocialStatusModal from "./modals/EditPersonSocialStatusModal";
 import DeletePersonSocialStatusModal from "./modals/DeletePersonSocialStatusModal";
+import EditPersonSocialStatusModal from "./modals/EditPersonSocialStatusModal";
+import { fetcher } from "./utils/fetcher";
 
 type SocialStatusNodeType = {
   uri: string;

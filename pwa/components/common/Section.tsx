@@ -5,7 +5,7 @@ type SectionType = {
   customClass?: string;
 };
 
-const Section: React.FC<SectionType> = ({ children, customClass = '' }) => {
+const Section: React.FC<SectionType> = ({ children, customClass = "" }) => {
   return <section className={`py-4 ${customClass}`}>{children}</section>;
 };
 

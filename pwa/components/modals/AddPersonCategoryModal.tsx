@@ -2,12 +2,11 @@ import { useEffect, useState } from "react";
 import Button from "../Button";
 import Heading from "../common/Heading";
 import { useAuth } from "../context/auth";
-import FormControl from "../form/FormControl";
-import Modal from "../Modal";
 import Label from "../form/Label";
+import Modal from "../Modal";
+import CategoriesSelector from "../selectors/CategoriesSelector";
 import SourcesSelector from "../selectors/SourcesSelector";
 import AddSourceModal from "./AddSourceModal";
-import CategoriesSelector from "../selectors/CategoriesSelector";
 
 const AddPersonCategoryModal = ({
   modalOpen,
@@ -45,7 +44,6 @@ const AddPersonCategoryModal = ({
 
   const handleChange = (e: any) => {
     const { name, value } = e.target;
-    console.log(name, value)
     setFormData((prevData) => ({
       ...prevData,
       [name]: value,

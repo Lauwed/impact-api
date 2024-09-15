@@ -70,7 +70,6 @@ const EditMainPersonPicture = ({
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     try {
-      console.log(formData);
       const bodyData = new FormData();
 
       bodyData.append("title", formData.title);
@@ -91,7 +90,7 @@ const EditMainPersonPicture = ({
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Person added successfully", data);
+        console.info("Person added successfully", data);
         setModalOpen(false);
       } else {
         console.error("Failed to add person");

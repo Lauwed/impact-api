@@ -1,13 +1,10 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 
-import { PersonIdentifyField } from "../types";
-import Button from "./Button";
 
 import useSWR from "swr";
-import { fetcher } from "./utils/fetcher";
 import { useAuth } from "./context/auth";
 import Tag from "./Tag";
-import { Categories } from "@/enums";
+import { fetcher } from "./utils/fetcher";
 // import DeletePersonCategoryModal from "./modals/DeletePersonCategoryModal";
 
 type CategoryFieldType = {

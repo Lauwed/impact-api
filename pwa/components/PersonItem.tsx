@@ -1,12 +1,16 @@
 import { Person } from "@/types";
 import Card from "./Card";
-import IdentityField from "./IdentityField";
 import CategoryField from "./CategoryField";
+import IdentityField from "./IdentityField";
 
 const PersonItem = ({ woman }: { woman: Person }) => {
   return (
     <Card titleLevel="h3" title={woman.name} url={`/people/${woman.id}`}>
-      {woman.romanizedName ? <p className="mb-2">{woman.romanizedName}</p> : <></>}
+      {woman.romanizedName ? (
+        <p className="mb-2">{woman.romanizedName}</p>
+      ) : (
+        <></>
+      )}
       {woman.personCategories.length > 0 ? (
         <ul className="flex gap-2 mb-2">
           {woman.personCategories.map((category, index) => (

@@ -1,13 +1,13 @@
 import { FC, useState } from "react";
-import { PersonIdentifyField, PersonRelative } from "../types";
+import { PersonRelative } from "../types";
 import Button from "./Button";
 // import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
 import useSWR from "swr";
-import { useAuth } from "./context/auth";
-import { fetcher } from "./utils/fetcher";
 import Tag from "./Tag";
-import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
+import { useAuth } from "./context/auth";
 import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
+import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
+import { fetcher } from "./utils/fetcher";
 // import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
 
 type RelativeFieldType = {

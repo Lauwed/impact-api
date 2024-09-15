@@ -1,8 +1,4 @@
-import { useState } from "react";
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +7,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Camera } from "lucide-react";
+import Image from "next/image";
+import { useState } from "react";
 
 interface MainPictureProps {
   personId: number;
@@ -64,7 +64,9 @@ export function MainPicture({
         <DialogContent className="sm:max-w-[425px]" aria-describedby="">
           <DialogHeader>
             <DialogTitle>{file ? "Edit" : "Add"} Main Picture</DialogTitle>
-            <DialogDescription>The Main Picture will be the first picture of the person shown</DialogDescription>
+            <DialogDescription>
+              The Main Picture will be the first picture of the person shown
+            </DialogDescription>
           </DialogHeader>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">

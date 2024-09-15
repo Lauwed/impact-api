@@ -1,6 +1,6 @@
-import { useAuth } from "../context/auth";
 import { useRouter } from "next/router";
-import { useEffect, ComponentType } from "react";
+import { ComponentType, useEffect } from "react";
+import { useAuth } from "../context/auth";
 
 export function withAuth<T>(
   Component: ComponentType<T>,

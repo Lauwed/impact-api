@@ -11,7 +11,6 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { IdentityFields } from "@/enums";
 import { cn } from "@/lib/utils";
 import { Response, TypeIdentityField } from "@/types";
 import { Check, ChevronsUpDown } from "lucide-react";
