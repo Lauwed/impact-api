@@ -5,26 +5,33 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PersonSocialStatusRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonSocialStatusRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['personSocialStatus:read']],
+)]
 class PersonSocialStatus
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['personSocialStatus:read'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'personSocialStatuses')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['personSocialStatus:read'])]
     private ?Person $person = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['personSocialStatus:read'])]
     private ?TypeSocialStatus $typeSocialStatus = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['personSocialStatus:read'])]
     private ?Source $source = null;
 
     public function getId(): ?int

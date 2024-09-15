@@ -132,6 +132,7 @@ export type PersonSocialStatus = {
   name: string;
   typeSocialStatus: TypeSocialStatus;
   person?: Person;
+  source: Source;
 };
 
 export type Person = {
@@ -144,4 +145,6 @@ export type Person = {
   personRelatives: string[];
   personSchools: string[];
   personSocialStatuses: string[];
+  created_at: Date;
+  updated_at: Date;
 };

@@ -21,18 +21,27 @@ import CategoryField from "@/components/CategoryField";
 import Modal from "@/components/Modal";
 import { useRouter } from "next/router";
 import { Edit3, Trash } from "lucide-react";
+import FormControl from "@/components/form/FormControl";
+import { IdentityFields } from "@/enums";
+import SocialStatusField from "@/components/SocialStatusField";
+import { format } from "date-fns";
+import AddPersonSocialStatusModal from "@/components/modals/AddPersonSocialStatusModal";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const router = useRouter();
+  const [socialStatusModalOpen, setSocialStatusModalOpen] = useState(false);
   const [identityFieldModalOpen, setIdentityFieldModalOpen] = useState(false);
   const [schoolModalOpen, setSchoolModalOpen] = useState(false);
   const [jobModalOpen, setJobModalOpen] = useState(false);
   const [mainPictureModalOpen, setMainPictureModalOpen] = useState(false);
-  const [identityField, setIdentityFields] = useState<string[]>(
+  const [identityFields, setIdentityFields] = useState<string[]>(
     woman.personIdentityFields
   );
   const [schools, setSchools] = useState<string[]>(woman.personSchools);
   const [jobs, setJobs] = useState<string[]>(woman.personJobs);
+  const [socialStatuses, setSocialStatuses] = useState<string[]>(
+    woman.personSocialStatuses
+  );
 
   const [categories, setCategories] = useState<string[]>(
     woman.personCategories
@@ -41,6 +50,9 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [editedName, setEditedName] = useState<string>(woman.name);
+  const [editedRomanizedName, setEditedRomanizedName] = useState<string>(
+    woman.romanizedName || ""
+  );
 
   const [womanData, setWomanData] = useState<Person>(woman);
 
@@ -53,6 +65,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       setSchools(data.personSchools);
       setJobs(data.personJobs);
       setCategories(data.personCategories);
+      setSocialStatuses(data.personSocialStatuses);
 
       setWomanData(data);
     }
@@ -79,7 +92,10 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
         headers: {
           "Content-Type": "application/ld+json",
         },
-        body: JSON.stringify({ name: editedName }),
+        body: JSON.stringify({
+          name: editedName,
+          romanizedName: editedRomanizedName,
+        }),
       });
       setIsEditModalOpen(false);
       mutate(); // Refetch data after update
@@ -93,7 +109,11 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       <Section>
         <div className="flex items-start gap-8">
           <div>
-            <Heading>{womanData.name}</Heading>
+            <Heading customStyle="!mb-2">{womanData.name}</Heading>
+            <div className="md:flex gap-4 text-sm text-slate-700">
+              <p>Created at : {format(womanData.created_at, "yyyy-mm-dd")}</p>
+              <p>Updated at : {format(womanData.updated_at, "yyyy-mm-dd")}</p>
+            </div>
             {womanData.romanizedName ? <p>{womanData.romanizedName}</p> : <></>}
           </div>
 
@@ -101,13 +121,13 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           {user && user.roles.includes("ROLE_ADMIN") && (
             <>
               <Button
-                customStyle="bg-blue-500 text-white mt-2 flex gap-2 items-center"
+                customStyle="bg-blue-500 text-white flex gap-2 items-center"
                 onClick={() => setIsEditModalOpen(true)}
               >
                 <Edit3 size={16} color="#fff" /> Edit Name
               </Button>
               <Button
-                customStyle="bg-red-500 text-white mt-2 flex gap-2 items-center"
+                customStyle="bg-red-500 text-white flex gap-2 items-center"
                 onClick={() => setIsDeleteModalOpen(true)}
               >
                 <Trash size={16} color="#fff" /> Delete
@@ -118,12 +138,23 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                 isOpen={isEditModalOpen}
                 setIsOpen={() => setIsEditModalOpen(false)}
               >
-                <h2>Edit {womanData.name}'s Name</h2>
-                <input
+                <Heading level="h2">Edit {womanData.name}'s Name</Heading>
+                <FormControl
                   type="text"
                   value={editedName}
                   onChange={(e) => setEditedName(e.target.value)}
-                  className="border border-gray-300 p-2 rounded w-full mt-4"
+                  label="Edit name"
+                  id="name"
+                  name="name"
+                  required
+                />
+                <FormControl
+                  type="text"
+                  value={editedRomanizedName}
+                  onChange={(e) => setEditedRomanizedName(e.target.value)}
+                  label="Edit romanized name"
+                  id="romanizedName"
+                  name="romanizedName"
                 />
                 <div className="flex justify-end gap-4 mt-4">
                   <Button
@@ -167,7 +198,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
         </div>
 
         {/* Categories Section */}
-        <div className="mt-4 flex flex-wrap items-center gap-2">
+        <div className="mt-2 flex flex-wrap items-center gap-2">
           {categories.length > 0 ? (
             categories.map((category, index) => (
               <CategoryField key={index} uri={category} actions />
@@ -217,40 +248,78 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           )}
         </section>
 
-        {/* IDENTITY FIELDS */}
-        <Section customClass="border border-black p-4 rounded md:w-1/2">
-          <Heading level="h2">Identity</Heading>
+        <div className="md:w-1/2">
+          {/* SOCIAL STATUS */}
+          <Section>
+            <Heading level="h2">Social status</Heading>
 
-          {identityField.length > 0 ? (
-            <ul className="mb-4">
-              {identityField.map((identityField, index) => (
-                <li key={index}>
-                  <IdentityField actions uri={identityField} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mb-4">No identity information yet.</p>
-          )}
+            {socialStatuses.length > 0 ? (
+              <ul className="mb-4">
+                {socialStatuses.map((socialStatus, index) => (
+                  <li key={index}>
+                    <SocialStatusField actions uri={socialStatus} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mb-4 text-slate-700">No social status yet.</p>
+            )}
 
-          {user ? (
-            <>
-              <Button onClick={() => setIdentityFieldModalOpen(true)}>
-                Add an identity information
-              </Button>
-              <AddPersonIdentityFieldModal
-                personId={womanData.id}
-                modalOpen={identityFieldModalOpen}
-                setModalOpen={setIdentityFieldModalOpen as () => void}
-                onClose={() => {
-                  mutate();
-                }}
-              />
-            </>
-          ) : (
-            <></>
-          )}
-        </Section>
+            {user ? (
+              <>
+                <Button onClick={() => setSocialStatusModalOpen(true)}>
+                  Add a social status information
+                </Button>
+                <AddPersonSocialStatusModal
+                  personId={womanData.id}
+                  modalOpen={socialStatusModalOpen}
+                  setModalOpen={setSocialStatusModalOpen as () => void}
+                  onClose={() => {
+                    mutate();
+                  }}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+          </Section>
+          {/* IDENTITY FIELDS */}
+          <Section customClass="border border-black p-4 rounded">
+            <Heading level="h2">Identity</Heading>
+
+            {identityFields.length > 0 ? (
+              <ul className="mb-4">
+                {identityFields.map((identityField, index) => (
+                  <li key={index}>
+                    <IdentityField actions uri={identityField} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mb-4 text-slate-700">
+                No identity information yet.
+              </p>
+            )}
+
+            {user ? (
+              <>
+                <Button onClick={() => setIdentityFieldModalOpen(true)}>
+                  Add an identity information
+                </Button>
+                <AddPersonIdentityFieldModal
+                  personId={womanData.id}
+                  modalOpen={identityFieldModalOpen}
+                  setModalOpen={setIdentityFieldModalOpen as () => void}
+                  onClose={() => {
+                    mutate();
+                  }}
+                />
+              </>
+            ) : (
+              <></>
+            )}
+          </Section>
+        </div>
       </div>
 
       <div className="flex flex-col md:flex-row gap-10">
@@ -267,7 +336,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
               ))}
             </ul>
           ) : (
-            <p className="mb-4">No school information yet.</p>
+            <p className="mb-4 text-slate-700">No school information yet.</p>
           )}
 
           {user ? (
@@ -302,7 +371,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
               ))}
             </ul>
           ) : (
-            <p className="mb-4">No job information yet.</p>
+            <p className="mb-4 text-slate-700">No job information yet.</p>
           )}
 
           {user ? (

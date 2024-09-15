@@ -19,7 +19,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 #[ORM\Entity]
 #[ApiResource(
-    normalizationContext: ['groups' => ['media_object:read']], 
+    normalizationContext: ['groups' => ['media_object:read']],
     types: ['https://schema.org/MediaObject'],
     outputFormats: ['jsonld' => ['application/ld+json']],
     operations: [
@@ -32,10 +32,10 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
                     content: new \ArrayObject([
                         'multipart/form-data' => [
                             'schema' => [
-                                'type' => 'object', 
+                                'type' => 'object',
                                 'properties' => [
                                     'file' => [
-                                        'type' => 'string', 
+                                        'type' => 'string',
                                         'format' => 'binary'
                                     ]
                                 ]
@@ -69,16 +69,27 @@ class MediaObject
         return $this->id;
     }
 
-    
+
     public function getFile(): ?File
     {
         return $this->file;
+    }
+    
+    public function getFilePath(): ?File
+    {
+        return $this->filePath;
     }
 
     public function setFile(?File $file): static
     {
         $this->file = $file;
 
+        if (null !== $file) {
+            // Update the contentUrl after the file is uploaded
+            $this->contentUrl = '/uploads/media/' . $this->getFilePath();
+        }
+
         return $this;
     }
+
 }

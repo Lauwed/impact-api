@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\MainPictureController;
 use App\Controller\PersonCountController;
 use App\Filter\PersonSearchFilter;
 use App\Repository\PersonRepository;
@@ -17,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     normalizationContext: ['groups' => ['person:read']],
     outputFormats: ['jsonld' => ['application/ld+json']],
@@ -32,6 +34,12 @@ use Symfony\Component\Serializer\Annotation\Groups;
             denormalizationContext: ['groups' => ['person:update']]
         ),
         new Get(security: "is_granted('PUBLIC_ACCESS')"),
+        new Get(
+            uriTemplate: '/people/{id}/main-picture',
+            controller: MainPictureController::class,
+            name: 'get_main_picture',
+            security: "is_granted('PUBLIC_ACCESS')",
+        ),
         new GetCollection(
             uriTemplate: '/count',
             name: 'count',
@@ -108,6 +116,14 @@ class Person
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonPicture::class)]
     #[Groups(['person:read'])]
     private Collection $personPictures;
+
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Groups(['person:read'])]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Groups(['person:read'])]
+    private ?\DateTimeImmutable $updated_at = null;
 
     public function __construct()
     {
@@ -357,5 +373,46 @@ class Person
         }
 
         return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    {
+        $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setCreatedAtValue(): void
+    {
+        $this->created_at = new \DateTimeImmutable();
+        $this->updated_at = new \DateTimeImmutable();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function setUpdatedAtValue(): void
+    {
+        $this->updated_at = new \DateTimeImmutable();
     }
 }

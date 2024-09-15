@@ -68,6 +68,7 @@ class PersonPicture
     #[ORM\ManyToOne(targetEntity: MediaObject::class)]
     #[ORM\JoinColumn(nullable: true)]
     #[ApiProperty(types: ['https://schema.org/image'])]
+    #[Groups(['picture:read'])]
     public ?MediaObject $image = null;
 
     #[ApiProperty(types: ['https://schema.org/contentUrl'])]

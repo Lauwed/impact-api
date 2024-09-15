@@ -1,5 +1,15 @@
 # impact
 
+## Roadmap
+
+- [] Fix `media_object` upload - `api` -> https://github.com/Lauwed/impact-api/issues/5
+- [] Fix `person_picture` upload - `api`
+- [] Sorting data - `api` -> https://github.com/Lauwed/impact-api/issues/6
+- [] Add edit modal for the main picture on person page - `pwa`
+- [] Add gallery section with images upload on person page - `pwa`
+- [] Add `Achievement` entity - `api`
+- [] Create achievements section on person page - `pwa`
+
 ## Install
 
 ### Docker
