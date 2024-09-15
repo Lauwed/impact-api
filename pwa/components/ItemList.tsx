@@ -63,6 +63,7 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
       method: "PUT",
       headers: {
         "Content-Type": "application/ld+json",
+        Authorization: `Bearer ${user?.token}`,
       },
       body: JSON.stringify(body),
     });
@@ -81,6 +82,9 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
   const deleteItem = async (id: number) => {
     const response = await fetch(`${url}/${id}`, {
       method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${user?.token}`,
+      },
     });
 
     if (response.ok) {
