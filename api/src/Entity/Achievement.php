@@ -23,7 +23,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(security: "is_granted('PUBLIC_ACCESS')"),
         new GetCollection(security: "is_granted('PUBLIC_ACCESS')"),
         new Delete()
-    ]
+    ],
+    paginationEnabled: false
 )]
 class Achievement
 {

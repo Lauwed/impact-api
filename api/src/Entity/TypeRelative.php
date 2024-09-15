@@ -14,6 +14,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     outputFormats: ['jsonld' => ['application/ld+json']],
     normalizationContext: ['groups' => ['personRelative:read']],
+    paginationEnabled: false
 )]
 class TypeRelative
 {

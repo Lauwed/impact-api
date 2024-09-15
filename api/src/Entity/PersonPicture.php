@@ -31,7 +31,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
             serialize: 'App\Serializer\PersonPictureSerializer'
         ),
         new Delete()
-    ]
+    ],
+    paginationEnabled: false
 )]
 #[UniqueEntity(fields: ['person'], repositoryMethod: 'checkUniqueMain')]
 class PersonPicture

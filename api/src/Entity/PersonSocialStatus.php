@@ -10,6 +10,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: PersonSocialStatusRepository::class)]
 #[ApiResource(
     normalizationContext: ['groups' => ['personSocialStatus:read']],
+    paginationEnabled: false
 )]
 class PersonSocialStatus
 {

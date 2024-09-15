@@ -10,6 +10,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 #[ORM\Entity(repositoryClass: TypeMediaRepository::class)]
 #[ApiResource(
     outputFormats: ['jsonld' => ['application/ld+json']],
+    paginationEnabled: false
 )]
 class TypeMedia
 {

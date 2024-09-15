@@ -11,7 +11,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: PersonJobRepository::class)]
 #[ApiResource(
     outputFormats: ['jsonld' => ['application/ld+json']],
-    normalizationContext: ['groups' => ['personJob:read']]
+    normalizationContext: ['groups' => ['personJob:read']],
+    paginationEnabled: false
 )]
 class PersonJob
 {

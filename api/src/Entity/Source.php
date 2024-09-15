@@ -26,7 +26,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Post(security: "is_granted('ROLE_USER')"),
         new Put(security: "is_granted('ROLE_USER')"),
         new Delete(security: "is_granted('ROLE_USER')")
-    ]
+    ],
+    paginationEnabled: false
 )]
 class Source
 {
