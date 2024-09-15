@@ -27,13 +27,13 @@ const SchoolsSelector = ({
   return (
     <SearchableCombobox
       items={fields.map((field) => ({
-        value: field.id,
+        value: `${field.id}`,
         label: `${field.name}`,
       }))}
       // name="source"
       // id="source"
       // required
-      value={value}
+      label={fields.find((field) => field.id == value)?.name || ""}
       onChange={onChange}
     />
   );

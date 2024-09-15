@@ -124,6 +124,7 @@ const AddPersonIdentityFieldModal = ({
       <AddSourceModal
         modalOpen={isSourceModalOpen}
         setModalOpen={setIsSourceModalOpen as () => void}
+        onClose={onClose}
       />
     </Modal>
   );

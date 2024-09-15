@@ -17,15 +17,14 @@ import { ReactNode, useEffect, useState } from "react";
 
 const SearchableCombobox = ({
   items,
-  value,
+  label,
   onChange,
 }: {
   items: { value: string | number; label: string; renderedLabel?: ReactNode }[];
-  value: number;
+  label: string;
   onChange: (value: number) => void;
 }) => {
   const [open, setOpen] = useState(false);
-  //   const [value, setValue] = useState("");
   const [filteredItems, setFilteredItems] = useState(items);
 
   const handleSearch = (searchTerm: string) => {
@@ -48,13 +47,17 @@ const SearchableCombobox = ({
           aria-expanded={open}
           className="w-full justify-between"
         >
-          {value !== -1
-            ? items.find((item) => item.value == value)?.label
+          {label !== ""
+            ? items.find((item) => item.label == label)?.label
             : "Select item..."}
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="p-0 w-full">
+      <PopoverContent
+        className="p-0 w-full"
+        side="bottom"
+        avoidCollisions={false}
+      >
         <Command>
           <CommandInput
             placeholder="Search item..."
@@ -64,19 +67,18 @@ const SearchableCombobox = ({
           <CommandGroup>
             {filteredItems.map((item) => (
               <CommandItem
-                key={item.value}
+                key={`source-${item.value}`}
                 onSelect={(currentValue) => {
                   setOpen(false);
-                  onChange(
-                    parseInt(currentValue == `${value}` ? "" : currentValue)
-                  );
+                  // @ts-ignore
+                  onChange(currentValue == label ? -1 : item.value);
                 }}
-                value={`${item.value}`}
+                value={`${item.label}`}
               >
                 <Check
                   className={cn(
                     "mr-2 h-4 w-4",
-                    value === item.value ? "opacity-100" : "opacity-0"
+                    label === item.label ? "opacity-100" : "opacity-0"
                   )}
                 />
                 {item.renderedLabel ? item.renderedLabel : item.label}

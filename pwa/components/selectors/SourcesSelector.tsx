@@ -61,10 +61,7 @@ const SourcesSelector = ({
           </div>
         ),
       }))}
-      // name="source"
-      // id="source"
-      // required
-      value={value}
+      label={fields.find((field) => field.id == value)?.name || ""}
       onChange={onChange}
     />
   );

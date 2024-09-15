@@ -27,10 +27,10 @@ const CompaniesSelector = ({
   return (
     <SearchableCombobox
       items={fields.map((field) => ({
-        value: field.id,
+        value: `${field.id}`,
         label: `${field.name}`,
       }))}
-      value={value}
+      label={fields.find((field) => field.id == value)?.name || ""}
       onChange={onChange}
     />
   );

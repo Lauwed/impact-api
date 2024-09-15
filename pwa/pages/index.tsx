@@ -72,7 +72,7 @@ const Welcome = ({
           </a>
           <a
             className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all flex gap-2 items-center"
-            href="https://629j4eszqzj.typeform.com/to/OpFG5fgZ"
+            href="https://tally.so/r/waEAXW"
           >
             <BookType /> Register to the alpha
           </a>

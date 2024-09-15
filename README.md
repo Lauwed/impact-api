@@ -8,7 +8,7 @@
 - [ ] Add edit modal for the main picture on person page - `pwa`
 - [ ] Add gallery section with images upload on person page - `pwa`
 - [x] Add `Achievement` entity - `api`
-- [ ] Create achievements section on person page - `pwa`
+- [x] Create achievements section on person page - `pwa`
 
 ## Install
 

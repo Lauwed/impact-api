@@ -21,7 +21,6 @@ const AchievementField: FC<AchievementType> = ({ uri, actions = false }) => {
   const { user } = useAuth();
 
   const { data, isLoading, mutate } = useSWR<Achievement>(uri, fetcher);
-  console.log("a", data);
 
   if (isLoading || !data || isDeleted) return <></>;
   return (
