@@ -5,6 +5,7 @@ import Button from "./Button";
 import Input from "./form/Input";
 import { CirclePlus, Edit, Trash2 } from "lucide-react";
 import ColorPicker from "./ColorPicker";
+import { useAuth } from "./context/auth";
 
 // Définition du type pour les éléments
 interface Item {
@@ -17,6 +18,7 @@ interface Item {
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
 const ItemsList: React.FC<{ url: string }> = ({ url }) => {
+  const { user } = useAuth();
   // Utilisation de SWR pour la récupération des données
   const { data, error } = useSWR<{ "hydra:member": Item[] }>(url, fetcher);
   const [newItemName, setNewItemName] = useState("");
@@ -36,6 +38,7 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
       method: "POST",
       headers: {
         "Content-Type": "application/ld+json",
+        Authorization: `Bearer ${user?.token}`,
       },
       body: JSON.stringify(body),
     });

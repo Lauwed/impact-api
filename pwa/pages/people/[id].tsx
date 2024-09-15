@@ -31,12 +31,14 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const router = useRouter();
   const [socialStatusModalOpen, setSocialStatusModalOpen] = useState(false);
   const [identityFieldModalOpen, setIdentityFieldModalOpen] = useState(false);
+  const [relativeModalOpen, setRelativeModalOpen] = useState(false);
   const [schoolModalOpen, setSchoolModalOpen] = useState(false);
   const [jobModalOpen, setJobModalOpen] = useState(false);
   const [mainPictureModalOpen, setMainPictureModalOpen] = useState(false);
   const [identityFields, setIdentityFields] = useState<string[]>(
     woman.personIdentityFields
   );
+  const [relatives, setRelatives] = useState<string[]>(woman.personRelatives);
   const [schools, setSchools] = useState<string[]>(woman.personSchools);
   const [jobs, setJobs] = useState<string[]>(woman.personJobs);
   const [socialStatuses, setSocialStatuses] = useState<string[]>(
@@ -66,6 +68,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       setJobs(data.personJobs);
       setCategories(data.personCategories);
       setSocialStatuses(data.personSocialStatuses);
+      setRelatives(data.personRelatives);
 
       setWomanData(data);
     }
@@ -106,127 +109,131 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
 
   return (
     <Main>
-      <Section>
-        <div className="flex items-start gap-8">
-          <div>
-            <Heading customStyle="!mb-2">{womanData.name}</Heading>
-            <div className="md:flex gap-4 text-sm text-slate-700">
-              <p>Created at : {format(womanData.created_at, "yyyy-mm-dd")}</p>
-              <p>Updated at : {format(womanData.updated_at, "yyyy-mm-dd")}</p>
+      <div className="flex flex-col md:flex-row-reverse gap-10 mb-10">
+        <Section customClass="flex-1">
+          <div className="flex items-start gap-8">
+            <div>
+              <Heading customStyle="!mb-2">{womanData.name}</Heading>
+              <div className="md:flex gap-4 text-sm text-slate-700">
+                <p>Created at : {format(womanData.created_at, "yyyy-mm-dd")}</p>
+                <p>Updated at : {format(womanData.updated_at, "yyyy-mm-dd")}</p>
+              </div>
+              {womanData.romanizedName ? (
+                <p>{womanData.romanizedName}</p>
+              ) : (
+                <></>
+              )}
             </div>
-            {womanData.romanizedName ? <p>{womanData.romanizedName}</p> : <></>}
+
+            {/* Delete Button */}
+            {user && user.roles.includes("ROLE_ADMIN") && (
+              <>
+                <Button
+                  customStyle="bg-blue-500 text-white flex gap-2 items-center"
+                  onClick={() => setIsEditModalOpen(true)}
+                >
+                  <Edit3 size={16} color="#fff" /> Edit Name
+                </Button>
+                <Button
+                  customStyle="bg-red-500 text-white flex gap-2 items-center"
+                  onClick={() => setIsDeleteModalOpen(true)}
+                >
+                  <Trash size={16} color="#fff" /> Delete
+                </Button>
+
+                {/* Edit Name Modal */}
+                <Modal
+                  isOpen={isEditModalOpen}
+                  setIsOpen={() => setIsEditModalOpen(false)}
+                >
+                  <Heading level="h2">Edit {womanData.name}'s Name</Heading>
+                  <FormControl
+                    type="text"
+                    value={editedName}
+                    onChange={(e) => setEditedName(e.target.value)}
+                    label="Edit name"
+                    id="name"
+                    name="name"
+                    required
+                  />
+                  <FormControl
+                    type="text"
+                    value={editedRomanizedName}
+                    onChange={(e) => setEditedRomanizedName(e.target.value)}
+                    label="Edit romanized name"
+                    id="romanizedName"
+                    name="romanizedName"
+                  />
+                  <div className="flex justify-end gap-4 mt-4">
+                    <Button
+                      customStyle="bg-gray-300"
+                      onClick={() => setIsEditModalOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      customStyle="bg-blue-500 text-white"
+                      onClick={handleEditName}
+                    >
+                      Save
+                    </Button>
+                  </div>
+                </Modal>
+
+                {/* Delete Confirmation Modal */}
+                <Modal
+                  isOpen={isDeleteModalOpen}
+                  setIsOpen={() => setIsDeleteModalOpen(false)}
+                >
+                  <p>Are you sure you want to delete {womanData.name}?</p>
+                  <div className="flex justify-end gap-4 mt-4">
+                    <Button
+                      customStyle="bg-gray-300"
+                      onClick={() => setIsDeleteModalOpen(false)}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      customStyle="bg-red-500 text-white"
+                      onClick={handleDelete}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </Modal>
+              </>
+            )}
           </div>
 
-          {/* Delete Button */}
-          {user && user.roles.includes("ROLE_ADMIN") && (
-            <>
-              <Button
-                customStyle="bg-blue-500 text-white flex gap-2 items-center"
-                onClick={() => setIsEditModalOpen(true)}
-              >
-                <Edit3 size={16} color="#fff" /> Edit Name
-              </Button>
-              <Button
-                customStyle="bg-red-500 text-white flex gap-2 items-center"
-                onClick={() => setIsDeleteModalOpen(true)}
-              >
-                <Trash size={16} color="#fff" /> Delete
-              </Button>
+          {/* Categories Section */}
+          <div className="mt-2 flex flex-wrap items-center gap-2">
+            {categories.length > 0 ? (
+              categories.map((category, index) => (
+                <CategoryField key={index} uri={category} actions />
+              ))
+            ) : (
+              <p className="text-slate-700 text-sm">
+                No categories assigned yet.
+              </p>
+            )}
 
-              {/* Edit Name Modal */}
-              <Modal
-                isOpen={isEditModalOpen}
-                setIsOpen={() => setIsEditModalOpen(false)}
-              >
-                <Heading level="h2">Edit {womanData.name}'s Name</Heading>
-                <FormControl
-                  type="text"
-                  value={editedName}
-                  onChange={(e) => setEditedName(e.target.value)}
-                  label="Edit name"
-                  id="name"
-                  name="name"
-                  required
-                />
-                <FormControl
-                  type="text"
-                  value={editedRomanizedName}
-                  onChange={(e) => setEditedRomanizedName(e.target.value)}
-                  label="Edit romanized name"
-                  id="romanizedName"
-                  name="romanizedName"
-                />
-                <div className="flex justify-end gap-4 mt-4">
-                  <Button
-                    customStyle="bg-gray-300"
-                    onClick={() => setIsEditModalOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    customStyle="bg-blue-500 text-white"
-                    onClick={handleEditName}
-                  >
-                    Save
-                  </Button>
-                </div>
-              </Modal>
+            {/* Add Category Button */}
+            {user && (
+              <Button onClick={() => setIsAddCategoryModalOpen(true)}>+</Button>
+            )}
+          </div>
 
-              {/* Delete Confirmation Modal */}
-              <Modal
-                isOpen={isDeleteModalOpen}
-                setIsOpen={() => setIsDeleteModalOpen(false)}
-              >
-                <p>Are you sure you want to delete {womanData.name}?</p>
-                <div className="flex justify-end gap-4 mt-4">
-                  <Button
-                    customStyle="bg-gray-300"
-                    onClick={() => setIsDeleteModalOpen(false)}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    customStyle="bg-red-500 text-white"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </Button>
-                </div>
-              </Modal>
-            </>
-          )}
-        </div>
+          <AddPersonCategoryModal
+            personId={womanData.id}
+            modalOpen={isAddCategoryModalOpen}
+            setModalOpen={setIsAddCategoryModalOpen as () => void}
+            onClose={() => {
+              mutate();
+            }}
+          />
+        </Section>
 
-        {/* Categories Section */}
-        <div className="mt-2 flex flex-wrap items-center gap-2">
-          {categories.length > 0 ? (
-            categories.map((category, index) => (
-              <CategoryField key={index} uri={category} actions />
-            ))
-          ) : (
-            <p className="text-slate-700 text-sm">
-              No categories assigned yet.
-            </p>
-          )}
-
-          {/* Add Category Button */}
-          {user && (
-            <Button onClick={() => setIsAddCategoryModalOpen(true)}>+</Button>
-          )}
-        </div>
-
-        <AddPersonCategoryModal
-          personId={womanData.id}
-          modalOpen={isAddCategoryModalOpen}
-          setModalOpen={setIsAddCategoryModalOpen as () => void}
-          onClose={() => {
-            mutate();
-          }}
-        />
-      </Section>
-
-      <div className="flex flex-col md:flex-row gap-10 mb-10">
-        <section className="md:w-1/2">
+        <section className="md:w-1/3 border border-black p-4 rounded md:w-1/2">
           <Heading level="h2">Main Picture</Heading>
 
           {user ? (
@@ -247,6 +254,43 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
             <></>
           )}
         </section>
+      </div>
+
+      <div className="flex flex-col md:flex-row gap-10 mb-10">
+        {/* IDENTITY FIELDS */}
+        <Section customClass="border border-black p-4 rounded md:w-1/2">
+          <Heading level="h2">Identity</Heading>
+
+          {identityFields.length > 0 ? (
+            <ul className="mb-4">
+              {identityFields.map((identityField, index) => (
+                <li key={index}>
+                  <IdentityField actions uri={identityField} />
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="mb-4 text-slate-700">No identity information yet.</p>
+          )}
+
+          {user ? (
+            <>
+              <Button onClick={() => setIdentityFieldModalOpen(true)}>
+                Add an identity information
+              </Button>
+              <AddPersonIdentityFieldModal
+                personId={womanData.id}
+                modalOpen={identityFieldModalOpen}
+                setModalOpen={setIdentityFieldModalOpen as () => void}
+                onClose={() => {
+                  mutate();
+                }}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+        </Section>
 
         <div className="md:w-1/2">
           {/* SOCIAL STATUS */}
@@ -283,33 +327,33 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
               <></>
             )}
           </Section>
-          {/* IDENTITY FIELDS */}
+          {/* RELATIVES */}
           <Section customClass="border border-black p-4 rounded">
-            <Heading level="h2">Identity</Heading>
+            <Heading level="h2">Relative</Heading>
 
-            {identityFields.length > 0 ? (
+            {relatives.length > 0 ? (
               <ul className="mb-4">
-                {identityFields.map((identityField, index) => (
+                {relatives.map((relative, index) => (
                   <li key={index}>
-                    <IdentityField actions uri={identityField} />
+                    <IdentityField actions uri={relative} />
                   </li>
                 ))}
               </ul>
             ) : (
               <p className="mb-4 text-slate-700">
-                No identity information yet.
+                No relative information yet.
               </p>
             )}
 
             {user ? (
               <>
                 <Button onClick={() => setIdentityFieldModalOpen(true)}>
-                  Add an identity information
+                  Add a relative information
                 </Button>
                 <AddPersonIdentityFieldModal
                   personId={womanData.id}
-                  modalOpen={identityFieldModalOpen}
-                  setModalOpen={setIdentityFieldModalOpen as () => void}
+                  modalOpen={relativeModalOpen}
+                  setModalOpen={setRelativeModalOpen as () => void}
                   onClose={() => {
                     mutate();
                   }}

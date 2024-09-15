@@ -32,7 +32,11 @@ const CreatePerson = () => {
         headers: {
           "Content-Type": "application/ld+json",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({
+          ...formData,
+          created_at: new Date(),
+          updated_at: new Date(),
+        }),
       });
 
       if (response.ok) {
