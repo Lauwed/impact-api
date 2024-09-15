@@ -5,32 +5,41 @@ namespace App\Entity;
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\PersonRelativeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PersonRelativeRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    normalizationContext: ['groups' => ['personRelative:read']],
+)]
 class PersonRelative
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['personRelative:read'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['personRelative:read'])]
     private ?string $name = null;
 
     #[ORM\Column(name: "is_biological")]
+    #[Groups(['personRelative:read'])]
     private ?bool $biological = null;
 
     #[ORM\ManyToOne(inversedBy: 'personRelatives')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['personRelative:read'])]
     private ?Person $person = null;
 
     #[ORM\ManyToOne(inversedBy: 'personRelatives')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['personRelative:read'])]
     private ?TypeRelative $typeRelative = null;
 
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['personRelative:read'])]
     private ?Source $source = null;
 
     public function getId(): ?int

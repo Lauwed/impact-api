@@ -97,9 +97,10 @@ export type TypeRelative = {
 export type PersonRelative = {
   id: number;
   name: string;
-  isBiological: boolean;
+  biological: boolean;
   typeRelative: TypeRelative;
   person?: Person;
+  source: Source;
 };
 
 export type School = {

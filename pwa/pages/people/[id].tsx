@@ -26,6 +26,8 @@ import { IdentityFields } from "@/enums";
 import SocialStatusField from "@/components/SocialStatusField";
 import { format } from "date-fns";
 import AddPersonSocialStatusModal from "@/components/modals/AddPersonSocialStatusModal";
+import RelativeField from "@/components/RelativeField";
+import AddPersonRelativeModal from "@/components/modals/AddPersonRelativeModal";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const router = useRouter();
@@ -335,7 +337,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
               <ul className="mb-4">
                 {relatives.map((relative, index) => (
                   <li key={index}>
-                    <IdentityField actions uri={relative} />
+                    <RelativeField actions uri={relative} />
                   </li>
                 ))}
               </ul>
@@ -347,10 +349,10 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
 
             {user ? (
               <>
-                <Button onClick={() => setIdentityFieldModalOpen(true)}>
+                <Button onClick={() => setRelativeModalOpen(true)}>
                   Add a relative information
                 </Button>
-                <AddPersonIdentityFieldModal
+                <AddPersonRelativeModal
                   personId={womanData.id}
                   modalOpen={relativeModalOpen}
                   setModalOpen={setRelativeModalOpen as () => void}

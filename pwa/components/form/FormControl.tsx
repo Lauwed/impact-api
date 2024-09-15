@@ -2,6 +2,7 @@ import { FC } from "react";
 import Input from "./Input";
 import Label from "./Label";
 import { DatePicker } from "../DatePicker";
+import { Switch } from "../ui/switch";
 
 type FormControlType = {
   type?: string;
@@ -47,6 +48,12 @@ const FormControl: FC<FormControlType> = ({
       </Label>
       {type == "date" ? (
         <DatePicker date={value} setDate={onChange} name={name} id={id} />
+      ) : type == "switch" ? (
+        <Switch
+          id={id}
+          checked={value}
+          onCheckedChange={onChange}
+        />
       ) : (
         <Input
           type={type}
