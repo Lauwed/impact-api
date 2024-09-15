@@ -10,14 +10,10 @@
 import Heading from "@/components/common/Heading";
 import Main from "@/components/common/Main";
 import Section from "@/components/common/Section";
-import { useAuth } from "@/components/context/auth";
 import ItemsList from "@/components/ItemList";
-import Loading from "@/components/Loading";
 import { withAuthServerSideProps } from "@/components/utils/authUtils";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect } from "react";
 
 // const MediaObjectsCreate = (props: any) => {
 //   return (

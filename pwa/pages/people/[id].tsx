@@ -28,6 +28,8 @@ import { format } from "date-fns";
 import AddPersonSocialStatusModal from "@/components/modals/AddPersonSocialStatusModal";
 import RelativeField from "@/components/RelativeField";
 import AddPersonRelativeModal from "@/components/modals/AddPersonRelativeModal";
+import AchievementField from "@/components/AchievementField";
+import AddAchievementForm from "@/components/form/AddAchievementForm";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const router = useRouter();
@@ -45,6 +47,9 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [jobs, setJobs] = useState<string[]>(woman.personJobs);
   const [socialStatuses, setSocialStatuses] = useState<string[]>(
     woman.personSocialStatuses
+  );
+  const [achievements, setAchievements] = useState<string[]>(
+    woman.achievements
   );
 
   const [categories, setCategories] = useState<string[]>(
@@ -64,6 +69,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const { user } = useAuth();
 
   useEffect(() => {
+    console.log(data)
     if (data) {
       setIdentityFields(data.personIdentityFields);
       setSchools(data.personSchools);
@@ -71,6 +77,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       setCategories(data.personCategories);
       setSocialStatuses(data.personSocialStatuses);
       setRelatives(data.personRelatives);
+      setAchievements(data.achievements);
 
       setWomanData(data);
     }
@@ -439,6 +446,30 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           )}
         </Section>
       </div>
+
+      {/* ACHIEVEMENTS */}
+      <Section customClass="mt-8">
+        <Heading level="h2">Achievements</Heading>
+
+        <AddAchievementForm
+          personId={womanData.id}
+          onSubmit={() => {
+            mutate();
+          }}
+        />
+
+        {achievements.length > 0 ? (
+          <ul className="mb-4 list-disc pl-6">
+            {achievements.map((achievement, index) => (
+              <li key={index} className="py-4 border-b">
+                <AchievementField actions uri={achievement} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="mb-4 text-slate-700">No achievement yet.</p>
+        )}
+      </Section>
     </Main>
   );
 };

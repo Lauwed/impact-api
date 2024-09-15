@@ -12,6 +12,7 @@ type FormControlType = {
   onChange: (e: any) => void;
   label: string;
   required?: boolean;
+  customContainerStyle?: string;
   hint?: string;
 };
 
@@ -23,6 +24,7 @@ const FormControl: FC<FormControlType> = ({
   onChange,
   label,
   required = false,
+  customContainerStyle = '',
   hint,
 }) => {
   const labelText = required ? (
@@ -35,7 +37,7 @@ const FormControl: FC<FormControlType> = ({
   );
 
   return (
-    <div className="mb-4">
+    <div className={`mb-4 ${customContainerStyle}`}>
       <Label htmlFor={id}>
         {hint ? (
           <>
@@ -46,14 +48,19 @@ const FormControl: FC<FormControlType> = ({
           labelText
         )}
       </Label>
-      {type == "date" ? (
+      {type === "date" ? (
         <DatePicker date={value} setDate={onChange} name={name} id={id} />
-      ) : type == "switch" ? (
-        <Switch
+      ) : type === "switch" ? (
+        <Switch id={id} checked={value} onCheckedChange={onChange} />
+      ) : type === "textarea" ? (
+        <textarea
           id={id}
-          checked={value}
-          onCheckedChange={onChange}
-        />
+          name={name}
+          value={value}
+          onChange={onChange}
+          required={required}
+          className="w-full"
+        ></textarea>
       ) : (
         <Input
           type={type}

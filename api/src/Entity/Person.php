@@ -8,6 +8,8 @@ use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Controller\MainPictureController;
 use App\Controller\PersonCountController;
 use App\Filter\PersonSearchFilter;
@@ -25,11 +27,11 @@ use Symfony\Component\Serializer\Annotation\Groups;
     mercure: true,
     // Définir les groupes et contraintes sur les opérations spécifiques
     operations: [
-        new \ApiPlatform\Metadata\Post(
+        new Post(
             normalizationContext: ['groups' => ['person:read']],
             denormalizationContext: ['groups' => ['person:create']]
         ),
-        new \ApiPlatform\Metadata\Put(
+        new Put(
             normalizationContext: ['groups' => ['person:read']],
             denormalizationContext: ['groups' => ['person:update']]
         ),
@@ -125,6 +127,13 @@ class Person
     #[Groups(['person:read', 'person:create', 'person:update'])]
     private ?\DateTimeImmutable $updated_at = null;
 
+    /**
+     * @var Collection<int, Achievement>
+     */
+    #[ORM\OneToMany(mappedBy: 'person', targetEntity: Achievement::class)]
+    #[Groups(['person:read'])]
+    private Collection $achievements;
+
     public function __construct()
     {
         $this->personIdentityFields = new ArrayCollection();
@@ -134,6 +143,7 @@ class Person
         $this->personSchools = new ArrayCollection();
         $this->personCategories = new ArrayCollection();
         $this->personPictures = new ArrayCollection();
+        $this->achievements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -414,5 +424,35 @@ class Person
     public function setUpdatedAtValue(): void
     {
         $this->updated_at = new \DateTimeImmutable();
+    }
+
+    /**
+     * @return Collection<int, Achievement>
+     */
+    public function getAchievements(): Collection
+    {
+        return $this->achievements;
+    }
+
+    public function addAchievement(Achievement $achievement): static
+    {
+        if (!$this->achievements->contains($achievement)) {
+            $this->achievements->add($achievement);
+            $achievement->setPerson($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAchievement(Achievement $achievement): static
+    {
+        if ($this->achievements->removeElement($achievement)) {
+            // set the owning side to null (unless already changed)
+            if ($achievement->getPerson() === $this) {
+                $achievement->setPerson(null);
+            }
+        }
+
+        return $this;
     }
 }

@@ -136,9 +136,16 @@ export type PersonSocialStatus = {
   source: Source;
 };
 
+export type Achievement = {
+  id: number;
+  content: string;
+  person?: Person;
+  source: Source;
+}
+
 export type Person = {
   id: number;
-  name: "string";
+  name: string;
   romanizedName?: string;
   personCategories: string[];
   personIdentityFields: string[];
@@ -146,6 +153,7 @@ export type Person = {
   personRelatives: string[];
   personSchools: string[];
   personSocialStatuses: string[];
+  achievements: string[];
   created_at: Date;
   updated_at: Date;
 };
