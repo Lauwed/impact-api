@@ -118,11 +118,11 @@ class Person
     private Collection $personPictures;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
-    #[Groups(['person:read'])]
+    #[Groups(['person:read', 'person:create', 'person:update'])]
     private ?\DateTimeImmutable $created_at = null;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
-    #[Groups(['person:read'])]
+    #[Groups(['person:read', 'person:create', 'person:update'])]
     private ?\DateTimeImmutable $updated_at = null;
 
     public function __construct()
