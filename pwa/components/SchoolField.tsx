@@ -43,7 +43,7 @@ const SchoolField: FC<SchoolType> = ({ uri, actions = false }) => {
       </p>
 
       {user && actions ? (
-        <div className="">
+        <div className="min-w-fit w-fit">
           <Button onClick={() => setSchoolModalOpen(true)}>Edit</Button>
           <EditPersonSchoolModal
             school={data}
