@@ -23,6 +23,6 @@ jobs:
       - name: Restart docker
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/webapp/impact-api/ && docker compose -f compose.yaml -f compose.prod.yaml build --no-cache && docker compose down && docker compose -f compose.yaml -f compose.prod.yaml --env-file .env up --wait"
       - name: Generate JWT Keys
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/webapp/impact-api/ && docker compose exec php sh -c 'set -e ; apt-get install openssl ; php bin/console lexik:jwt:generate-keypair ; setfacl -R -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt; setfacl -dR -m u:www-data:rX -m u:"$(whoami)":rwX config/jwt'"
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/webapp/impact-api/ && docker compose exec php sh -c 'set -e ; apt-get install openssl ; php bin/console lexik:jwt:generate-keypair ; setfacl -R -m u:www-data:rX -m u:\"$(whoami)\":rwX config/jwt; setfacl -dR -m u:www-data:rX -m u:\"$(whoami)\":rwX config/jwt'"
       - name: Test if website is accessible
         run: curl -s -w "%{http_code}" https://impact.lauradurieux.dev
