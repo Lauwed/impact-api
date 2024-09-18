@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { TypeIdentityField } from "../../types";
+import { Response, TypeIdentityField } from "../../types";
 import Select from "../form/Select";
+import { useData } from "../utils/useData";
 
 const TypeIdentityFieldsSelector = ({
   value,
@@ -13,13 +14,13 @@ const TypeIdentityFieldsSelector = ({
 }) => {
   const [fields, setFields] = useState<TypeIdentityField[]>([]);
 
+  const { data, isLoading } = useData<Response<TypeIdentityField>>({url: "/type_identity_fields"});
+
   useEffect(() => {
-    (async () => {
-      const req = await fetch("/type_identity_fields");
-      const data = await req.json();
+    if (!isLoading && data) {
       setFields(data["hydra:member"]);
-    })();
-  }, []);
+    }
+  }, [data, isLoading]);
 
   return (
     <Select

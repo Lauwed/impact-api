@@ -8,6 +8,7 @@ import Modal from "../Modal";
 import SourcesSelector from "../selectors/SourcesSelector";
 import TypeSocialStatusesSelector from "../selectors/TypeSocialStatusesSelector";
 import AddSourceModal from "./AddSourceModal";
+import { toast } from "react-toastify";
 
 const EditPersonSocialStatusModal = ({
   modalOpen,
@@ -65,11 +66,14 @@ const EditPersonSocialStatusModal = ({
         const data = await response.json();
         console.info("Added successfully", data);
         setModalOpen(false);
+        toast.success("Updated successfully");
       } else {
         console.error("Request failed");
+        toast.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error:" + error);
     }
   };
 

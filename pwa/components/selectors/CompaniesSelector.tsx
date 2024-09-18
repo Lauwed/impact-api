@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { Company } from "../../types";
+import { Company, Response } from "../../types";
 import SearchableCombobox from "../SearchableDropdown";
 import { fetcher } from "../utils/fetcher";
+import { useData } from "../utils/useData";
 
 const CompaniesSelector = ({
   value,
@@ -14,9 +15,7 @@ const CompaniesSelector = ({
 }) => {
   const [fields, setFields] = useState<Company[]>([]);
 
-  const { data, isLoading } = useSWR("/companies", fetcher, {
-    revalidateOnFocus: true,
-  });
+  const { data, isLoading } = useData<Response<Company>>({ url: "/companies" });
 
   useEffect(() => {
     if (!isLoading && data) {

@@ -6,6 +6,7 @@ import { useAuth } from "./context/auth";
 import DeleteAchievementModal from "./modals/DeleteAchievementModal";
 import EditAchievementModal from "./modals/EditAchievementModal";
 import { fetcher } from "./utils/fetcher";
+import { useData } from "./utils/useData";
 
 type AchievementType = {
   uri: string;
@@ -20,7 +21,7 @@ const AchievementField: FC<AchievementType> = ({ uri, actions = false }) => {
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const { user } = useAuth();
 
-  const { data, isLoading, mutate } = useSWR<Achievement>(uri, fetcher);
+  const { data, isLoading, mutate } = useData<Achievement>({url: uri});
 
   if (isLoading || !data || isDeleted) return <></>;
   return (

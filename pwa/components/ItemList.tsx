@@ -1,5 +1,6 @@
 import { CirclePlus, Edit, Trash2 } from "lucide-react";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
 import Button from "./Button";
 import ColorPicker from "./ColorPicker";
@@ -47,8 +48,10 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
       mutate(url);
       setNewItemName(""); // Réinitialiser le champ de texte
       setNewItemColor("");
+      toast.success("Added successfully");
     } else {
       console.error("Erreur lors de l'ajout de l'élément");
+      toast.error("Request failed");
     }
   };
 
@@ -73,8 +76,10 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
       setEditItemId(null);
       setEditItemName(""); // Réinitialiser le champ de texte
       setEditItemColor(""); // Réinitialiser le champ de texte
+      toast.success("Updated successfully");
     } else {
       console.error("Erreur lors de la mise à jour de l'élément");
+      toast.error("Request failed");
     }
   };
 
@@ -89,8 +94,10 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
 
     if (response.ok) {
       mutate(url);
+      toast.success("Deleted successfully");
     } else {
       console.error("Erreur lors de la suppression de l'élément");
+      toast.error("Request failed");
     }
   };
 

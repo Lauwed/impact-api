@@ -6,6 +6,7 @@ import { useAuth } from "./context/auth";
 import DeletePersonSocialStatusModal from "./modals/DeletePersonSocialStatusModal";
 import EditPersonSocialStatusModal from "./modals/EditPersonSocialStatusModal";
 import { fetcher } from "./utils/fetcher";
+import { useData } from "./utils/useData";
 
 type SocialStatusNodeType = {
   uri: string;
@@ -23,7 +24,7 @@ const SocialStatusField: FC<SocialStatusNodeType> = ({
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const { user } = useAuth();
 
-  const { data, isLoading, mutate } = useSWR<PersonSocialStatus>(uri, fetcher);
+  const { data, isLoading, mutate } = useData<PersonSocialStatus>({ url: uri });
 
   if (isLoading || !data || isDeleted) return <></>;
   return (

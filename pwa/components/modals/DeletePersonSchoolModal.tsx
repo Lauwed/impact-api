@@ -4,6 +4,7 @@ import Button from "../Button";
 import Heading from "../common/Heading";
 import { useAuth } from "../context/auth";
 import Modal from "../Modal";
+import { toast } from "react-toastify";
 
 const DeletePersonSchoolModal = ({
   school,
@@ -31,11 +32,14 @@ const DeletePersonSchoolModal = ({
       if (response.ok) {
         if (onClose) onClose();
         setModalOpen(false);
+        toast.success("Deleted successfully");
       } else {
         console.error("Request failed");
+        toast.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error:" + error);
     }
   };
 

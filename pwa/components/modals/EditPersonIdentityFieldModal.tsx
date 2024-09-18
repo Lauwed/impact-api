@@ -9,6 +9,7 @@ import Modal from "../Modal";
 import SourcesSelector from "../selectors/SourcesSelector";
 import TypeIdentityFieldsSelector from "../selectors/TypeIdentityFieldsSelector";
 import AddSourceModal from "./AddSourceModal";
+import { toast } from "react-toastify";
 
 const EditPersonIdentityFieldModal = ({
   modalOpen,
@@ -63,12 +64,15 @@ const EditPersonIdentityFieldModal = ({
       if (response.ok) {
         const data = await response.json();
         console.info("Added successfully", data);
+        toast.success("Updated successfully");
         setModalOpen(false);
       } else {
         console.error("Request failed");
+        toast.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error:" + error);
     }
   };
 

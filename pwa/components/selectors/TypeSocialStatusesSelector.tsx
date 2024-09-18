@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { TypeSocialStatus } from "../../types";
+import { Response, TypeSocialStatus } from "../../types";
 import Select from "../form/Select";
+import { useData } from "../utils/useData";
 
 const TypeSocialStatusesSelector = ({
   value,
@@ -13,13 +14,13 @@ const TypeSocialStatusesSelector = ({
 }) => {
   const [fields, setFields] = useState<TypeSocialStatus[]>([]);
 
+  const { data, isLoading } = useData<Response<TypeSocialStatus>>({url: "/type_social_statuses"});
+
   useEffect(() => {
-    (async () => {
-      const req = await fetch("/type_social_statuses");
-      const data = await req.json();
+    if (!isLoading && data) {
       setFields(data["hydra:member"]);
-    })();
-  }, []);
+    }
+  }, [data, isLoading]);
 
   return (
     <Select

@@ -4,6 +4,7 @@ import Heading from "../common/Heading";
 import { useAuth } from "../context/auth";
 import FormControl from "../form/FormControl";
 import Modal from "../Modal";
+import { toast } from "react-toastify";
 
 const AddCompanyModal = ({
   modalOpen,
@@ -73,12 +74,15 @@ const AddCompanyModal = ({
         const data = await response.json();
         // Gestion du succès, redirection ou autre
         console.info("Added successfully", data);
+        toast.success("Added successfully");
         setModalOpen(false);
       } else {
         console.error("Request failed");
+        toast.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error:" + error);
     }
   };
 

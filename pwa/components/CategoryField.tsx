@@ -1,10 +1,9 @@
 import { FC, useState } from "react";
 
-
-import useSWR from "swr";
+import { PersonCategory } from "@/types";
 import { useAuth } from "./context/auth";
 import Tag from "./Tag";
-import { fetcher } from "./utils/fetcher";
+import { useData } from "./utils/useData";
 // import DeletePersonCategoryModal from "./modals/DeletePersonCategoryModal";
 
 type CategoryFieldType = {
@@ -16,7 +15,7 @@ const CategoryField: FC<CategoryFieldType> = ({ uri, actions = false }) => {
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const { user } = useAuth();
 
-  const { data, isLoading, mutate } = useSWR(uri, fetcher);
+  const { data, isLoading, mutate } = useData<PersonCategory>({ url: uri });
 
   if (isLoading || !data || isDeleted) return <></>;
   return (

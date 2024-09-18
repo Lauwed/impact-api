@@ -7,6 +7,7 @@ import { useAuth } from "./context/auth";
 import DeletePersonSchoolModal from "./modals/DeletePersonSchoolModal";
 import EditPersonSchoolModal from "./modals/EditPersonSchoolModal";
 import { fetcher } from "./utils/fetcher";
+import { useData } from "./utils/useData";
 
 type SchoolType = {
   uri: string;
@@ -20,7 +21,7 @@ const SchoolField: FC<SchoolType> = ({ uri, actions = false }) => {
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const { user } = useAuth();
 
-  const { data, isLoading, mutate } = useSWR<PersonSchool>(uri, fetcher);
+  const { data, isLoading, mutate } = useData<PersonSchool>({ url: uri });
 
   if (isLoading || !data || isDeleted) return <></>;
   return (

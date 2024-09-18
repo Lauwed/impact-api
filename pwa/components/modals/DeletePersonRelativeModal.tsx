@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { PersonRelative } from "../../types";
 import Button from "../Button";
 import Heading from "../common/Heading";
@@ -31,11 +32,14 @@ const DeletePersonRelativeModal = ({
       if (response.ok) {
         if (onClose) onClose();
         setModalOpen(false);
+        toast.success("Deleted successfully");
       } else {
         console.error("Request failed");
+        toast.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error:" + error);
     }
   };
 

@@ -6,6 +6,7 @@ import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import Modal from "../Modal";
 import TypeSourcesSelector from "../selectors/TypeSourcesSelector";
+import { toast } from "react-toastify";
 
 const AddSourceModal = ({
   modalOpen,
@@ -88,12 +89,15 @@ const AddSourceModal = ({
         const data = await response.json();
         // Gestion du succès, redirection ou autre
         console.info("Added successfully", data);
+        toast.success("Added successfully");
         setModalOpen(false);
       } else {
         console.error("Request failed");
+        toast.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error:" + error);
     }
   };
 

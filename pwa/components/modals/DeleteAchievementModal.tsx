@@ -1,3 +1,4 @@
+import { toast } from "react-toastify";
 import { Achievement } from "../../types";
 import Button from "../Button";
 import Heading from "../common/Heading";
@@ -30,11 +31,14 @@ const DeleteAchievementModal = ({
       if (response.ok) {
         if (onClose) onClose();
         setModalOpen(false);
+        toast.success("Deleted successfully");
       } else {
         console.error("Request failed");
+        toast.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error:" + error);
     }
   };
 

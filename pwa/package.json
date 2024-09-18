@@ -41,6 +41,7 @@
     "react-input-mask": "^2.0.4",
     "react-modal": "^3.16.1",
     "react-query": "^3.39.3",
+    "react-toastify": "^10.0.5",
     "swr": "^2.2.5",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7"

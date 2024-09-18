@@ -3,6 +3,8 @@ import type { DehydratedState } from "react-query";
 import Layout from "../components/common/Layout";
 import { AuthProvider } from "../components/context/auth";
 import "../styles/globals.css";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function MyApp({
   Component,
@@ -12,6 +14,7 @@ function MyApp({
     <AuthProvider>
       <Layout dehydratedState={pageProps.dehydratedState}>
         <Component {...pageProps} />
+        <ToastContainer />
       </Layout>
     </AuthProvider>
   );

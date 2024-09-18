@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import useSWR from "swr";
-import { Source } from "../../types";
+import { Response, Source } from "../../types";
 import SearchableCombobox from "../SearchableDropdown";
 import Tag from "../Tag";
 import { fetcher } from "../utils/fetcher";
+import { useData } from "../utils/useData";
 
 const SourcesSelector = ({
   value,
@@ -16,9 +17,7 @@ const SourcesSelector = ({
 }) => {
   const [fields, setFields] = useState<Source[]>([]);
 
-  const { data, isLoading } = useSWR("/sources", fetcher, {
-    revalidateOnFocus: true,
-  });
+  const { data, isLoading } = useData<Response<Source>>({url: "/sources"});
 
   useEffect(() => {
     if (!isLoading && data) {

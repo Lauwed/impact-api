@@ -6,6 +6,7 @@ import FormControl from "../form/FormControl";
 import Label from "../form/Label";
 import SourcesSelector from "../selectors/SourcesSelector";
 import AddSourceModal from "./AddSourceModal";
+import { toast } from "react-toastify";
 
 const EditMainPersonPicture = ({
   modalOpen,
@@ -91,12 +92,15 @@ const EditMainPersonPicture = ({
       if (response.ok) {
         const data = await response.json();
         console.info("Person added successfully", data);
+        toast.success("Updated successfully");
         setModalOpen(false);
       } else {
         console.error("Failed to add person");
+        toast.error("Request failed");
       }
     } catch (error) {
       console.error("Error:", error);
+      toast.error("Error:" + error);
     }
   };
 
