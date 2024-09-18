@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { TypeRelative } from "../../types";
+import { Response, TypeRelative } from "../../types";
 import Select from "../form/Select";
+import { useData } from "../utils/useData";
 
 const TypeRelativesSelector = ({
   value,
@@ -13,13 +14,13 @@ const TypeRelativesSelector = ({
 }) => {
   const [fields, setFields] = useState<TypeRelative[]>([]);
 
+  const { data, isLoading } = useData<Response<TypeRelative>>({url: "/type_relatives"});
+
   useEffect(() => {
-    (async () => {
-      const req = await fetch("/type_relatives");
-      const data = await req.json();
+    if (!isLoading && data) {
       setFields(data["hydra:member"]);
-    })();
-  }, []);
+    }
+  }, [data, isLoading]);
 
   return (
     <Select

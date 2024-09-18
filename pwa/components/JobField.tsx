@@ -7,6 +7,7 @@ import { useAuth } from "./context/auth";
 import DeletePersonJobModal from "./modals/DeletePersonJobModal";
 import EditPersonJobModal from "./modals/EditPersonJobModal";
 import { fetcher } from "./utils/fetcher";
+import { useData } from "./utils/useData";
 
 type JobType = {
   uri: string;
@@ -19,7 +20,7 @@ const JobField: FC<JobType> = ({ uri, actions = false }) => {
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const { user } = useAuth();
 
-  const { data, isLoading, mutate } = useSWR<PersonJob>(uri, fetcher);
+  const { data, isLoading, mutate } = useData<PersonJob>({ url: uri });
 
   if (isLoading || !data || isDeleted) return <></>;
   return (

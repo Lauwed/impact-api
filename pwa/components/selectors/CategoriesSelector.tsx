@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { Category } from "../../types";
+import { Category, Response } from "../../types";
 import Select from "../form/Select";
+import { useData } from "../utils/useData";
 
 const CategoriesSelector = ({
   value,
@@ -13,13 +14,13 @@ const CategoriesSelector = ({
 }) => {
   const [fields, setFields] = useState<Category[]>([]);
 
+  const { data, isLoading } = useData<Response<Category>>({ url: "/categories" });
+
   useEffect(() => {
-    (async () => {
-      const req = await fetch("/categories");
-      const data = await req.json();
+    if (!isLoading && data) {
       setFields(data["hydra:member"]);
-    })();
-  }, []);
+    }
+  }, [data, isLoading]);
 
   return (
     <Select

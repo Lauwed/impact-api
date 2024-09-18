@@ -16,6 +16,7 @@ import { Response, TypeIdentityField } from "@/types";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
+import { useData } from "./utils/useData";
 
 interface TypeIdentityFieldSelectorProps {
   value: number | null;
@@ -31,10 +32,9 @@ export function TypeIdentityFieldSelector({
   const [open, setOpen] = useState(false);
   const [selectedName, setSelectedName] = useState("");
 
-  const { data, error } = useSWR<Response<TypeIdentityField>>(
-    "/type_identity_fields",
-    fetcher
-  );
+  const { data, error } = useData<Response<TypeIdentityField>>({
+    url: "/type_identity_fields",
+  });
 
   useEffect(() => {
     if (data && value !== null) {

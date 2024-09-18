@@ -8,6 +8,7 @@ import { useAuth } from "./context/auth";
 import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
 import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
 import { fetcher } from "./utils/fetcher";
+import { useData } from "./utils/useData";
 // import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
 
 type RelativeFieldType = {
@@ -23,7 +24,7 @@ const RelativeField: FC<RelativeFieldType> = ({ uri, actions = false }) => {
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const { user } = useAuth();
 
-  const { data, isLoading, mutate } = useSWR<PersonRelative>(uri, fetcher);
+  const { data, isLoading, mutate } = useData<PersonRelative>({ url: uri });
 
   if (isLoading || !data || isDeleted) return <></>;
   return (

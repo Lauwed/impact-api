@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { TypeSource } from "../../types";
+import { Response, TypeSource } from "../../types";
 import Select from "../form/Select";
+import { useData } from "../utils/useData";
 
 const TypeSourcesSelector = ({
   value,
@@ -11,13 +12,13 @@ const TypeSourcesSelector = ({
 }) => {
   const [fields, setFields] = useState<TypeSource[]>([]);
 
+  const { data, isLoading } = useData<Response<TypeSource>>({url: "/type_sources"});
+
   useEffect(() => {
-    (async () => {
-      const req = await fetch("/type_sources");
-      const data = await req.json();
+    if (!isLoading && data) {
       setFields(data["hydra:member"]);
-    })();
-  }, []);
+    }
+  }, [data, isLoading]);
 
   return (
     <Select

@@ -1,8 +1,7 @@
 import { PersonIdentifyField, Response } from "@/types";
-import useSWR from "swr";
 import { EditableSection } from "./EditableSection";
 import { TypeIdentityFieldSelector } from "./TypeIdentityFieldSelector";
-import { fetcher } from "./utils/fetcher";
+import { useData } from "./utils/useData";
 
 const EditableIdentityFields = ({
   URIs,
@@ -11,12 +10,11 @@ const EditableIdentityFields = ({
   URIs: string[];
   onUpdate: () => void;
 }) => {
-  const { data, error, mutate } = useSWR<Response<PersonIdentifyField>>(
-    `/person_identity_fields?ids=${URIs.map((uri) => uri.split("/")[2]).join(
-      ","
-    )}`,
-    fetcher
-  );
+  const { data, error, mutate } = useData<Response<PersonIdentifyField>>({
+    url: `/person_identity_fields?ids=${URIs.map(
+      (uri) => uri.split("/")[2]
+    ).join(",")}`,
+  });
 
   if (error) return <div>Failed to load</div>;
   if (!data) return <div>Loading...</div>;

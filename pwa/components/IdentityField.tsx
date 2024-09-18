@@ -6,6 +6,7 @@ import { useAuth } from "./context/auth";
 import DeletePersonIdentityFieldModal from "./modals/DeletePersonIdentityFieldModal";
 import EditPersonIdentityFieldModal from "./modals/EditPersonIdentityFieldModal";
 import { fetcher } from "./utils/fetcher";
+import { useData } from "./utils/useData";
 
 type IdentityFieldNodeType = {
   uri: string;
@@ -20,7 +21,7 @@ const IdentityField: FC<IdentityFieldNodeType> = ({ uri, actions = false }) => {
   const [isDeleted, setIsDeleted] = useState<boolean>(false);
   const { user } = useAuth();
 
-  const { data, isLoading, mutate } = useSWR<PersonIdentifyField>(uri, fetcher);
+  const { data, isLoading, mutate } = useData<PersonIdentifyField>({ url: uri });
 
   if (isLoading || !data || isDeleted) return <></>;
   return (
