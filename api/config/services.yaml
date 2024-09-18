@@ -28,3 +28,7 @@ services:
 
     App\Serializer\PersonPictureSerializer:
         tags: [ 'serializer.normalizer' ]
+
+    App\Service\OpenAIService:
+        arguments:
+            $apiKey: '%env(OPENAI_API_KEY)%'

@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\BiographyGenerationController;
 use App\Controller\MainPictureController;
 use App\Controller\PersonCountController;
 use App\Filter\PersonSearchFilter;
@@ -30,6 +31,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Post(
             normalizationContext: ['groups' => ['person:read']],
             denormalizationContext: ['groups' => ['person:create']]
+        ),
+        new Post(
+            uriTemplate: '/people/{id}/generate-biography',
+            controller: BiographyGenerationController::class,
+            name: 'generate_biography',
+            normalizationContext: ['groups' => ['person:read']],
+            denormalizationContext: ['groups' => ['person:biography']],
+            security: "is_granted('ROLE_USER')",
+            securityMessage: "Only authorized users can generate biographies."
         ),
         new Put(
             normalizationContext: ['groups' => ['person:read']],
