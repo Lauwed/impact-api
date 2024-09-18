@@ -12,6 +12,8 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     padding: "50px",
     width: "50%",
+    height: "80%",
+    overflowY: "auto" as any
   },
 };
 

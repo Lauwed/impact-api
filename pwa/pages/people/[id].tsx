@@ -27,6 +27,8 @@ import IdentityField from "../../components/IdentityField";
 import AddPersonIdentityFieldModal from "../../components/modals/AddPersonIdentityFieldModal";
 import { fetcher } from "../../components/utils/fetcher";
 import { Person, ResponseSingle } from "../../types";
+import Link from "next/link";
+import BiographyGenerationModal from "@/components/modals/BiographyGenerationModal";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const router = useRouter();
@@ -34,6 +36,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const [identityFieldModalOpen, setIdentityFieldModalOpen] = useState(false);
   const [relativeModalOpen, setRelativeModalOpen] = useState(false);
   const [schoolModalOpen, setSchoolModalOpen] = useState(false);
+  const [biographyModalOpen, setBiographyModalOpen] = useState(false);
   const [jobModalOpen, setJobModalOpen] = useState(false);
   const [mainPictureModalOpen, setMainPictureModalOpen] = useState(false);
   const [identityFields, setIdentityFields] = useState<string[]>(
@@ -114,6 +117,24 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
 
   return (
     <Main>
+      <div className="flex justify-between mb-6">
+        <Link
+          className="p-2 border hover:bg-slate-300 transition-all"
+          href="/people"
+        >
+          Back to the list
+        </Link>
+        <Button onClick={() => setBiographyModalOpen(true)}>
+          Generate biography
+        </Button>
+
+        <BiographyGenerationModal
+          modalOpen={biographyModalOpen}
+          setModalOpen={setBiographyModalOpen}
+          personId={womanData.id}
+        />
+      </div>
+
       <div className="flex flex-col md:flex-row-reverse gap-10 mb-10">
         <Section customClass="flex-1">
           <div className="flex items-start gap-8">

@@ -40,7 +40,7 @@ class BiographyGenerationController extends AbstractController
         $biography = $this->openAIService->getResponse($prompt);
 
         // Retourner la biographie générée en réponse JSON
-        return new JsonResponse(['biography' => $biography]);
+        return new JsonResponse(['biography' => $biography, 'prompt' => $prompt]);
     }
 
     private function createPrompt(Person $person): string

@@ -6,7 +6,7 @@
     a {
         text-decoration: underline;
     }
-  :root {
+    :root {
         --background: 0 0% 100%;
         --foreground: 240 10% 3.9%;
         --card: 0 0% 100%;
@@ -33,7 +33,7 @@
         --chart-5: 27 87% 67%;
         --radius: 0.5rem;
     }
-  .dark {
+    .dark {
         --background: 240 10% 3.9%;
         --foreground: 0 0% 98%;
         --card: 240 10% 3.9%;
@@ -62,14 +62,44 @@
 }
 
 @layer utilities {
-    
 }
 
 @layer base {
-  * {
-    @apply border-border;
+    * {
+        @apply border-border;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
     }
+}
+
+.biography-article h1,
+.biography-article h2,
+.biography-article h3,
+.biography-article h4,
+.biography-article h5,
+.biography-article h6 {
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+.biography-article h1 {
+  font-size: 2rem;
+}
+.biography-article h2 {
+  font-size: 1.75rem;
+}
+.biography-article h3 {
+  font-size: 1.5rem;
+}
+.biography-article h4 {
+  font-size: 1.25rem;
+}
+
+.biography-article p + h1,
+.biography-article p + h2,
+.biography-article p + h3,
+.biography-article p + h4,
+.biography-article p + h5,
+.biography-article p + h6 {
+  margin-top: 20px;
 }

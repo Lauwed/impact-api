@@ -2,6 +2,7 @@
 
 namespace App\Service;
 
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 
 class OpenAIService
@@ -10,13 +11,16 @@ class OpenAIService
     private string $apiKey;
 
 
-    public function __construct(HttpClientInterface $httpClient, string $apiKey)
-    {
+    public function __construct(
+        HttpClientInterface $httpClient,
+        #[Autowire(env: 'OPENAI_API_KEY')]
+        string $apiKey
+    ) {
         $this->httpClient = $httpClient;
         $this->apiKey = $apiKey;
     }
 
-    public function getResponse(string $prompt): string
+    public function getResponse(string $prompt, float $temperature = 0.2, int $maxTokens = 2048): string
     {
         $response = $this->httpClient->request('POST', 'https://api.openai.com/v1/chat/completions', [
             'headers' => [
@@ -24,10 +28,12 @@ class OpenAIService
                 'Content-Type' => 'application/json',
             ],
             'json' => [
-                'model' => 'gpt-3.5-turbo',
+                'model' => 'gpt-4o-mini',
                 'messages' => [
-                    ['role' => 'user', 'content' => $prompt],
-                ],
+                        ['role' => 'user', 'content' => $prompt],
+                    ],
+                "temperature" => $temperature,
+                "max_tokens" => $maxTokens,
             ],
         ]);
 
