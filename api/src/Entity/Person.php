@@ -27,7 +27,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     normalizationContext: ['groups' => ['person:read']],
-    inputFormats: ['json' => ['application/json']],
     mercure: true,
     // Définir les groupes et contraintes sur les opérations spécifiques
     operations: [

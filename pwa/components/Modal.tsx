@@ -43,7 +43,7 @@ const Modal = ({
       contentLabel="Example Modal"
     >
       <Button customStyle="block w-fit ml-auto mb-4" onClick={closeModal}>
-        close
+        Close
       </Button>
 
       {children}

@@ -29,6 +29,7 @@ import { fetcher } from "../../components/utils/fetcher";
 import { Person, ResponseSingle } from "../../types";
 import Link from "next/link";
 import BiographyGenerationModal from "@/components/modals/BiographyGenerationModal";
+import Head from "next/head";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const router = useRouter();
@@ -117,6 +118,12 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
 
   return (
     <Main>
+      <Head>
+        <title>IMPACT project</title>
+        <meta property="og:title" content="IMPACT project" key="title" />
+      </Head>
+
+
       <div className="flex justify-between mb-6">
         <Link
           className="p-2 border hover:bg-slate-300 transition-all"

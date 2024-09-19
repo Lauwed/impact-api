@@ -39,7 +39,7 @@ const BiographyGenerationModal: React.FC<{
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "application/ld+json",
             Authorization: `Bearer ${user?.token}`,
           },
           body: JSON.stringify(openAIParams),
