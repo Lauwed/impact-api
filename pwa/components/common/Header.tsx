@@ -11,6 +11,7 @@ import { fetcher } from "../utils/fetcher";
 
 // import logo from "../public/logo.png";
 import Image from "next/image";
+import Button from "../Button";
 
 export default () => {
   const { user } = useAuth();
@@ -21,6 +22,8 @@ export default () => {
 
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+
+  const [menuOpen, toggleMenuOpen] = useState<boolean>(false);
 
   // SWR hook for fetching search results
   const { data: searchResults, error } = useSWR<ResponseMany<Person>>(
@@ -67,6 +70,10 @@ export default () => {
     setIsDropdownOpen(false);
   };
 
+  const handleClickMenu = () => {
+    toggleMenuOpen(!menuOpen);
+  };
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
@@ -80,24 +87,6 @@ export default () => {
               alt="Logo of IMPACT"
             />
           </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            <Link href="/people">People</Link>
-            {user ? <Link href="/people/create">Add a person</Link> : <></>}
-            {/* <Link href="/categories">Categories</Link> */}
-            {/* <Link href="/about">About</Link> */}
-            {/* <Link href="/contribute">Contribute</Link> */}
-          </nav>
-
-          {user && user.roles.includes("ROLE_ADMIN") ? (
-            <Link
-              className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all ml-4"
-              href="/admin"
-            >
-              Admin
-            </Link>
-          ) : (
-            <></>
-          )}
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end mr-4">
           <div className="w-full flex-1 md:w-auto md:flex-none">
@@ -138,19 +127,61 @@ export default () => {
           </div>
         </div>
 
-        {user ? (
-          <div className="flex items-center gap-2">
-            <p>{user.username}</p>
-            <LogoutButton />
-          </div>
-        ) : (
-          <Link
-            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all"
-            href="/login"
-          >
-            Login
-          </Link>
-        )}
+        <nav className="">
+          <Button onClick={handleClickMenu} customStyle="z-[100]">
+            {menuOpen ? "Close menu" : "Open menu"}
+          </Button>
+
+          <ul className="flex flex-col justify-center bg-white gap-6 p-6 text-sm font-medium fixed top-0 left-0 w-full h-screen z-10">
+            <li>
+              <Link className="border p-8" href="/people">People</Link>
+            </li>
+            {user ? (
+              <li>
+                <Link className="border p-8" href="/people/create">Add a person</Link>
+              </li>
+            ) : (
+              <></>
+            )}
+            {/* <Link href="/categories">Categories</Link> */}
+            {/* <Link href="/about">About</Link> */}
+            {/* <Link href="/contribute">Contribute</Link> */}
+
+            {user && user.roles.includes("ROLE_ADMIN") ? (
+              <li>
+                <Button customStyle="border p-8" linkPath="/admin">Admin</Button>
+              </li>
+            ) : (
+              <></>
+            )}
+
+            <li className="border p-8">
+              {user ? (
+                <div className="flex items-center gap-2">
+                  <svg
+                    className="w-6 h-6"
+                    viewBox="0 0 1206 1206"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M1205.33 602.667c0 190.973-88.82 361.2-227.423 471.613-102.947 82.04-233.374 131.05-375.24 131.05-141.867 0-272.294-49.01-375.24-131.05C88.827 963.867 0 793.64 0 602.667 0 269.827 269.827 0 602.667 0c332.84 0 602.663 269.827 602.663 602.667Z"
+                      fill="#CAD5D5"
+                    />
+                    <path
+                      d="M837 489.495C837 641.279 732.08 692 602.667 692c-129.414 0-234.334-50.721-234.334-202.505 0-151.783 104.92-274.828 234.334-274.828C732.08 214.667 837 337.712 837 489.495ZM977.907 1074.28c-102.947 82.04-233.374 131.05-375.24 131.05-141.867 0-272.294-49.01-375.24-131.05 0-196.947 198.293-278.28 375.24-278.28 176.946 0 375.24 102.667 375.24 278.28Z"
+                      fill="#A1B0B1"
+                    />
+                  </svg>
+                  <p>{user.username}</p>
+                  <LogoutButton />
+                </div>
+              ) : (
+                <Button linkPath="/login">Login</Button>
+              )}
+            </li>
+          </ul>
+        </nav>
       </div>
     </header>
   );

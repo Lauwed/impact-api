@@ -12,7 +12,7 @@ const PersonItem = ({ woman }: { woman: Person }) => {
         <></>
       )}
       {woman.personCategories.length > 0 ? (
-        <ul className="flex gap-2 mb-2">
+        <ul className="flex flex-wrap gap-2 mb-2">
           {woman.personCategories.map((category, index) => (
             <li key={index}>
               <CategoryField uri={category} />
