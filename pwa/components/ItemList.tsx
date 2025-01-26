@@ -1,4 +1,3 @@
-import { CirclePlus, Edit, Trash2 } from "lucide-react";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import useSWR, { mutate } from "swr";
@@ -7,6 +6,7 @@ import ColorPicker from "./ColorPicker";
 import { useAuth } from "./context/auth";
 import Input from "./form/Input";
 import Loading from "./Loading";
+import { Pencil1Icon, PlusCircledIcon, TrashIcon } from "@radix-ui/react-icons";
 
 // Définition du type pour les éléments
 interface Item {
@@ -147,7 +147,7 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
           <></>
         )}
         <Button type="submit">
-          {editItemId !== null ? <Edit /> : <CirclePlus />}
+          {editItemId !== null ? <Pencil1Icon /> : <PlusCircledIcon />}
           <span className="sr-only">
             {editItemId !== null ? "Save" : "Add"}
           </span>
@@ -175,11 +175,11 @@ const ItemsList: React.FC<{ url: string }> = ({ url }) => {
               }}
               customStyle="ml-2"
             >
-              <Edit />
+              <Pencil1Icon />
               <span className="sr-only">Edit</span>
             </Button>
             <Button onClick={() => deleteItem(item.id)}>
-              <Trash2 />
+              <TrashIcon />
               <span className="sr-only">Delete</span>
             </Button>
           </li>

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { Response, Source } from "../../types";
 import SearchableCombobox from "../SearchableDropdown";
-import Tag from "../Tag";
+// import Tag from "../Tag";
 import { fetcher } from "../utils/fetcher";
 import { useData } from "../utils/useData";
 
@@ -34,20 +34,20 @@ const SourcesSelector = ({
           <div>
             <div className="flex gap-2 items-center">
               <p>{field.name}</p>
-              <Tag label={field.typeSource.name} />
+              {/* <Tag label={field.typeSource.name} /> */}
             </div>
             {field.isDigital || field.isVerified ? (
               <ul>
                 {field.isDigital ? (
                   <li>
-                    <Tag label="Digital" />
+                    {/* <Tag label="Digital" /> */}
                   </li>
                 ) : (
                   <></>
                 )}
                 {field.isVerified ? (
                   <li>
-                    <Tag label="Verified" />
+                    {/* <Tag label="Verified" /> */}
                   </li>
                 ) : (
                   <></>

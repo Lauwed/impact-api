@@ -3,7 +3,16 @@ import Heading from "@/components/common/Heading";
 import Main from "@/components/common/Main";
 import Loading from "@/components/Loading";
 import PersonItem from "@/components/PersonItem";
-import Tag from "@/components/Tag";
+import { Card } from "@/components/ui/card";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { fetcher } from "@/components/utils/fetcher";
 import { Category, Person, Response } from "@/types";
 import { useRouter } from "next/router";
@@ -16,13 +25,11 @@ export default function PeoplePage() {
   const [activePage, setActivePage] = useState<number>(
     router.query.page ? parseInt(router.query.page as string) : 1
   );
-  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
-    new Set()
-  );
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
 
   const { data, error, mutate } = useSWR<Response<Person>>(
     `/people?page=${activePage}${
-      selectedCategories.size > 0
+      selectedCategories.length > 0
         ? `&personCategories=${Array.from(selectedCategories).join(",")}`
         : ""
     }&order[name]=asc`,
@@ -45,11 +52,11 @@ export default function PeoplePage() {
 
   const handleCategoryClick = (name: string) => {
     setSelectedCategories((prevSelectedCategories) => {
-      const newSelectedCategories = new Set(prevSelectedCategories);
-      if (newSelectedCategories.has(name)) {
-        newSelectedCategories.delete(name);
+      const newSelectedCategories = [...prevSelectedCategories];
+      if (newSelectedCategories.includes(name)) {
+        newSelectedCategories.filter((cat) => cat !== name);
       } else {
-        newSelectedCategories.add(name);
+        newSelectedCategories.push(name);
       }
       return newSelectedCategories;
     });
@@ -57,24 +64,31 @@ export default function PeoplePage() {
 
   return (
     <Main>
-      <Heading>List of People</Heading>
+      <Heading customStyle="mb-6">List of People</Heading>
 
       {/* Category filters */}
       {categories && !categoriesError ? (
-        <ul className="flex flex-wrap gap-2 mb-8">
-          {categories["hydra:member"].map((category, index) => (
-            <Tag
-              key={`filter-${index}`}
-              label={category.name}
-              onClick={() => handleCategoryClick(category.name)}
-              color={
-                selectedCategories.has(category.name)
-                  ? category.color
-                  : "#E2E8F0"
-              }
-            />
-          ))}
-        </ul>
+        <Card className="mb-8 shadow-none p-2">
+          <ToggleGroup
+            type="multiple"
+            onValueChange={(value: any) => {
+              setSelectedCategories(value);
+            }}
+            value={selectedCategories}
+            className="flex-wrap"
+          >
+            {categories["hydra:member"].map((category, index) => (
+              <ToggleGroupItem
+                key={index}
+                value={category.name}
+                aria-label="Toggle bold"
+                className="data-[state=on]:bg-slate-200"
+              >
+                {category.name}
+              </ToggleGroupItem>
+            ))}
+          </ToggleGroup>
+        </Card>
       ) : (
         <></>
       )}
@@ -89,23 +103,40 @@ export default function PeoplePage() {
       </ul>
 
       {/* Pagination */}
-      <div className="flex justify-center mt-6">
-        {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-          (pageNumber) => (
-            <button
-              key={pageNumber}
-              onClick={() => handlePageChange(pageNumber)}
-              className={`px-4 py-2 mx-1 ${
-                pageNumber === activePage
-                  ? "bg-blue-500 text-white"
-                  : "bg-gray-300"
-              }`}
-            >
-              {pageNumber}
-            </button>
-          )
-        )}
-      </div>
+      <Pagination className="flex justify-center mt-6">
+        <PaginationContent>
+          {activePage > 1 ? (
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => handlePageChange(activePage - 1)}
+              />
+            </PaginationItem>
+          ) : (
+            <></>
+          )}
+          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+            (pageNumber) => (
+              <PaginationItem key={pageNumber}>
+                <PaginationLink
+                  onClick={() => handlePageChange(pageNumber)}
+                  isActive={pageNumber === activePage}
+                >
+                  {pageNumber}
+                </PaginationLink>
+              </PaginationItem>
+            )
+          )}
+          {activePage < totalPages ? (
+            <PaginationItem>
+              <PaginationNext
+                onClick={() => handlePageChange(activePage + 1)}
+              />
+            </PaginationItem>
+          ) : (
+            <></>
+          )}
+        </PaginationContent>
+      </Pagination>
     </Main>
   );
 }

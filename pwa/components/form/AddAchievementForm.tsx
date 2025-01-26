@@ -1,4 +1,3 @@
-import { CirclePlus } from "lucide-react";
 import { useState } from "react";
 import Button from "../Button";
 import { useAuth } from "../context/auth";
@@ -7,6 +6,7 @@ import SourcesSelector from "../selectors/SourcesSelector";
 import FormControl from "./FormControl";
 import Label from "./Label";
 import { toast } from "react-toastify";
+import { PlusCircledIcon } from "@radix-ui/react-icons";
 
 const AddAchievementForm = ({
   personId,
@@ -102,7 +102,7 @@ const AddAchievementForm = ({
         </div>
 
         <Button type="submit">
-          <CirclePlus />
+          <PlusCircledIcon />
           <span className="sr-only">Add achievement</span>
         </Button>
       </form>

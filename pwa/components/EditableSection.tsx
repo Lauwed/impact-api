@@ -7,9 +7,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Check, Pencil, PlusCircle, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { TypeIdentityFieldSelector } from "./TypeIdentityFieldSelector";
+import { CheckIcon, CrossCircledIcon, Pencil1Icon, PlusCircledIcon } from "@radix-ui/react-icons";
 
 interface Item {
   id?: number;
@@ -149,14 +149,14 @@ export function EditableSection({
                   placeholder="Value"
                 />
                 <Button size="icon" onClick={() => handleSave(index)}>
-                  <Check className="h-4 w-4" />
+                  <CheckIcon className="h-4 w-4" />
                 </Button>
                 <Button
                   size="icon"
                   variant="outline"
                   onClick={() => handleCancel(index)}
                 >
-                  <X className="h-4 w-4" />
+                  <CrossCircledIcon className="h-4 w-4" />
                 </Button>
               </>
             ) : (
@@ -168,7 +168,7 @@ export function EditableSection({
                   variant="ghost"
                   onClick={() => handleEdit(index)}
                 >
-                  <Pencil className="h-4 w-4" />
+                  <Pencil1Icon className="h-4 w-4" />
                 </Button>
               </>
             )}
@@ -184,7 +184,7 @@ export function EditableSection({
           className="flex-grow"
         />
         <Button onClick={handleAddNew}>
-          <PlusCircle className="h-4 w-4 mr-2" />
+          <PlusCircledIcon className="h-4 w-4 mr-2" />
           Add
         </Button>
       </div>

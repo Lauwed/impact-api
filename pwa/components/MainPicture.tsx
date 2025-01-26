@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Camera } from "lucide-react";
+import { CameraIcon } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -58,7 +58,7 @@ export function MainPicture({
             className="absolute top-2 right-2 bg-white text-black hover:bg-gray-100"
             size="icon"
           >
-            <Camera className="h-4 w-4" />
+            <CameraIcon className="h-4 w-4" />
           </Button>
         </DialogTrigger>
         <DialogContent className="sm:max-w-[425px]" aria-describedby="">

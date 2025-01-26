@@ -12,7 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 import { ReactNode, useEffect, useState } from "react";
 
 const SearchableCombobox = ({
@@ -50,7 +50,7 @@ const SearchableCombobox = ({
           {label !== ""
             ? items.find((item) => item.label == label)?.label
             : "Select item..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
@@ -75,7 +75,7 @@ const SearchableCombobox = ({
                 }}
                 value={`${item.label}`}
               >
-                <Check
+                <CheckIcon
                   className={cn(
                     "mr-2 h-4 w-4",
                     label === item.label ? "opacity-100" : "opacity-0"
