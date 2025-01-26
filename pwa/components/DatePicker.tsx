@@ -1,5 +1,4 @@
 import { format, isValid, parse } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
@@ -11,6 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import Input from "./form/Input";
+import { CalendarIcon } from "@radix-ui/react-icons";
 
 export function DatePicker({
   date,

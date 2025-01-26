@@ -10,26 +10,38 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\BiographyGenerationController;
 use App\Controller\MainPictureController;
 use App\Controller\PersonCountController;
 use App\Filter\PersonSearchFilter;
 use App\Repository\PersonRepository;
+use App\State\PersonBiographyProcessor;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: PersonRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     normalizationContext: ['groups' => ['person:read']],
     outputFormats: ['jsonld' => ['application/ld+json']],
+    inputFormats: ['json' => ['application/ld+json']],
     mercure: true,
     // Définir les groupes et contraintes sur les opérations spécifiques
     operations: [
         new Post(
             normalizationContext: ['groups' => ['person:read']],
             denormalizationContext: ['groups' => ['person:create']]
+        ),
+        new Post(
+            uriTemplate: '/people/{id}/generate-biography',
+            normalizationContext: ['groups' => ['person:read']],
+            processor: PersonBiographyProcessor::class,
+            security: "is_granted('ROLE_USER')",
+            securityMessage: "Only authorized users can generate biographies."
         ),
         new Put(
             normalizationContext: ['groups' => ['person:read']],
@@ -64,11 +76,28 @@ class Person
 
     #[ORM\Column(length: 255)]
     #[Groups(['person:read', 'person:create', 'person:update'])]
+    #[Assert\NotNull]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['person:read', 'person:create', 'person:update'])]
     private ?string $romanizedName = null;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['person:read'])]
+    private ?string $biography = null;
+
+    // Ce champ ne sera pas persisté dans la base de données
+    #[Groups(['person:read'])]
+    private ?string $generatedPrompt = null;
+
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Groups(['person:read', 'person:create', 'person:update'])]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
+    #[Groups(['person:read', 'person:create', 'person:update'])]
+    private ?\DateTimeImmutable $updated_at = null;
 
     /**
      * @var Collection<int, PersonIdentityField>
@@ -118,14 +147,6 @@ class Person
     #[ORM\OneToMany(mappedBy: 'person', targetEntity: PersonPicture::class)]
     #[Groups(['person:read'])]
     private Collection $personPictures;
-
-    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
-    #[Groups(['person:read', 'person:create', 'person:update'])]
-    private ?\DateTimeImmutable $created_at = null;
-
-    #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]
-    #[Groups(['person:read', 'person:create', 'person:update'])]
-    private ?\DateTimeImmutable $updated_at = null;
 
     /**
      * @var Collection<int, Achievement>
@@ -452,6 +473,30 @@ class Person
                 $achievement->setPerson(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getBiography(): ?string
+    {
+        return $this->biography;
+    }
+
+    public function setBiography(?string $biography): static
+    {
+        $this->biography = $biography;
+
+        return $this;
+    }
+
+    public function getGeneratedPrompt(): ?string
+    {
+        return $this->generatedPrompt;
+    }
+
+    public function setGeneratedPrompt(?string $generatedPrompt): self
+    {
+        $this->generatedPrompt = $generatedPrompt;
 
         return $this;
     }

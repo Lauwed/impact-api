@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import Tag from "./Tag";
+// import Tag from "./Tag";
 
 export type headingLevel = "h1" | "h2" | "h3" | "h4" | "h5";
 
@@ -17,10 +18,10 @@ const Heading: React.FC<HeadingType> = ({
   customStyle = "",
 }) => {
   const styles = {
-    h1: "text-5xl font-black mb-4",
-    h2: "text-3xl font-bold mb-4",
-    h3: "text-xl font-bold mb-2",
-    h4: "font-bold mb-2",
+    h1: "text-5xl font-black",
+    h2: "text-3xl font-bold",
+    h3: "text-xl font-bold",
+    h4: "font-bold",
     h5: "",
   };
 

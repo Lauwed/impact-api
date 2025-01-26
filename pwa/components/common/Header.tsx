@@ -1,20 +1,17 @@
 import { Person, Response as ResponseMany } from "@/types";
-import { Search } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import useSWR from "swr";
-import LogoutButton from "../auth/LogoutButton";
-import { useAuth } from "../context/auth";
 import { Input } from "../ui/input";
 import { fetcher } from "../utils/fetcher";
 
 // import logo from "../public/logo.png";
 import Image from "next/image";
+import Nav from "./Nav";
+import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
 export default () => {
-  const { user } = useAuth();
-
   const [searchQuery, setSearchQuery] = useState<string>("");
   const router = useRouter();
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -69,40 +66,20 @@ export default () => {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-14 items-center">
-        <div className="mr-4 hidden md:flex">
-          <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Image
-              className="w-40 h-8 object-contain"
-              src="/logo.png"
-              width={200}
-              height={200}
-              alt="Logo of IMPACT"
-            />
-          </Link>
-          <nav className="flex items-center space-x-6 text-sm font-medium">
-            <Link href="/people">People</Link>
-            {user ? <Link href="/people/create">Add a person</Link> : <></>}
-            {/* <Link href="/categories">Categories</Link> */}
-            {/* <Link href="/about">About</Link> */}
-            {/* <Link href="/contribute">Contribute</Link> */}
-          </nav>
-
-          {user && user.roles.includes("ROLE_ADMIN") ? (
-            <Link
-              className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all ml-4"
-              href="/admin"
-            >
-              Admin
-            </Link>
-          ) : (
-            <></>
-          )}
-        </div>
-        <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end mr-4">
+      <div className="px-2 md:px-0 md:container flex gap-2 h-14 items-center">
+        <Link href="/" className="flex items-center">
+          <Image
+            className="w-20 h-8 object-contain"
+            src="/logo.png"
+            width={200}
+            height={200}
+            alt="Logo of IMPACT"
+          />
+        </Link>
+        <div className="flex flex-1 items-center justify-between gap-2 md:justify-end">
           <div className="w-full flex-1 md:w-auto md:flex-none">
             <div className="relative" ref={dropdownRef}>
-              <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+              <MagnifyingGlassIcon className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
                 ref={searchInputRef}
                 type="search"
@@ -138,19 +115,7 @@ export default () => {
           </div>
         </div>
 
-        {user ? (
-          <div className="flex items-center gap-2">
-            <p>{user.username}</p>
-            <LogoutButton />
-          </div>
-        ) : (
-          <Link
-            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all"
-            href="/login"
-          >
-            Login
-          </Link>
-        )}
+        <Nav />
       </div>
     </header>
   );

@@ -3,7 +3,7 @@ import { PersonRelative } from "../types";
 import Button from "./Button";
 // import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
 import useSWR from "swr";
-import Tag from "./Tag";
+// import Tag from "./Tag";
 import { useAuth } from "./context/auth";
 import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
 import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
@@ -31,7 +31,7 @@ const RelativeField: FC<RelativeFieldType> = ({ uri, actions = false }) => {
     <div className="flex gap-2 justify-between items-center">
       <p>
         <strong>{data.typeRelative.name}</strong>: {data.name}{" "}
-        {data.biological ? <Tag label="Biological relative" /> : <></>}
+        {/* {data.biological ? <Tag label="Biological relative" /> : <></>} */}
       </p>
 
       {user && actions ? (

@@ -12,6 +12,8 @@ const customStyles = {
     transform: "translate(-50%, -50%)",
     padding: "50px",
     width: "50%",
+    height: "80%",
+    overflowY: "auto" as any
   },
 };
 
@@ -41,7 +43,7 @@ const Modal = ({
       contentLabel="Example Modal"
     >
       <Button customStyle="block w-fit ml-auto mb-4" onClick={closeModal}>
-        close
+        Close
       </Button>
 
       {children}

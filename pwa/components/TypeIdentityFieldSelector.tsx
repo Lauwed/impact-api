@@ -13,10 +13,10 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Response, TypeIdentityField } from "@/types";
-import { Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
 import { useData } from "./utils/useData";
+import { CaretSortIcon, CheckIcon } from "@radix-ui/react-icons";
 
 interface TypeIdentityFieldSelectorProps {
   value: number | null;
@@ -59,7 +59,7 @@ export function TypeIdentityFieldSelector({
           className="w-full justify-between"
         >
           {selectedName || "Select type..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+          <CaretSortIcon className="ml-2 h-4 w-4 shrink-0 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[200px] p-0">
@@ -76,7 +76,7 @@ export function TypeIdentityFieldSelector({
                   setOpen(false);
                 }}
               >
-                <Check
+                <CheckIcon
                   className={cn(
                     "mr-2 h-4 w-4",
                     value === item.id ? "opacity-100" : "opacity-0"

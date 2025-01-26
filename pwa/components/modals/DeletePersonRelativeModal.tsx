@@ -4,7 +4,7 @@ import Button from "../Button";
 import Heading from "../common/Heading";
 import { useAuth } from "../context/auth";
 import Modal from "../Modal";
-import Tag from "../Tag";
+// import Tag from "../Tag";
 
 const DeletePersonRelativeModal = ({
   relative,
@@ -53,7 +53,7 @@ const DeletePersonRelativeModal = ({
         {relative.biological ? (
           <>
             {" "}
-            - <Tag label="Biological relative" />
+            {/* - <Tag label="Biological relative" /> */}
           </>
         ) : (
           <></>

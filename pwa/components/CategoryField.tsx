@@ -2,8 +2,9 @@ import { FC, useState } from "react";
 
 import { PersonCategory } from "@/types";
 import { useAuth } from "./context/auth";
-import Tag from "./Tag";
+// import Tag from "./Tag";
 import { useData } from "./utils/useData";
+import { Badge } from "./ui/badge";
 // import DeletePersonCategoryModal from "./modals/DeletePersonCategoryModal";
 
 type CategoryFieldType = {
@@ -19,13 +20,19 @@ const CategoryField: FC<CategoryFieldType> = ({ uri, actions = false }) => {
 
   if (isLoading || !data || isDeleted) return <></>;
   return (
-    <Tag
-      label={data.category.name}
-      color={data.category.color}
-      deleteAction={actions && user ? true : false}
-      deleteURI={uri}
-      onDelete={() => setIsDeleted(true)}
-    />
+    // <Tag
+    //   label={data.category.name}
+    //   color={data.category.color}
+    //   deleteAction={actions && user ? true : false}
+    //   deleteURI={uri}
+    //   onDelete={() => setIsDeleted(true)}
+    // />
+    <Badge
+      className={`text-black`}
+      style={{ backgroundColor: data.category.color }}
+    >
+      {data.category.name}
+    </Badge>
   );
 };
 

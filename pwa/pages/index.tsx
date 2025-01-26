@@ -1,7 +1,7 @@
-import CounterAnimation from "@/components/CounterAnimation";
 import PersonItem from "@/components/PersonItem";
+import ContributeCard from "@/components/cards/Contribute";
+import WomenNumberCard from "@/components/cards/WomenNumber";
 import Kbd from "@/components/common/Kbd";
-import { BookType, Github } from "lucide-react";
 import { GetServerSideProps } from "next";
 import Head from "next/head";
 import Image from "next/image";
@@ -23,9 +23,9 @@ const Welcome = ({
         <title>IMPACT project</title>
         <meta property="og:title" content="IMPACT project" key="title" />
       </Head>
-      <Section>
-        <Heading>Welcome to IMPACT</Heading>
-        <div className="flex flex-col md:flex-row gap-6 md:gap-20">
+      <Section customClass="mb-12">
+        <Heading customStyle="text-center mb-8">Welcome to IMPACT</Heading>
+        <div className="flex flex-col items-center md:flex-row gap-6 md:gap-20">
           <Image
             className="object-contain"
             src="/logo.png"
@@ -45,42 +45,15 @@ const Welcome = ({
             create biographies and other content
           </p>
         </div>
-      </Section>
 
-      <Section customClass="flex flex-col items-center">
-        <Heading level="h2" customStyle="mb-0">
-          Number of women
-        </Heading>
-        <p>Encoded at the moment</p>
-        <CounterAnimation target={count} />
-      </Section>
-
-      <Section customClass="flex flex-col items-center gap-2">
-        <Heading level="h2" customStyle="mb-0">
-          Want to contribute ?
-        </Heading>
-        <p className="text-center max-w-[500px]">
-          You can contribute to the project either by submitting PRs to the
-          Github repository, or by helping me completing the women&nbsp;profiles
-        </p>
-        <div className="flex gap-4">
-          <a
-            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all flex gap-2 items-center"
-            href="https://github.com/Lauwed/impact-api"
-          >
-            <Github /> Github
-          </a>
-          <a
-            className="text-sm font-medium p-2 border hover:bg-slate-300 transition-all flex gap-2 items-center"
-            href="https://tally.so/r/waEAXW"
-          >
-            <BookType /> Register to the alpha
-          </a>
+        <div className="mt-8 flex flex-col gap-6 md:flex-row md:justify-center md:gap-12">
+          <WomenNumberCard count={count} />
+          <ContributeCard />
         </div>
       </Section>
 
       <Section>
-        <Heading level="h2">Women</Heading>
+        <Heading level="h2" customStyle="mb-6">Women</Heading>
 
         <ul className="flex flex-col gap-6">
           {repo["hydra:member"].map((woman: Person, i) => (
