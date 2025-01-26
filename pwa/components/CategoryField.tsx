@@ -4,7 +4,6 @@ import { PersonCategory } from "@/types";
 import { useAuth } from "./context/auth";
 // import Tag from "./Tag";
 import { useData } from "./utils/useData";
-import { Badge } from "./ui/badge";
 // import DeletePersonCategoryModal from "./modals/DeletePersonCategoryModal";
 
 type CategoryFieldType = {
