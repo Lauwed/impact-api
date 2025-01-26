@@ -11,7 +11,7 @@ import Image from "next/image";
 import Nav from "./Nav";
 import { MagnifyingGlassIcon } from "@radix-ui/react-icons";
 
-export default () => {
+const Header = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
   const router = useRouter();
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -120,3 +120,5 @@ export default () => {
     </header>
   );
 };
+
+export default Header;
