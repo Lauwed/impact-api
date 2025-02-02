@@ -10,7 +10,6 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
-use App\Controller\BiographyGenerationController;
 use App\Controller\MainPictureController;
 use App\Controller\PersonCountController;
 use App\Filter\PersonSearchFilter;
@@ -27,8 +26,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     normalizationContext: ['groups' => ['person:read']],
-    outputFormats: ['jsonld' => ['application/ld+json']],
-    inputFormats: ['json' => ['application/ld+json']],
     mercure: true,
     // Définir les groupes et contraintes sur les opérations spécifiques
     operations: [
@@ -38,7 +35,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Post(
             uriTemplate: '/people/{id}/generate-biography',
-            normalizationContext: ['groups' => ['person:read']],
+            normalizationContext: ['groups' => ['person:biography']],
             processor: PersonBiographyProcessor::class,
             security: "is_granted('ROLE_USER')",
             securityMessage: "Only authorized users can generate biographies."
@@ -71,24 +68,24 @@ class Person
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['person:read'])]
+    #[Groups(['person:read', 'person:biography'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['person:read', 'person:create', 'person:update'])]
+    #[Groups(['person:read', 'person:create', 'person:update', 'person:biography'])]
     #[Assert\NotNull]
     private ?string $name = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['person:read', 'person:create', 'person:update'])]
+    #[Groups(['person:read', 'person:create', 'person:update', 'person:biography'])]
     private ?string $romanizedName = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['person:read'])]
+    #[Groups(['person:biography'])]
     private ?string $biography = null;
 
     // Ce champ ne sera pas persisté dans la base de données
-    #[Groups(['person:read'])]
+    #[Groups(['person:biography'])]
     private ?string $generatedPrompt = null;
 
     #[ORM\Column(options: ["default" => "CURRENT_TIMESTAMP"])]

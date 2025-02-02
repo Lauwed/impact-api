@@ -23,10 +23,7 @@ class OpenAIService
     public function getResponse(string $prompt, float $temperature = 0.2, int $maxTokens = 2048): string
     {
         $response = $this->httpClient->request('POST', 'https://api.openai.com/v1/chat/completions', [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiKey,
-                'Content-Type' => 'application/json',
-            ],
+            'auth_bearer' => $this->apiKey,
             'json' => [
                 'model' => 'gpt-4o-mini',
                 'messages' => [
