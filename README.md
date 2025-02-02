@@ -12,6 +12,10 @@
 - [x] Add `Achievement` entity - `api`
 - [x] Create achievements section on person page - `pwa`
 
+## How to contribute?
+
+As the project is still small and the setup isn't finish yet, please create your branch from `main` and submit your Pull Request when you are finished with your developments.
+
 ## Install
 
 ### Docker

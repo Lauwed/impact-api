@@ -45,7 +45,7 @@ const JobField: FC<JobType> = ({ uri, actions = false }) => {
         <div className="min-w-fit w-fit flex gap-2">
           <Button onClick={() => setJobModalOpen(true)}>
             <Pencil1Icon />
-            Edit
+            <span className="md:sr-only">Edit</span>
           </Button>
           <EditPersonJobModal
             job={data}
@@ -58,7 +58,7 @@ const JobField: FC<JobType> = ({ uri, actions = false }) => {
 
           <Button onClick={() => setJobModalDeleteOpen(true)}>
             <TrashIcon />
-            Delete
+            <span className="md:sr-only">Delete</span>
           </Button>
           <DeletePersonJobModal
             job={data}

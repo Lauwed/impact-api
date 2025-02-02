@@ -46,7 +46,7 @@ const SchoolField: FC<SchoolType> = ({ uri, actions = false }) => {
         <div className="min-w-fit w-fit flex gap-2">
           <Button onClick={() => setSchoolModalOpen(true)}>
             <Pencil1Icon />
-            Edit
+            <span className="md:sr-only">Edit</span>
           </Button>
           <EditPersonSchoolModal
             school={data}
@@ -59,7 +59,7 @@ const SchoolField: FC<SchoolType> = ({ uri, actions = false }) => {
 
           <Button onClick={() => setSchoolModalDeleteOpen(true)}>
             <TrashIcon />
-            Delete
+            <span className="md:sr-only">Delete</span>
           </Button>
           <DeletePersonSchoolModal
             school={data}

@@ -74,7 +74,11 @@ export default function PeoplePage() {
                 key={index}
                 value={category.name}
                 aria-label={category.name}
-                className="data-[state=on]:bg-slate-200"
+                // TODO: FINDING A BETTER WAY TO ADD THE COLOR
+                style={{
+                  backgroundColor: selectedCategories.includes(category.name) ? category.color : undefined
+                }}
+                className={`data-[state=on]:bg-slate-200`}
               >
                 {category.name}
               </ToggleGroupItem>

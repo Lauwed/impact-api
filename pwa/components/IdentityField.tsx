@@ -35,7 +35,7 @@ const IdentityField: FC<IdentityFieldNodeType> = ({ uri, actions = false }) => {
         <div className="flex gap-2">
           <Button onClick={() => setIdentityFieldModalOpen(true)}>
             <Pencil1Icon />
-            Edit
+            <span className="md:sr-only">Edit</span>
           </Button>
           <EditPersonIdentityFieldModal
             field={data}
@@ -48,7 +48,7 @@ const IdentityField: FC<IdentityFieldNodeType> = ({ uri, actions = false }) => {
 
           <Button onClick={() => setIdentityFieldModalDeleteOpen(true)}>
             <TrashIcon />
-            Delete
+            <span className="md:sr-only">Delete</span>
           </Button>
           <DeletePersonIdentityFieldModal
             field={data}

@@ -14,6 +14,12 @@ import RelativeField from "@/components/RelativeField";
 import SchoolField from "@/components/SchoolField";
 import SocialStatusField from "@/components/SocialStatusField";
 import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import {
   ArrowLeftIcon,
   Pencil1Icon,
   PlusCircledIcon,
@@ -275,8 +281,10 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           />
         </Section>
 
-        <section className="md:w-1/3 border border-black p-4 rounded md:w-1/2">
-          <Heading level="h2">Main Picture</Heading>
+        <Card className="md:w-1/3">
+          <CardHeader>
+            <Heading level="h2">Main Picture</Heading>
+          </CardHeader>
 
           {user ? (
             <>
@@ -295,28 +303,34 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           ) : (
             <></>
           )}
-        </section>
+        </Card>
       </div>
 
       <div className="flex flex-col md:flex-row gap-10 mb-10">
         {/* IDENTITY FIELDS */}
-        <Section customClass="border border-black p-4 rounded md:w-1/2">
-          <Heading level="h2">Identity</Heading>
+        <Card className="md:w-1/2">
+          <CardHeader>
+            <Heading level="h2">Identity</Heading>
+          </CardHeader>
 
-          {identityFields.length > 0 ? (
-            <ul className="mb-4 flex flex-col gap-4">
-              {identityFields.map((identityField, index) => (
-                <li key={index}>
-                  <IdentityField actions uri={identityField} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mb-4 text-slate-700">No identity information yet.</p>
-          )}
+          <CardContent>
+            {identityFields.length > 0 ? (
+              <ul className="mb-4 flex flex-col gap-4">
+                {identityFields.map((identityField, index) => (
+                  <li key={index}>
+                    <IdentityField actions uri={identityField} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mb-4 text-slate-700">
+                No identity information yet.
+              </p>
+            )}
+          </CardContent>
 
           {user ? (
-            <>
+            <CardFooter>
               <Button onClick={() => setIdentityFieldModalOpen(true)}>
                 <PlusCircledIcon /> Add an identity information
               </Button>
@@ -328,31 +342,35 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                   mutate();
                 }}
               />
-            </>
+            </CardFooter>
           ) : (
             <></>
           )}
-        </Section>
+        </Card>
 
-        <div className="md:w-1/2">
+        <div className="md:w-1/2 flex flex-col gap-4">
           {/* SOCIAL STATUS */}
-          <Section>
-            <Heading level="h2">Social status</Heading>
+          <Card>
+            <CardHeader>
+              <Heading level="h2">Social status</Heading>
+            </CardHeader>
 
-            {socialStatuses.length > 0 ? (
-              <ul className="mb-4 flex flex-col gap-4">
-                {socialStatuses.map((socialStatus, index) => (
-                  <li key={index}>
-                    <SocialStatusField actions uri={socialStatus} />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mb-4 text-slate-700">No social status yet.</p>
-            )}
+            <CardContent>
+              {socialStatuses.length > 0 ? (
+                <ul className="mb-4 flex flex-col gap-4">
+                  {socialStatuses.map((socialStatus, index) => (
+                    <li key={index}>
+                      <SocialStatusField actions uri={socialStatus} />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mb-4 text-slate-700">No social status yet.</p>
+              )}
+            </CardContent>
 
             {user ? (
-              <>
+              <CardFooter>
                 <Button onClick={() => setSocialStatusModalOpen(true)}>
                   <PlusCircledIcon />
                   Add a social status information
@@ -365,31 +383,35 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                     mutate();
                   }}
                 />
-              </>
+              </CardFooter>
             ) : (
               <></>
             )}
-          </Section>
+          </Card>
           {/* RELATIVES */}
-          <Section customClass="border border-black p-4 rounded">
-            <Heading level="h2">Relative</Heading>
+          <Card>
+            <CardHeader>
+              <Heading level="h2">Relative</Heading>
+            </CardHeader>
 
-            {relatives.length > 0 ? (
-              <ul className="mb-4 flex flex-col gap-4">
-                {relatives.map((relative, index) => (
-                  <li key={index}>
-                    <RelativeField actions uri={relative} />
-                  </li>
-                ))}
-              </ul>
-            ) : (
-              <p className="mb-4 text-slate-700">
-                No relative information yet.
-              </p>
-            )}
+            <CardContent>
+              {relatives.length > 0 ? (
+                <ul className="mb-4 flex flex-col gap-4">
+                  {relatives.map((relative, index) => (
+                    <li key={index}>
+                      <RelativeField actions uri={relative} />
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <p className="mb-4 text-slate-700">
+                  No relative information yet.
+                </p>
+              )}
+            </CardContent>
 
             {user ? (
-              <>
+              <CardFooter>
                 <Button onClick={() => setRelativeModalOpen(true)}>
                   <PlusCircledIcon />
                   Add a relative information
@@ -402,33 +424,37 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                     mutate();
                   }}
                 />
-              </>
+              </CardFooter>
             ) : (
               <></>
             )}
-          </Section>
+          </Card>
         </div>
       </div>
 
       <div className="flex flex-col md:flex-row gap-10">
         {/* SCHOOLS */}
-        <Section customClass="border border-black p-4 rounded md:w-1/2">
-          <Heading level="h2">Schools</Heading>
+        <Card className="md:w-1/2">
+          <CardHeader>
+            <Heading level="h2">Schools</Heading>
+          </CardHeader>
 
-          {schools.length > 0 ? (
-            <ul className="mb-4 flex flex-col gap-4">
-              {schools.map((school, index) => (
-                <li key={index}>
-                  <SchoolField actions uri={school} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mb-4 text-slate-700">No school information yet.</p>
-          )}
+          <CardContent>
+            {schools.length > 0 ? (
+              <ul className="mb-4 flex flex-col gap-4">
+                {schools.map((school, index) => (
+                  <li key={index}>
+                    <SchoolField actions uri={school} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mb-4 text-slate-700">No school information yet.</p>
+            )}
+          </CardContent>
 
           {user ? (
-            <>
+            <CardFooter>
               <Button onClick={() => setSchoolModalOpen(true)}>
                 <PlusCircledIcon />
                 Add a school information
@@ -441,30 +467,34 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                   mutate();
                 }}
               />
-            </>
+            </CardFooter>
           ) : (
             <></>
           )}
-        </Section>
+        </Card>
 
         {/* JOBS */}
-        <Section customClass="border border-black p-4 rounded md:w-1/2">
-          <Heading level="h2">Jobs</Heading>
+        <Card className="md:w-1/2">
+          <CardHeader>
+            <Heading level="h2">Jobs</Heading>
+          </CardHeader>
 
-          {jobs.length > 0 ? (
-            <ul className="mb-4 flex flex-col gap-4">
-              {jobs.map((job, index) => (
-                <li key={index}>
-                  <JobField actions uri={job} />
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className="mb-4 text-slate-700">No job information yet.</p>
-          )}
+          <CardContent>
+            {jobs.length > 0 ? (
+              <ul className="mb-4 flex flex-col gap-4">
+                {jobs.map((job, index) => (
+                  <li key={index}>
+                    <JobField actions uri={job} />
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p className="mb-4 text-slate-700">No job information yet.</p>
+            )}
+          </CardContent>
 
           {user ? (
-            <>
+            <CardFooter>
               <Button onClick={() => setJobModalOpen(true)}>
                 <PlusCircledIcon />
                 Add a job information
@@ -477,11 +507,11 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
                   mutate();
                 }}
               />
-            </>
+            </CardFooter>
           ) : (
             <></>
           )}
-        </Section>
+        </Card>
       </div>
 
       {/* ACHIEVEMENTS */}

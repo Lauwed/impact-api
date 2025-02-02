@@ -31,7 +31,7 @@ const AchievementField: FC<AchievementType> = ({ uri, actions = false }) => {
         <div className="min-w-fit w-fit flex gap-2">
           <Button onClick={() => setEditAchievementModalOpen(true)}>
             <Pencil1Icon />
-            Edit
+            <span className="md:sr-only">Edit</span>
           </Button>
           <EditAchievementModal
             achievement={data}
@@ -44,7 +44,7 @@ const AchievementField: FC<AchievementType> = ({ uri, actions = false }) => {
 
           <Button onClick={() => setDeleteAchievementModalOpen(true)}>
             <TrashIcon />
-            Delete
+            <span className="md:sr-only">Delete</span>
           </Button>
           <DeleteAchievementModal
             achievement={data}
