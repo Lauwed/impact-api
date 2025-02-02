@@ -9,11 +9,19 @@ import AddPersonJobModal from "@/components/modals/AddPersonJobModal";
 import AddPersonRelativeModal from "@/components/modals/AddPersonRelativeModal";
 import AddPersonSchoolModal from "@/components/modals/AddPersonSchoolModal";
 import AddPersonSocialStatusModal from "@/components/modals/AddPersonSocialStatusModal";
+import BiographyGenerationModal from "@/components/modals/BiographyGenerationModal";
 import RelativeField from "@/components/RelativeField";
 import SchoolField from "@/components/SchoolField";
 import SocialStatusField from "@/components/SocialStatusField";
-import { format } from "date-fns";
+import {
+  ArrowLeftIcon,
+  Pencil1Icon,
+  PlusCircledIcon,
+  PlusIcon,
+  TrashIcon,
+} from "@radix-ui/react-icons";
 import { GetServerSideProps } from "next";
+import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useSWR from "swr";
@@ -26,10 +34,6 @@ import IdentityField from "../../components/IdentityField";
 import AddPersonIdentityFieldModal from "../../components/modals/AddPersonIdentityFieldModal";
 import { fetcher } from "../../components/utils/fetcher";
 import { Person, ResponseSingle } from "../../types";
-import Link from "next/link";
-import BiographyGenerationModal from "@/components/modals/BiographyGenerationModal";
-import { ArrowLeftIcon, Pencil1Icon, PlusIcon, TrashIcon } from "@radix-ui/react-icons";
-import Head from "next/head";
 
 const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
   const router = useRouter();
@@ -123,7 +127,6 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
         <meta property="og:title" content="IMPACT project" key="title" />
       </Head>
 
-
       <div className="flex justify-between mb-6">
         <Button linkPath="/people">
           <ArrowLeftIcon />
@@ -149,9 +152,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       {/* Delete & Edit Buttons */}
       {user && user.roles.includes("ROLE_ADMIN") && (
         <div className="flex justify-end gap-2">
-          <Button
-            onClick={() => setIsEditModalOpen(true)}
-          >
+          <Button onClick={() => setIsEditModalOpen(true)}>
             <Pencil1Icon /> Edit Name
           </Button>
           <Button
@@ -231,14 +232,14 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
             {womanData.romanizedName ? <p>{womanData.romanizedName}</p> : <></>}
           </div>
 
-          <div className="flex gap-4 text-sm text-slate-700">
+          {/* <div className="flex gap-4 text-sm text-slate-700">
             <p className="text-xs uppercase">
               Created at : {format(womanData.created_at, "yyyy-mm-dd")}
             </p>
             <p className="text-xs uppercase">
               Updated at : {format(womanData.updated_at, "yyyy-mm-dd")}
             </p>
-          </div>
+          </div> */}
 
           {/* Categories Section */}
           <div className="mt-2 flex flex-wrap items-center gap-2">
@@ -254,7 +255,13 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
 
             {/* Add Category Button */}
             {user && (
-              <Button size="icon" onClick={() => setIsAddCategoryModalOpen(true)}><PlusIcon /></Button>
+              <Button
+                size="icon"
+                onClick={() => setIsAddCategoryModalOpen(true)}
+              >
+                <PlusIcon />
+                <span className="sr-only">Add a category</span>
+              </Button>
             )}
           </div>
 
@@ -297,7 +304,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           <Heading level="h2">Identity</Heading>
 
           {identityFields.length > 0 ? (
-            <ul className="mb-4">
+            <ul className="mb-4 flex flex-col gap-4">
               {identityFields.map((identityField, index) => (
                 <li key={index}>
                   <IdentityField actions uri={identityField} />
@@ -311,7 +318,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           {user ? (
             <>
               <Button onClick={() => setIdentityFieldModalOpen(true)}>
-                Add an identity information
+                <PlusCircledIcon /> Add an identity information
               </Button>
               <AddPersonIdentityFieldModal
                 personId={womanData.id}
@@ -333,7 +340,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
             <Heading level="h2">Social status</Heading>
 
             {socialStatuses.length > 0 ? (
-              <ul className="mb-4">
+              <ul className="mb-4 flex flex-col gap-4">
                 {socialStatuses.map((socialStatus, index) => (
                   <li key={index}>
                     <SocialStatusField actions uri={socialStatus} />
@@ -347,6 +354,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
             {user ? (
               <>
                 <Button onClick={() => setSocialStatusModalOpen(true)}>
+                  <PlusCircledIcon />
                   Add a social status information
                 </Button>
                 <AddPersonSocialStatusModal
@@ -367,7 +375,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
             <Heading level="h2">Relative</Heading>
 
             {relatives.length > 0 ? (
-              <ul className="mb-4">
+              <ul className="mb-4 flex flex-col gap-4">
                 {relatives.map((relative, index) => (
                   <li key={index}>
                     <RelativeField actions uri={relative} />
@@ -383,6 +391,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
             {user ? (
               <>
                 <Button onClick={() => setRelativeModalOpen(true)}>
+                  <PlusCircledIcon />
                   Add a relative information
                 </Button>
                 <AddPersonRelativeModal
@@ -407,7 +416,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           <Heading level="h2">Schools</Heading>
 
           {schools.length > 0 ? (
-            <ul className="mb-4">
+            <ul className="mb-4 flex flex-col gap-4">
               {schools.map((school, index) => (
                 <li key={index}>
                   <SchoolField actions uri={school} />
@@ -421,6 +430,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           {user ? (
             <>
               <Button onClick={() => setSchoolModalOpen(true)}>
+                <PlusCircledIcon />
                 Add a school information
               </Button>
               <AddPersonSchoolModal
@@ -442,7 +452,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           <Heading level="h2">Jobs</Heading>
 
           {jobs.length > 0 ? (
-            <ul className="mb-4">
+            <ul className="mb-4 flex flex-col gap-4">
               {jobs.map((job, index) => (
                 <li key={index}>
                   <JobField actions uri={job} />
@@ -456,6 +466,7 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
           {user ? (
             <>
               <Button onClick={() => setJobModalOpen(true)}>
+                <PlusCircledIcon />
                 Add a job information
               </Button>
               <AddPersonJobModal
@@ -477,15 +488,19 @@ const PeopleDetail = ({ woman }: { woman: ResponseSingle<Person> }) => {
       <Section customClass="mt-8">
         <Heading level="h2">Achievements</Heading>
 
-        <AddAchievementForm
-          personId={womanData.id}
-          onSubmit={() => {
-            mutate();
-          }}
-        />
+        {user ? (
+          <AddAchievementForm
+            personId={womanData.id}
+            onSubmit={() => {
+              mutate();
+            }}
+          />
+        ) : (
+          <></>
+        )}
 
         {achievements.length > 0 ? (
-          <ul className="mb-4 list-disc pl-6">
+          <ul className="mb-4 list-disc pl-6 flex flex-col gap-4">
             {achievements.map((achievement, index) => (
               <li key={index} className="py-4 border-b">
                 <AchievementField actions uri={achievement} />

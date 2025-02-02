@@ -1,12 +1,12 @@
+import { PlusCircledIcon } from "@radix-ui/react-icons";
 import { useState } from "react";
+import { toast } from "react-toastify";
 import Button from "../Button";
 import { useAuth } from "../context/auth";
 import AddSourceModal from "../modals/AddSourceModal";
 import SourcesSelector from "../selectors/SourcesSelector";
 import FormControl from "./FormControl";
 import Label from "./Label";
-import { toast } from "react-toastify";
-import { PlusCircledIcon } from "@radix-ui/react-icons";
 
 const AddAchievementForm = ({
   personId,
@@ -67,20 +67,23 @@ const AddAchievementForm = ({
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="flex gap-4 items-center">
-        <FormControl
-          type="textarea"
-          name="content"
-          id="content"
-          label="Content"
-          value={formData.content}
-          onChange={handleChange}
-          customContainerStyle="flex-1"
-          required
-        />
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-2 md:gap-4 my-4"
+      >
+        <div className="flex flex-col md:flex-row gap-y-2 md:gap-x-4 md:gap-y-0">
+          <FormControl
+            type="textarea"
+            name="content"
+            id="content"
+            label="Content"
+            value={formData.content}
+            onChange={handleChange}
+            customContainerStyle="md:flex-1 md:w-2/3 !mb-0"
+            required
+          />
 
-        <div>
-          <div className="mb-4">
+          <div className="md:w-1/3">
             <Label htmlFor="source">Source</Label>
             <SourcesSelector
               value={formData.source}
@@ -92,8 +95,8 @@ const AddAchievementForm = ({
               }}
             />
 
-            <div className="flex gap-4 items-center mt-2">
-              <p>The source doesn't exists ?</p>
+            <div className="flex md:block lg:flex justify-between gap-4 items-center mt-2">
+              <p className="md:mb-2 lg:mb-0 text-sm">The source doesn't exists ?</p>
               <Button type="button" onClick={() => setIsSourceModalOpen(true)}>
                 Add a source
               </Button>
@@ -101,9 +104,9 @@ const AddAchievementForm = ({
           </div>
         </div>
 
-        <Button type="submit">
+        <Button type="submit" className="">
           <PlusCircledIcon />
-          <span className="sr-only">Add achievement</span>
+          Add achievement
         </Button>
       </form>
 

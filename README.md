@@ -1,5 +1,7 @@
 # impact
 
+![IMPACT LOGO](pwa/public/logo.png)
+
 ## Roadmap
 
 - [ ] Fix `media_object` upload - `api` -> https://github.com/Lauwed/impact-api/issues/5

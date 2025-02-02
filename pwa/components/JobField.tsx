@@ -1,12 +1,11 @@
 import { PersonJob } from "@/types";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { FC, useState } from "react";
-import useSWR from "swr";
 import Button from "./Button";
 import { useAuth } from "./context/auth";
 import DeletePersonJobModal from "./modals/DeletePersonJobModal";
 import EditPersonJobModal from "./modals/EditPersonJobModal";
-import { fetcher } from "./utils/fetcher";
 import { useData } from "./utils/useData";
 
 type JobType = {
@@ -24,7 +23,7 @@ const JobField: FC<JobType> = ({ uri, actions = false }) => {
 
   if (isLoading || !data || isDeleted) return <></>;
   return (
-    <div className="flex gap-2 justify-between items-center">
+    <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center">
       <p>
         {data.company.name} - {data.job}{" "}
         {data.startDate ? (
@@ -43,8 +42,11 @@ const JobField: FC<JobType> = ({ uri, actions = false }) => {
       </p>
 
       {user && actions ? (
-        <div className="min-w-fit w-fit">
-          <Button onClick={() => setJobModalOpen(true)}>Edit</Button>
+        <div className="min-w-fit w-fit flex gap-2">
+          <Button onClick={() => setJobModalOpen(true)}>
+            <Pencil1Icon />
+            Edit
+          </Button>
           <EditPersonJobModal
             job={data}
             modalOpen={jobModalOpen}
@@ -54,7 +56,10 @@ const JobField: FC<JobType> = ({ uri, actions = false }) => {
             }}
           />
 
-          <Button onClick={() => setJobModalDeleteOpen(true)}>Delete</Button>
+          <Button onClick={() => setJobModalDeleteOpen(true)}>
+            <TrashIcon />
+            Delete
+          </Button>
           <DeletePersonJobModal
             job={data}
             modalOpen={jobModalDeleteOpen}

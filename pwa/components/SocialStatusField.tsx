@@ -1,12 +1,11 @@
 import { FC, useState } from "react";
-import useSWR from "swr";
 import { PersonSocialStatus } from "../types";
 import Button from "./Button";
 import { useAuth } from "./context/auth";
 import DeletePersonSocialStatusModal from "./modals/DeletePersonSocialStatusModal";
 import EditPersonSocialStatusModal from "./modals/EditPersonSocialStatusModal";
-import { fetcher } from "./utils/fetcher";
 import { useData } from "./utils/useData";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 
 type SocialStatusNodeType = {
   uri: string;
@@ -28,12 +27,15 @@ const SocialStatusField: FC<SocialStatusNodeType> = ({
 
   if (isLoading || !data || isDeleted) return <></>;
   return (
-    <div className="flex gap-2 justify-between items-center">
+    <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center">
       <p>{data.typeSocialStatus.name}</p>
 
       {user && actions ? (
-        <div className="">
-          <Button onClick={() => setSocialStatusModalOpen(true)}>Edit</Button>
+        <div className="flex gap-2">
+          <Button onClick={() => setSocialStatusModalOpen(true)}>
+            <Pencil1Icon />
+            Edit
+          </Button>
           <EditPersonSocialStatusModal
             socialStatus={data}
             modalOpen={socialStatusModalOpen}
@@ -44,6 +46,7 @@ const SocialStatusField: FC<SocialStatusNodeType> = ({
           />
 
           <Button onClick={() => setSocialStatusModalDeleteOpen(true)}>
+            <TrashIcon />
             Delete
           </Button>
           <DeletePersonSocialStatusModal

@@ -39,7 +39,7 @@ const Modal = ({
       isOpen={isOpen}
       onAfterOpen={afterOpenModal}
       onRequestClose={closeModal}
-      style={customStyles}
+      className=""
       contentLabel="Example Modal"
     >
       <Button customStyle="block w-fit ml-auto mb-4" onClick={closeModal}>

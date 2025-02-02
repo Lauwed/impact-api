@@ -18,7 +18,7 @@ const PersonItem = ({ woman }: { woman: Person }) => {
         <CardTitle>
           {woman.name}
           {woman.romanizedName ? (
-            <p className="mb-2">{woman.romanizedName}</p>
+            <p className="mt-1 mb-2 font-light">{woman.romanizedName}</p>
           ) : (
             <></>
           )}

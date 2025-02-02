@@ -1,12 +1,11 @@
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 import { format } from "date-fns";
 import { FC, useState } from "react";
-import useSWR from "swr";
 import { PersonSchool } from "../types";
 import Button from "./Button";
 import { useAuth } from "./context/auth";
 import DeletePersonSchoolModal from "./modals/DeletePersonSchoolModal";
 import EditPersonSchoolModal from "./modals/EditPersonSchoolModal";
-import { fetcher } from "./utils/fetcher";
 import { useData } from "./utils/useData";
 
 type SchoolType = {
@@ -25,7 +24,7 @@ const SchoolField: FC<SchoolType> = ({ uri, actions = false }) => {
 
   if (isLoading || !data || isDeleted) return <></>;
   return (
-    <div className="flex gap-2 justify-between items-center">
+    <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center">
       <p>
         {data.school.name} - {data.degree}{" "}
         {data.startDate ? (
@@ -44,8 +43,11 @@ const SchoolField: FC<SchoolType> = ({ uri, actions = false }) => {
       </p>
 
       {user && actions ? (
-        <div className="min-w-fit w-fit">
-          <Button onClick={() => setSchoolModalOpen(true)}>Edit</Button>
+        <div className="min-w-fit w-fit flex gap-2">
+          <Button onClick={() => setSchoolModalOpen(true)}>
+            <Pencil1Icon />
+            Edit
+          </Button>
           <EditPersonSchoolModal
             school={data}
             modalOpen={schoolModalOpen}
@@ -55,7 +57,10 @@ const SchoolField: FC<SchoolType> = ({ uri, actions = false }) => {
             }}
           />
 
-          <Button onClick={() => setSchoolModalDeleteOpen(true)}>Delete</Button>
+          <Button onClick={() => setSchoolModalDeleteOpen(true)}>
+            <TrashIcon />
+            Delete
+          </Button>
           <DeletePersonSchoolModal
             school={data}
             modalOpen={schoolModalDeleteOpen}

@@ -2,13 +2,12 @@ import { FC, useState } from "react";
 import { PersonRelative } from "../types";
 import Button from "./Button";
 // import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
-import useSWR from "swr";
 // import Tag from "./Tag";
 import { useAuth } from "./context/auth";
 import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
 import EditPersonRelativeModal from "./modals/EditPersonRelativeModal";
-import { fetcher } from "./utils/fetcher";
 import { useData } from "./utils/useData";
+import { Pencil1Icon, TrashIcon } from "@radix-ui/react-icons";
 // import DeletePersonRelativeModal from "./modals/DeletePersonRelativeModal";
 
 type RelativeFieldType = {
@@ -28,15 +27,18 @@ const RelativeField: FC<RelativeFieldType> = ({ uri, actions = false }) => {
 
   if (isLoading || !data || isDeleted) return <></>;
   return (
-    <div className="flex gap-2 justify-between items-center">
+    <div className="flex flex-col md:flex-row gap-2 justify-between md:items-center">
       <p>
         <strong>{data.typeRelative.name}</strong>: {data.name}{" "}
         {/* {data.biological ? <Tag label="Biological relative" /> : <></>} */}
       </p>
 
       {user && actions ? (
-        <div className="">
-          <Button onClick={() => setRelativeModalOpen(true)}>Edit</Button>
+        <div className="flex gap-2">
+          <Button onClick={() => setRelativeModalOpen(true)}>
+            <Pencil1Icon />
+            Edit
+          </Button>
           <EditPersonRelativeModal
             relative={data}
             modalOpen={identityFieldModalOpen}
@@ -47,6 +49,7 @@ const RelativeField: FC<RelativeFieldType> = ({ uri, actions = false }) => {
           />
 
           <Button onClick={() => setRelativeModalDeleteOpen(true)}>
+            <TrashIcon />
             Delete
           </Button>
           <DeletePersonRelativeModal

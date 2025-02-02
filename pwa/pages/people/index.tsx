@@ -16,7 +16,7 @@ import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { fetcher } from "@/components/utils/fetcher";
 import { Category, Person, Response } from "@/types";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useSWR from "swr";
 
 export default function PeoplePage() {
@@ -26,8 +26,9 @@ export default function PeoplePage() {
     router.query.page ? parseInt(router.query.page as string) : 1
   );
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
-  const { data, error, mutate } = useSWR<Response<Person>>(
+  const { data, error } = useSWR<Response<Person>>(
     `/people?page=${activePage}${
       selectedCategories.length > 0
         ? `&personCategories=${Array.from(selectedCategories).join(",")}`
@@ -39,27 +40,18 @@ export default function PeoplePage() {
     Response<Category>
   >(`/categories`, fetcher);
 
-  if (error) return <div>Failed to load</div>;
-  if (!data) return <Loading />;
+  useEffect(() => {
+    if (data) {
+      setTotalPages(Math.ceil(data["hydra:totalItems"] / 20));
+    }
+  }, [data]);
 
-  const totalPages = Math.ceil(data["hydra:totalItems"] / 20);
+  if (error) return <div>Failed to load</div>;
 
   // Handle page change by updating the URL
   const handlePageChange = (newPage: number) => {
     setActivePage(newPage);
     router.push(`/people?page=${newPage}`, undefined, { shallow: true });
-  };
-
-  const handleCategoryClick = (name: string) => {
-    setSelectedCategories((prevSelectedCategories) => {
-      const newSelectedCategories = [...prevSelectedCategories];
-      if (newSelectedCategories.includes(name)) {
-        newSelectedCategories.filter((cat) => cat !== name);
-      } else {
-        newSelectedCategories.push(name);
-      }
-      return newSelectedCategories;
-    });
   };
 
   return (
@@ -81,7 +73,7 @@ export default function PeoplePage() {
               <ToggleGroupItem
                 key={index}
                 value={category.name}
-                aria-label="Toggle bold"
+                aria-label={category.name}
                 className="data-[state=on]:bg-slate-200"
               >
                 {category.name}
@@ -93,50 +85,60 @@ export default function PeoplePage() {
         <></>
       )}
 
-      {/* List of People */}
-      <ul className="space-y-2">
-        {data["hydra:member"].map((person) => (
-          <li key={person.id}>
-            <PersonItem woman={person} />
-          </li>
-        ))}
-      </ul>
+      {data ? (
+        <>
+          {/* List of People */}
+          {data["hydra:member"].length > 0 ? <ul className="space-y-2">
+            {data["hydra:member"].map((person) => (
+              <li key={person.id}>
+                <PersonItem woman={person} />
+              </li>
+            ))}
+          </ul> : <p className="text-center">No one matching your research</p>}
 
-      {/* Pagination */}
-      <Pagination className="flex justify-center mt-6">
-        <PaginationContent>
-          {activePage > 1 ? (
-            <PaginationItem>
-              <PaginationPrevious
-                onClick={() => handlePageChange(activePage - 1)}
-              />
-            </PaginationItem>
+          {/* Pagination */}
+          {totalPages > 1 ? (
+            <Pagination className="flex justify-center mt-6">
+              <PaginationContent>
+                {activePage > 1 ? (
+                  <PaginationItem>
+                    <PaginationPrevious
+                      onClick={() => handlePageChange(activePage - 1)}
+                    />
+                  </PaginationItem>
+                ) : (
+                  <></>
+                )}
+                {Array.from({ length: totalPages }, (_, i) => i + 1).map(
+                  (pageNumber) => (
+                    <PaginationItem key={pageNumber}>
+                      <PaginationLink
+                        onClick={() => handlePageChange(pageNumber)}
+                        isActive={pageNumber === activePage}
+                      >
+                        {pageNumber}
+                      </PaginationLink>
+                    </PaginationItem>
+                  )
+                )}
+                {activePage < totalPages ? (
+                  <PaginationItem>
+                    <PaginationNext
+                      onClick={() => handlePageChange(activePage + 1)}
+                    />
+                  </PaginationItem>
+                ) : (
+                  <></>
+                )}
+              </PaginationContent>
+            </Pagination>
           ) : (
             <></>
           )}
-          {Array.from({ length: totalPages }, (_, i) => i + 1).map(
-            (pageNumber) => (
-              <PaginationItem key={pageNumber}>
-                <PaginationLink
-                  onClick={() => handlePageChange(pageNumber)}
-                  isActive={pageNumber === activePage}
-                >
-                  {pageNumber}
-                </PaginationLink>
-              </PaginationItem>
-            )
-          )}
-          {activePage < totalPages ? (
-            <PaginationItem>
-              <PaginationNext
-                onClick={() => handlePageChange(activePage + 1)}
-              />
-            </PaginationItem>
-          ) : (
-            <></>
-          )}
-        </PaginationContent>
-      </Pagination>
+        </>
+      ) : (
+        <Loading />
+      )}
     </Main>
   );
 }
