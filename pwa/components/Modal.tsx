@@ -6,14 +6,17 @@ const customStyles = {
   content: {
     top: "50%",
     left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
+    // right: "auto",
+    // bottom: "auto",
+    // marginRight: "-50%",
     transform: "translate(-50%, -50%)",
-    padding: "50px",
-    width: "50%",
+    // padding: "50px",
+    width: "75%",
     height: "80%",
-    overflowY: "auto" as any
+    // overflowY: "auto" as any,
+  },
+  overlay: {
+    zIndex: 1000,
   },
 };
 
@@ -39,7 +42,7 @@ const Modal = ({
       isOpen={isOpen}
       onAfterOpen={afterOpenModal}
       onRequestClose={closeModal}
-      className=""
+      style={customStyles}
       contentLabel="Example Modal"
     >
       <Button customStyle="block w-fit ml-auto mb-4" onClick={closeModal}>

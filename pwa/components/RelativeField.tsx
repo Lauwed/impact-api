@@ -37,7 +37,7 @@ const RelativeField: FC<RelativeFieldType> = ({ uri, actions = false }) => {
         <div className="flex gap-2">
           <Button onClick={() => setRelativeModalOpen(true)}>
             <Pencil1Icon />
-            Edit
+            <span className="md:sr-only">Edit</span>
           </Button>
           <EditPersonRelativeModal
             relative={data}
@@ -50,7 +50,7 @@ const RelativeField: FC<RelativeFieldType> = ({ uri, actions = false }) => {
 
           <Button onClick={() => setRelativeModalDeleteOpen(true)}>
             <TrashIcon />
-            Delete
+            <span className="md:sr-only">Delete</span>
           </Button>
           <DeletePersonRelativeModal
             relative={data}

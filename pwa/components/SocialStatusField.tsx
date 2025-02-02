@@ -34,7 +34,7 @@ const SocialStatusField: FC<SocialStatusNodeType> = ({
         <div className="flex gap-2">
           <Button onClick={() => setSocialStatusModalOpen(true)}>
             <Pencil1Icon />
-            Edit
+            <span className="md:sr-only">Edit</span>
           </Button>
           <EditPersonSocialStatusModal
             socialStatus={data}
@@ -47,7 +47,7 @@ const SocialStatusField: FC<SocialStatusNodeType> = ({
 
           <Button onClick={() => setSocialStatusModalDeleteOpen(true)}>
             <TrashIcon />
-            Delete
+            <span className="md:sr-only">Delete</span>
           </Button>
           <DeletePersonSocialStatusModal
             socialStatus={data}
