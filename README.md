@@ -16,6 +16,9 @@
 
 As the project is still small and the setup isn't finish yet, please create your branch from `main` and submit your Pull Request when you are finished with your developments.
 
+### ⚠️ Warning regarding --delete
+The deployment workflow uses --delete option of `rsync` ensures that files removed from the Git repository are also deleted from the server. However, be cautious if the application generates files in production (e.g., logs, cache, or uploaded files), as they could be unintentionally deleted. If necessary, add specific --exclude rules to protect such directories.
+
 ## Install
 
 ### Docker
