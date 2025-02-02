@@ -20,10 +20,6 @@ jobs:
         run: ssh-keyscan -t rsa ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Copy with rsync
         run: rsync -avz . ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/webapp/impact-api/
-      - name: Checkout code
-        uses: actions/checkout@v3
-      - name: Remove Docker Cache
-        run: docker builder prune -af
       - name: Restart docker
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "cd /home/webapp/impact-api/ && docker compose -f compose.yaml -f compose.prod.yaml build --no-cache && docker compose down && docker compose -f compose.yaml -f compose.prod.yaml --env-file .env up --wait"
       - name: Generate JWT Keys
