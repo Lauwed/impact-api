@@ -43,7 +43,7 @@ COPY --link . .
 
 RUN rm -rf .next
 
-RUN	pnpm install --frozen-lockfile --offline --prod && \
+RUN	pnpm install --frozen-lockfile --offline && \
 	pnpm run build
 
 
